@@ -12,12 +12,22 @@ const FgnDrawCanvasComponent: React.FC = () => {
 
     const handleDrop = (e: React.DragEvent) => {
         e.preventDefault();
-        const nodeType = e.dataTransfer.getData('nodeType');
+        const nodeLabel = e.dataTransfer.getData('nodeLabel');
+        const itemDataStr = e.dataTransfer.getData('itemData');
 
-        if (nodeType === 'basic' && svgRef.current) {
+        if (nodeLabel && svgRef.current) {
             const rect = svgRef.current.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
+
+            let itemData = null;
+            try {
+                if (itemDataStr) {
+                    itemData = JSON.parse(itemDataStr);
+                }
+            } catch (error) {
+                console.error('Error parsing itemData:', error);
+            }
 
             const newNode: NodeType = {
                 id: generateId(),
@@ -25,7 +35,8 @@ const FgnDrawCanvasComponent: React.FC = () => {
                 y: y - 25,
                 width: 100,
                 height: 50,
-                label: 'Node',
+                label: nodeLabel,
+                ...itemData,
             };
 
             setNodes([...nodes, newNode]);
