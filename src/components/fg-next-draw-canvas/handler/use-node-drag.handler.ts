@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
 
-/**
- * Hook to manage node dragging state and handlers
- */
 export const useNodeDrag = (
   nodes: FgnNodeModel[],
   setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>,
-  svgRef: React.RefObject<SVGSVGElement | null>
+  svgRef: React.RefObject<SVGSVGElement | null>,
+  emit: <T>(eventName: string, data: T) => void,
+  eventName: string
 ) => {
   const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -44,6 +43,12 @@ export const useNodeDrag = (
   };
 
   const handleMouseUp = () => {
+    if (draggedNodeId) {
+      const updatedNode = nodes.find(node => node.id === draggedNodeId);
+      if (updatedNode) {
+        emit(eventName, updatedNode);
+      }
+    }
     setDraggedNodeId(null);
   };
 

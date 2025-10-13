@@ -20,6 +20,9 @@ function App() {
     useEventListener<FgnNodeModel>(CANVAS_EVENTS.NODE_ADDED, (node:FgnNodeModel) => {
         console.log('New node added:', node);
     });
+    useEventListener<FgnNodeModel>(CANVAS_EVENTS.NODE_UPDATED, (node:FgnNodeModel) => {
+        console.log('Node updated:', node);
+    });
     return (
         <div>
             <FgnDrawCanvasComponent/>

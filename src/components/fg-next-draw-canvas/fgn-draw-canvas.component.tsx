@@ -17,7 +17,9 @@ const FgnDrawCanvasComponent: React.FC = () => {
     const { handleNodeMouseDown, handleMouseMove, handleMouseUp } = useNodeDrag(
         nodes,
         setNodes,
-        svgRef
+        svgRef,
+        emit,
+        CANVAS_EVENTS.NODE_UPDATED
     );
 
     // Drop handler

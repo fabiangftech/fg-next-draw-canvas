@@ -1,6 +1,5 @@
-/**
- * Handles the drag over event to allow dropping
- */
+import React from "react";
+
 export const handleDragOver = (e: React.DragEvent) => {
   e.preventDefault();
 };

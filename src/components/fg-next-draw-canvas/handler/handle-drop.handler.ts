@@ -1,5 +1,6 @@
 import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
 import { generateNodeId } from '../utils/generate-node-id.util';
+import React from "react";
 
 /**
  * Handles the drop event when a node is dropped onto the canvas
