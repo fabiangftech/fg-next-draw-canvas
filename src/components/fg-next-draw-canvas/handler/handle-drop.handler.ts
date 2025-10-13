@@ -45,6 +45,8 @@ export const createHandleDrop = (
         label: nodeLabel,
         leftConnectionPoint: connectionPoints.left,
         rightConnectionPoint: connectionPoints.right,
+        connectedTo: [],
+        connectedFrom: [],
         ...itemData,
       };
 

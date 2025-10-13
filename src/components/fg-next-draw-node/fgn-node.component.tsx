@@ -5,10 +5,25 @@ import './fgn-node.component.css'
 interface NodeProps {
   node: FgnNodeModel;
   onMouseDown: (e: React.MouseEvent, nodeId: string) => void;
+  onConnectionPointMouseDown?: (e: React.MouseEvent, nodeId: string, pointType: 'left' | 'right') => void;
 }
 
-const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown }) => {
+const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown }) => {
   const connectionRadius = 6;
+  
+  const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
+    if (onConnectionPointMouseDown) {
+      e.stopPropagation();
+      onConnectionPointMouseDown(e, node.id, 'left');
+    }
+  };
+  
+  const handleRightConnectionMouseDown = (e: React.MouseEvent) => {
+    if (onConnectionPointMouseDown) {
+      e.stopPropagation();
+      onConnectionPointMouseDown(e, node.id, 'right');
+    }
+  };
 
   return (
     <g
@@ -46,6 +61,10 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown }) => {
         fill="#2E5C8A"
         stroke="white"
         strokeWidth={2}
+        data-node-id={node.id}
+        data-connection-type="left"
+        onMouseDown={handleLeftConnectionMouseDown}
+        style={{ cursor: 'crosshair' }}
       />
       
       {/* Right connection point */}
@@ -56,6 +75,10 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown }) => {
         fill="#2E5C8A"
         stroke="white"
         strokeWidth={2}
+        data-node-id={node.id}
+        data-connection-type="right"
+        onMouseDown={handleRightConnectionMouseDown}
+        style={{ cursor: 'crosshair' }}
       />
     </g>
   );
