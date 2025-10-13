@@ -1,12 +1,15 @@
 import React, {useState, useRef} from 'react';
 import {FgnNodeModel as NodeType} from '../fg-next-draw-node/model/fgn-node.model';
 import FgnNodeComponent from '../fg-next-draw-node/fgn-node.component';
+import { useEventBus } from '../../utils/event-system/use-event-bus.hook';
+import { CANVAS_EVENTS } from './model/canvas-events.constants';
 import './fgn-draw-canvas.component.css'
 const FgnDrawCanvasComponent: React.FC = () => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
     const [dragOffset, setDragOffset] = useState({x: 0, y: 0});
     const svgRef = useRef<SVGSVGElement>(null);
+    const { emit } = useEventBus();
 
     const generateId = () => `node-${Date.now()}-${Math.random()}`;
 
@@ -40,6 +43,9 @@ const FgnDrawCanvasComponent: React.FC = () => {
             };
 
             setNodes([...nodes, newNode]);
+            
+            // Emit event with the newly added node
+            emit<NodeType>(CANVAS_EVENTS.NODE_ADDED, newNode);
         }
     };
 
