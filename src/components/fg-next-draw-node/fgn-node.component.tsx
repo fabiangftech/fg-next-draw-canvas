@@ -8,6 +8,8 @@ interface NodeProps {
 }
 
 const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown }) => {
+  const connectionRadius = 6;
+
   return (
     <g
       onMouseDown={(e) => onMouseDown(e, node.id)}
@@ -35,6 +37,26 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown }) => {
       >
         {node.label}
       </text>
+      
+      {/* Left connection point */}
+      <circle
+        cx={node.leftConnectionPoint.x}
+        cy={node.leftConnectionPoint.y}
+        r={connectionRadius}
+        fill="#2E5C8A"
+        stroke="white"
+        strokeWidth={2}
+      />
+      
+      {/* Right connection point */}
+      <circle
+        cx={node.rightConnectionPoint.x}
+        cy={node.rightConnectionPoint.y}
+        r={connectionRadius}
+        fill="#2E5C8A"
+        stroke="white"
+        strokeWidth={2}
+      />
     </g>
   );
 };

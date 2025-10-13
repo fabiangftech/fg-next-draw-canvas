@@ -1,3 +1,8 @@
+export interface ConnectionPoint {
+  x: number;
+  y: number;
+}
+
 export interface FgnNodeModel {
   id: string;
   x: number;
@@ -5,5 +10,7 @@ export interface FgnNodeModel {
   width: number;
   height: number;
   label: string;
+  leftConnectionPoint: ConnectionPoint;
+  rightConnectionPoint: ConnectionPoint;
 }
 

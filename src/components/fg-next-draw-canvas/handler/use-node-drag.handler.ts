@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
+import { calculateConnectionPoints } from '../utils/calculate-connection-points.util';
 
 export const useNodeDrag = (
   nodes: FgnNodeModel[],
@@ -34,11 +35,22 @@ export const useNodeDrag = (
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      setNodes(nodes.map(node =>
-        node.id === draggedNodeId
-          ? { ...node, x: mouseX - dragOffset.x, y: mouseY - dragOffset.y }
-          : node
-      ));
+      setNodes(nodes.map(node => {
+        if (node.id === draggedNodeId) {
+          const newX = mouseX - dragOffset.x;
+          const newY = mouseY - dragOffset.y;
+          const connectionPoints = calculateConnectionPoints(newX, newY, node.width, node.height);
+          
+          return {
+            ...node,
+            x: newX,
+            y: newY,
+            leftConnectionPoint: connectionPoints.left,
+            rightConnectionPoint: connectionPoints.right
+          };
+        }
+        return node;
+      }));
     }
   };
 

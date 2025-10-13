@@ -1,5 +1,6 @@
 import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
 import { generateNodeId } from '../utils/generate-node-id.util';
+import { calculateConnectionPoints } from '../utils/calculate-connection-points.util';
 import React from "react";
 
 export const createHandleDrop = (
@@ -28,13 +29,22 @@ export const createHandleDrop = (
         console.error('Error parsing itemData:', error);
       }
 
+      const nodeX = x - 50;
+      const nodeY = y - 25;
+      const nodeWidth = 150;
+      const nodeHeight = 75;
+      
+      const connectionPoints = calculateConnectionPoints(nodeX, nodeY, nodeWidth, nodeHeight);
+
       const newNode: FgnNodeModel = {
         id: generateNodeId(),
-        x: x - 50,
-        y: y - 25,
-        width: 100,
-        height: 50,
+        x: nodeX,
+        y: nodeY,
+        width: nodeWidth,
+        height: nodeHeight,
         label: nodeLabel,
+        leftConnectionPoint: connectionPoints.left,
+        rightConnectionPoint: connectionPoints.right,
         ...itemData,
       };
 
