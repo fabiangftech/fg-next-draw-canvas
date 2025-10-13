@@ -1,9 +1,9 @@
 import React from 'react';
-import { FgnNodeModel as NodeType } from './model/fgn-node.model';
+import { FgnNodeModel } from './model/fgn-node.model';
 import './fgn-node.component.css'
 
 interface NodeProps {
-  node: NodeType;
+  node: FgnNodeModel;
   onMouseDown: (e: React.MouseEvent, nodeId: string) => void;
 }
 
