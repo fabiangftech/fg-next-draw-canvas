@@ -5,13 +5,15 @@ import { FgnNodeStatusStyle } from '../fg-next-draw-node/model/fgn-node-status-s
 import { FgnConnectionModel } from './model/fgn-connection.model';
 import FgnNodeComponent from '../fg-next-draw-node/fgn-node.component';
 import FgnConnectionComponent from '../fg-next-draw-connection/fgn-connection.component';
-import { useEventBus } from '../../utils/event-system/use-event-bus.hook';
+import { useEventBus, useEventListener } from '../../utils/event-system/use-event-bus.hook';
 import { CANVAS_EVENTS } from './model/canvas-events.constants';
 import { createHandleDrop } from './handler/handle-drop.handler';
 import { useNodeDrag } from './handler/use-node-drag.handler';
 import { useConnectionDrag } from './handler/use-connection-drag.handler';
 import { useConnectionDelete } from './handler/handle-connection-delete.handler';
 import { handleDragOver } from './handler/handle-drag-over.handler';
+import { createHandleNodesReplaced } from './handler/handle-nodes-replaced.handler';
+import { createHandleNodeReplaced } from './handler/handle-node-replaced.handler';
 import { generateConnectionPath } from './utils/generate-connection-path.util';
 import './fgn-draw-canvas.component.css'
 
@@ -93,6 +95,14 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         handleMouseUp();
         handleConnectionMouseUp(e);
     };
+
+    // Node replacement handlers
+    const handleNodesReplaced = createHandleNodesReplaced(setNodes);
+    const handleNodeReplaced = createHandleNodeReplaced(setNodes);
+
+    // Listen for nodes replacement events
+    useEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
+    useEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
 
     // Compute nodes with actions
     const nodesWithActions = useMemo(() => {
