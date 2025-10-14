@@ -34,6 +34,7 @@ interface FgnDrawCanvasProps {
   canvasHeight?: number;
   minZoom?: number;
   maxZoom?: number;
+  zoomStep?: number;
 }
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
@@ -48,7 +49,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   canvasWidth = 5000,
   canvasHeight = 5000,
   minZoom = 0.1,
-  maxZoom = 2.0
+  maxZoom = 2.0,
+  zoomStep = 0.1
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
@@ -211,7 +213,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                 const mouseX = e.clientX - rect.left;
                 const mouseY = e.clientY - rect.top;
                 
-                const zoomDelta = -e.deltaY * 0.005; // Increased sensitivity (5x faster)
+                // Use zoomStep with a multiplier based on wheel deltaY
+                const zoomDelta = -e.deltaY * 0.01 * zoomStep;
                 const newZoom = Math.min(Math.max(zoomLevel + zoomDelta, minZoom), maxZoom);
                 
                 // Calcular punto del mouse en coordenadas SVG antes del zoom
@@ -242,7 +245,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         return () => {
             svgElement.removeEventListener('wheel', handleWheelEvent);
         };
-    }, [zoomLevel, emit, panOffset, minZoom, maxZoom]);
+    }, [zoomLevel, emit, panOffset, minZoom, maxZoom, zoomStep]);
 
     // Compute nodes with actions
     const nodesWithActions = useMemo(() => {

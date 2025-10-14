@@ -117,12 +117,13 @@ function App() {
                 getNodeDefaults={createDefaultNodeByCode}
                 minZoom={0.5}
                 maxZoom={2.0}
+                zoomStep={0.7}
             />
             <FgnToolbarComponent items={toolbarItems}/>
             <FgnZoomComponent
                 minZoom={0.5}
                 maxZoom={2.0}
-                zoomStep={0.5}
+                zoomStep={0.7}
                 initialZoom={1.0}
             />
         </div>
