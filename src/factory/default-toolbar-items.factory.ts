@@ -6,23 +6,23 @@ import { defaultGetIconConfig } from './default-icon-config.factory';
  */
 export const defaultToolbarItems: FgnToolbarItem[] = [
     {
-        id: 'node-default',
-        iconCode: 'node-default',
+        id: 'node-a',
+        iconCode: 'node-a',
         getIconConfig: defaultGetIconConfig
     },
     {
-        id: 's3-bucket',
-        iconCode: 's3-bucket',
+        id: 'node-b',
+        iconCode: 'node-b',
         getIconConfig: defaultGetIconConfig
     },
     {
-        id: 'kafka-topic',
-        iconCode: 'kafka-topic',
+        id: 'node-c',
+        iconCode: 'node-c',
         getIconConfig: defaultGetIconConfig
     },
     {
-        id: 'flink-jar',
-        iconCode: 'flink-jar',
+        id: 'node-x',
+        iconCode: 'node-x',
         getIconConfig: defaultGetIconConfig
     },
 ];

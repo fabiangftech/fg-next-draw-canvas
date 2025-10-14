@@ -1,5 +1,3 @@
-import React from 'react';
-import { SiAmazon, SiApachekafka, SiApacheflink } from 'react-icons/si';
 import { IconConfig } from '../components/shared/icon-config.service';
 
 /**
@@ -7,29 +5,29 @@ import { IconConfig } from '../components/shared/icon-config.service';
  */
 export const defaultGetIconConfig = (iconCode: string): IconConfig | null => {
   switch (iconCode) {
-    case 's3-bucket':
+    case 'node-a':
       return {
-        icon: React.createElement(SiAmazon as any),
+        icon: 'A',
         color: '#FF9900',
-        label: 'S3'
+        label: 'Node A'
       };
-    case 'kafka-topic':
+    case 'node-b':
       return {
-        icon: React.createElement(SiApachekafka as any),
+        icon: 'B',
         color: 'purple',
-        label: 'Kafka'
+        label: 'Node B'
       };
-    case 'flink-jar':
+    case 'node-c':
       return {
-        icon: React.createElement(SiApacheflink as any),
+        icon: 'C',
         color: '#E6526F',
-        label: 'Flink'
+        label: 'Node C'
       };
     default:
       return {
-        icon: 'N',
+        icon: 'D',
         color: '#909090',
-        label: 'Node'
+        label: 'Node X'
       };
   }
 };

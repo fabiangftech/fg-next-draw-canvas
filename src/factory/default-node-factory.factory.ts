@@ -10,8 +10,8 @@ export const defaultCreateNodeByCode: NodeFactoryFunction = (
 ): Partial<FgnNodeModel> => {
   // Base defaults for all nodes
   const baseDefaults: Partial<FgnNodeModel> = {
-    status: 'draft',
-    bottomLeftLabel: 'v0.0.1',
+    status: 'default',
+    bottomLeftLabel: 'Lorem...',
     code: code || undefined,
   };
 

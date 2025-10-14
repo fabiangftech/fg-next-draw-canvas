@@ -1,5 +1,6 @@
 import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
-import { NodeFactoryFunction, createDefaultNodeByCode } from '../../fg-next-draw-node/model/fgn-node-factory.model';
+import { NodeFactoryFunction } from '../../fg-next-draw-node/model/fgn-node-factory.model';
+import { defaultCreateNodeByCode } from '../../../factory';
 import { generateNodeId } from '../../../utils/generate-node-id.util';
 import { calculateConnectionPoints } from '../../../utils/calculate-connection-points.util';
 import React from "react";
@@ -45,7 +46,7 @@ export const createHandleDrop = (
       const connectionPoints = calculateConnectionPoints(nodeX, nodeY, nodeWidth, nodeHeight);
 
       // Use factory function to get defaults, or use built-in default function
-      const factoryFunction = getNodeDefaults || createDefaultNodeByCode;
+      const factoryFunction = getNodeDefaults || defaultCreateNodeByCode;
       const nodeDefaults = factoryFunction(nodeCode || undefined, {
         iconCode: nodeIconCode || undefined,
         getIconConfig: getIconConfig,

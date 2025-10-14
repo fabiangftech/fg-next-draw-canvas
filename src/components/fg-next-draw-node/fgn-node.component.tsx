@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FgnNodeModel } from './model/fgn-node.model';
 import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
-import { getIconConfig } from '../shared/icon-config.service';
+import { defaultGetIconConfig } from '../../factory';
 import './fgn-node.component.css'
 
 interface NodeProps {
@@ -19,7 +19,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
   const [showDropdown, setShowDropdown] = useState(false);
   
   // Get icon config if iconCode is provided
-  const iconConfig = node.iconCode ? (node.getIconConfig || getIconConfig)(node.iconCode) : null;
+  const iconConfig = node.iconCode ? (node.getIconConfig || defaultGetIconConfig)(node.iconCode) : null;
   
   // Use icon from config or fallback to manual icon
   const iconToRender = iconConfig?.icon;

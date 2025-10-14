@@ -1,7 +1,7 @@
 import React from 'react';
 import './fgn-toolbar.component.css';
 import { FgnToolbarProps, FgnToolbarItem } from './model/fgn-toolbar-item.model';
-import { getIconConfig } from '../shared/icon-config.service';
+import { defaultGetIconConfig } from '../../factory';
 
 const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({ 
   items, 
@@ -12,7 +12,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
   
   const handleDragStart = (e: React.DragEvent, item: FgnToolbarItem) => {
     // Get icon config and node label for preview
-    const iconConfig = item.iconCode ? (item.getIconConfig || getIconConfig)(item.iconCode) : null;
+    const iconConfig = item.iconCode ? (item.getIconConfig || defaultGetIconConfig)(item.iconCode) : null;
     const nodeLabel = iconConfig?.label || item.label;
     const backgroundColor = iconConfig?.color || item.color;
     
@@ -80,7 +80,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     const itemClassName = `fgn-toolbar-item ${item.className || ''}`.trim();
     
     // Get icon config if iconCode is provided
-    const iconConfig = item.iconCode ? (item.getIconConfig || getIconConfig)(item.iconCode) : null;
+    const iconConfig = item.iconCode ? (item.getIconConfig || defaultGetIconConfig)(item.iconCode) : null;
     
     // Use icon from config or fallback to manual icon
     const iconToRender = iconConfig?.icon || item.icon;
