@@ -8,7 +8,8 @@ export const createHandleDrop = (
   setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>,
   svgRef: React.RefObject<SVGSVGElement | null>,
   emit: <T>(eventName: string, data: T) => void,
-  NODE_ADDED_EVENT: string
+  NODE_ADDED_EVENT: string,
+  defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 }
 ) => {
   return (e: React.DragEvent) => {
     e.preventDefault();
@@ -29,10 +30,10 @@ export const createHandleDrop = (
         console.error('Error parsing itemData:', error);
       }
 
-      const nodeX = x - 50;
-      const nodeY = y - 25;
-      const nodeWidth = 150;
-      const nodeHeight = 75;
+      const nodeX = x - defaultNodeSize.width / 2;
+      const nodeY = y - defaultNodeSize.height / 2;
+      const nodeWidth = defaultNodeSize.width;
+      const nodeHeight = defaultNodeSize.height;
       
       const connectionPoints = calculateConnectionPoints(nodeX, nodeY, nodeWidth, nodeHeight);
 

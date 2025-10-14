@@ -83,6 +83,7 @@ function App() {
             <FgnDrawCanvasComponent
                 nodeActions={nodeActions}
                 getStatusStyle={getStatusStyle}
+                defaultNodeSize={{ width: 180, height: 90 }}
             />
             <FgnToolbarComponent items={toolbarItems}/>
         </div>

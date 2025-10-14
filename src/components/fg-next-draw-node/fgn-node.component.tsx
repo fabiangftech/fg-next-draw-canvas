@@ -79,12 +79,12 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         {node.label}
       </text>
       
-      {/* Left connection point */}
+      {/* Left connection point (Input) */}
       <circle
         cx={node.leftConnectionPoint.x}
         cy={node.leftConnectionPoint.y}
         r={connectionRadius}
-        fill="#2E5C8A"
+        fill="#4CAF50"
         stroke="white"
         strokeWidth={2}
         data-node-id={node.id}
@@ -93,12 +93,12 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         style={{ cursor: 'crosshair' }}
       />
       
-      {/* Right connection point */}
+      {/* Right connection point (Output) */}
       <circle
         cx={node.rightConnectionPoint.x}
         cy={node.rightConnectionPoint.y}
         r={connectionRadius}
-        fill="#2E5C8A"
+        fill="#FF5722"
         stroke="white"
         strokeWidth={2}
         data-node-id={node.id}
