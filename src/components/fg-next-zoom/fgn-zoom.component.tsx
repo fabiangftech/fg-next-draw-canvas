@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useEventBus } from '../../utils/event-system/use-event-bus.hook';
+import { useEventBus, useEventListener } from '../../utils/event-system/use-event-bus.hook';
 import { CANVAS_EVENTS } from '../fg-next-draw-canvas/model/canvas-events.constants';
 import './fgn-zoom.component.css';
 
@@ -14,6 +14,9 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
 }) => {
   const [zoomLevel, setZoomLevel] = useState(1.0);
   const { emit } = useEventBus();
+
+  // Listen for zoom changes from canvas (touchpad/wheel)
+  useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
 
   const MIN_ZOOM = 0.1;
   const MAX_ZOOM = 2.0;

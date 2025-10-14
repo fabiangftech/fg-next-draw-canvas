@@ -11,6 +11,7 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    touch-action: none; /* Prevent browser touch gestures */
 }
 
 .fgn-draw-canvas {

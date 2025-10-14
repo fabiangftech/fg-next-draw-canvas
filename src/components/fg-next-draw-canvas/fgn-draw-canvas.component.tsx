@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { FgnNodeModel as NodeType } from '../fg-next-draw-node/model/fgn-node.model';
 import { FgnNodeAction } from '../fg-next-draw-node/model/fgn-node-action.model';
 import { FgnNodeStatusStyle } from '../fg-next-draw-node/model/fgn-node-status-style.model';
@@ -123,6 +123,33 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     
     // Listen for zoom changes
     useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
+
+    // Wheel handler for zoom with Ctrl/Cmd key using native addEventListener
+    useEffect(() => {
+        const svgElement = svgRef.current;
+        if (!svgElement) return;
+
+        const handleWheelEvent = (e: WheelEvent) => {
+            // Detect Ctrl+wheel (pinch on touchpad)
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault(); // This works now!
+                
+                const zoomDelta = -e.deltaY * 0.005; // Increased sensitivity (5x faster)
+                const newZoom = Math.min(Math.max(zoomLevel + zoomDelta, 0.1), 2.0);
+                
+                setZoomLevel(newZoom);
+                emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
+            }
+        };
+
+        // Register with { passive: false } to allow preventDefault
+        svgElement.addEventListener('wheel', handleWheelEvent, { passive: false });
+
+        // Cleanup
+        return () => {
+            svgElement.removeEventListener('wheel', handleWheelEvent);
+        };
+    }, [zoomLevel, emit]);
 
     // Compute nodes with actions
     const nodesWithActions = useMemo(() => {
