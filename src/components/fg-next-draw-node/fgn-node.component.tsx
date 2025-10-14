@@ -112,7 +112,8 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                 width: '20px',
                 height: '20px',
                 flexShrink: 0,
-                pointerEvents: 'none'
+                pointerEvents: 'none',
+                color: iconConfig?.color || '#000000'  // Aplicar color del config
               }}
             >
               {iconToRender}
