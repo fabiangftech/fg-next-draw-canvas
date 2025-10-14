@@ -9,7 +9,7 @@ export const defaultNodeActions: FgnNodeAction[] = [
             alert(`'Edit node:', ${nodeId}`);
         },
         isDisabled(node ){
-            return node.code==='X'
+            return node.code==='node-a'
         }
     },
     {

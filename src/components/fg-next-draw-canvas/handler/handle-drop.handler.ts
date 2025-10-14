@@ -65,6 +65,7 @@ export const createHandleDrop = (
         connectedFrom: [],
         bottomLeftLabel: '',
         ...nodeDefaults,
+        code: nodeIconCode || nodeDefaults.iconCode,
       };
 
       setNodes([...nodes, newNode]);

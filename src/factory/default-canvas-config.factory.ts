@@ -7,7 +7,7 @@ export const defaultCanvasConfig = {
   zoom: {
     minZoom: 0.5,
     maxZoom: 3.0,
-    zoomStep: 0.7,
+    zoomStep:2.0,
     initialZoom: 1.0
   }
 };

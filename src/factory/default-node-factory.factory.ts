@@ -4,14 +4,7 @@ import { FgnNodeModel } from '../components/fg-next-draw-node/model/fgn-node.mod
 export const defaultCreateNodeByCode: NodeFactoryFunction = (
   nodeData: Partial<FgnNodeModel>
 ): Partial<FgnNodeModel> => {
-  const baseDefaults: Partial<FgnNodeModel> = {
-    status: 'default',
-    bottomLeftLabel: 'Lorem...',
-    code: 'X',
-  };
-
   return {
-    ...baseDefaults,
     ...nodeData,
   };
 };
