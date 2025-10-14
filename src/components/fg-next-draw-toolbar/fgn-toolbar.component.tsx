@@ -1,10 +1,10 @@
 import React from 'react';
 import './fgn-toolbar.component.css';
 import { FgnToolbarProps, FgnToolbarItem } from './model/fgn-toolbar-item.model';
-import { defaultGetIconConfig } from '../../factory';
+import { defaultGetIconConfig, defaultToolbarItems } from '../../factory';
 
 const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({ 
-  items, 
+  items = defaultToolbarItems, 
   className = '', 
   style,
   renderCustomItem 

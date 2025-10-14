@@ -17,11 +17,17 @@ import { createHandleNodesReplaced } from './handler/handle-nodes-replaced.handl
 import { createHandleNodeReplaced } from './handler/handle-node-replaced.handler';
 import { generateConnectionPath } from '../../utils/generate-connection-path.util';
 import { calculateNodesCenter } from '../../utils/calculate-nodes-center.util';
+import { 
+  defaultCreateNodeByCode, 
+  defaultGetStatusStyle, 
+  defaultGetIconConfig, 
+  defaultNodeActions 
+} from '../../factory';
 import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {
   shouldShowNodeActions?: (node: NodeType) => boolean;
-    getNodeDefaults: NodeFactoryFunction;
+  getNodeDefaults?: NodeFactoryFunction;
   nodeActions?: FgnNodeAction[];
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
   getStatusStyle?: (status: string) => FgnNodeStatusStyle;
@@ -37,13 +43,13 @@ interface FgnDrawCanvasProps {
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
   shouldShowNodeActions,
-  nodeActions,
+  nodeActions = defaultNodeActions,
   getNodeActions,
-  getStatusStyle,
-  getIconConfig,
+  getStatusStyle = defaultGetStatusStyle,
+  getIconConfig = defaultGetIconConfig,
   defaultNodeSize = { width: 150, height: 75 },
   maxVisibleActions = 3,
-  getNodeDefaults,
+  getNodeDefaults = defaultCreateNodeByCode,
   canvasWidth = 5000,
   canvasHeight = 5000
 }) => {

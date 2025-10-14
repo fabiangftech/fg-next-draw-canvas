@@ -31,7 +31,7 @@ export interface FgnToolbarItemProps {
  * Props for the toolbar component
  */
 export interface FgnToolbarProps {
-  items: FgnToolbarItem[];
+  items?: FgnToolbarItem[];
   className?: string;
   style?: React.CSSProperties;
   renderCustomItem?: (item: FgnToolbarItem, defaultRenderer: (item: FgnToolbarItem) => React.ReactNode) => React.ReactNode;
