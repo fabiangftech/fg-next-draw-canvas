@@ -33,10 +33,6 @@ interface FgnDrawCanvasProps {
   maxVisibleActions?: number;
   canvasWidth?: number;
   canvasHeight?: number;
-  minZoom?: number;
-  maxZoom?: number;
-  zoomStep?: number;
-  initialZoom?: number;
 }
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
@@ -49,11 +45,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   maxVisibleActions = 3,
   getNodeDefaults,
   canvasWidth = 5000,
-  canvasHeight = 5000,
-  minZoom = 0.1,
-  maxZoom = 2.0,
-  zoomStep = 0.1,
-  initialZoom = 1.0
+  canvasHeight = 5000
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
@@ -61,6 +53,13 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
     const [isPanning, setIsPanning] = useState(false);
     const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+    
+    // Zoom configuration state (received from FgnZoomComponent via events)
+    const [minZoom, setMinZoom] = useState(0.1);
+    const [maxZoom, setMaxZoom] = useState(2.0);
+    const [zoomStep, setZoomStep] = useState(0.1);
+    const [initialZoom, setInitialZoom] = useState(1.0);
+    
     const svgRef = useRef<SVGSVGElement | null>(null);
     const { emit } = useEventBus();
 
@@ -176,6 +175,18 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     // Listen for nodes replacement events
     useEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
     useEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
+    
+    // Listen for zoom configuration updates from FgnZoomComponent
+    useEventListener<{minZoom: number, maxZoom: number, zoomStep: number, initialZoom: number}>(
+        CANVAS_EVENTS.ZOOM_CONFIG_UPDATED, 
+        (config) => {
+            setMinZoom(config.minZoom);
+            setMaxZoom(config.maxZoom);
+            setZoomStep(config.zoomStep);
+            setInitialZoom(config.initialZoom);
+            setZoomLevel(config.initialZoom);
+        }
+    );
     
     // Listen for zoom changes
     useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);

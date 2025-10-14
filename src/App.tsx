@@ -38,10 +38,6 @@ function App() {
                 defaultNodeSize={defaultCanvasConfig.defaultNodeSize}
                 maxVisibleActions={defaultCanvasConfig.maxVisibleActions}
                 getNodeDefaults={defaultCreateNodeByCode}
-                minZoom={defaultCanvasConfig.zoom.minZoom}
-                maxZoom={defaultCanvasConfig.zoom.maxZoom}
-                zoomStep={defaultCanvasConfig.zoom.zoomStep}
-                initialZoom={defaultCanvasConfig.zoom.initialZoom}
             />
             <FgnToolbarComponent items={defaultToolbarItems}/>
             <FgnZoomComponent

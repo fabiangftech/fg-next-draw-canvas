@@ -8,6 +8,7 @@ export const CANVAS_EVENTS = {
   ZOOM_CHANGED: 'zoom:changed',
   ZOOM_WITH_POINT: 'zoom:with-point',
   ZOOM_RESET: 'zoom:reset',
+  ZOOM_CONFIG_UPDATED: 'zoom:config-updated',
 } as const;
 
 export type CanvasEventType = typeof CANVAS_EVENTS[keyof typeof CANVAS_EVENTS];
