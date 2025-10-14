@@ -182,22 +182,22 @@
 .fgn-node-status-badge {
   width: 100%;
   height: 100%;
-  border: 2px solid;
-  border-radius: 12px;
+  border: 1px solid;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: bold;
   text-transform: uppercase;
   pointer-events: none;
+  padding: 1px 3px;
 }
 
 /* Bottom left label */
 .fgn-node-bottom-label {
   font-size: 10px;
   color: #666;
-  font-family: Arial;
   pointer-events: none;
   white-space: nowrap;
   overflow: hidden;

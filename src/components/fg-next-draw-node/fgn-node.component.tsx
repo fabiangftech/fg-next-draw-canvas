@@ -144,10 +144,10 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
       {node.status && statusStyle && (
         <foreignObject
           className="fgn-node-foreign-object"
-          x={node.x + node.width / 2 - 30}
-          y={node.y + node.height / 2 - 12}
-          width="60"
-          height="24"
+          x={node.x + node.width / 2 - 20}
+          y={node.y + node.height / 2 - 8}
+          width="40"
+          height="16"
         >
           <div
             className="fgn-node-status-badge"
