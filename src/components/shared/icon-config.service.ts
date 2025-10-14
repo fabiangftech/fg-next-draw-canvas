@@ -31,7 +31,7 @@ export const getIconConfig = (iconCode: string): IconConfig | null => {
     case 'kafka-topic':
       return {
         icon: React.createElement(KafkaIcon),
-        color: '#000000',
+        color: 'purple',
         label: 'Kafka'
       };
     case 'flink-jar':
