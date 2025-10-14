@@ -1,3 +1,5 @@
+import { FgnNodeAction } from './fgn-node-action.model';
+
 export interface ConnectionPoint {
   x: number;
   y: number;
@@ -14,5 +16,6 @@ export interface FgnNodeModel {
   rightConnectionPoint: ConnectionPoint;
   connectedTo: string[];      // IDs of nodes this node connects TO (right -> left)
   connectedFrom: string[];    // IDs of nodes connected TO this node (left <- right)
+  actions?: FgnNodeAction[];
 }
 

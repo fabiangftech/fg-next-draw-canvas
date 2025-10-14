@@ -2,12 +2,38 @@ import React from 'react';
 import FgnToolbarComponent from './components/fg-next-draw-toolbar/fgn-toolbar.component';
 import FgnDrawCanvasComponent from './components/fg-next-draw-canvas/fgn-draw-canvas.component';
 import { FgnToolbarItem } from './components/fg-next-draw-toolbar/model/fgn-toolbar-item.model';
+import { FgnNodeAction } from './components/fg-next-draw-node/model/fgn-node-action.model';
 import {useEventListener} from "./utils/event-system/use-event-bus.hook";
 import {FgnNodeModel} from "./components/fg-next-draw-node/model/fgn-node.model";
 import {CANVAS_EVENTS} from "./components/fg-next-draw-canvas/model/canvas-events.constants";
 import {FgnConnectionModel} from "./components/fg-next-draw-canvas/model/fgn-connection.model";
 
 function App() {
+    // Define actions for nodes
+    const nodeActions: FgnNodeAction[] = [
+        {
+            id: 'edit',
+            label: '✏️',
+            onClick: (nodeId: string) => {
+                console.log('Edit node:', nodeId);
+            }
+        },
+        {
+            id: 'delete',
+            label: '🗑️',
+            onClick: (nodeId: string) => {
+                console.log('Delete node:', nodeId);
+            }
+        },
+        {
+            id: 'settings',
+            label: '⚙️',
+            onClick: (nodeId: string) => {
+                console.log('Settings for node:', nodeId);
+            }
+        }
+    ];
+
     const toolbarItems: FgnToolbarItem[] = [
         {
             id: 'node-basic',
@@ -18,6 +44,7 @@ function App() {
             label: 'Node B'
         },
     ];
+    
     useEventListener<FgnNodeModel>(CANVAS_EVENTS.NODE_ADDED, (node:FgnNodeModel) => {
         console.log('New node added:', node);
     });
@@ -32,7 +59,9 @@ function App() {
     });
     return (
         <div>
-            <FgnDrawCanvasComponent/>
+            <FgnDrawCanvasComponent
+                nodeActions={nodeActions}
+            />
             <FgnToolbarComponent items={toolbarItems}/>
         </div>
     );

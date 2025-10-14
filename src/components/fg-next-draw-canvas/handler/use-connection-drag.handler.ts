@@ -108,7 +108,7 @@ export const useConnectionDrag = (
       setConnectionPreview(null);
       setDraggingFromNode(null);
     },
-    [draggingFromNode, connections, nodes, setNodes, setConnections, emit, CONNECTION_CREATED_EVENT]
+    [draggingFromNode, connections, setNodes, setConnections, emit, CONNECTION_CREATED_EVENT]
   );
 
   return {

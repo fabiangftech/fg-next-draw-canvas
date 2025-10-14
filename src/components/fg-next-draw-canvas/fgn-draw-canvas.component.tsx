@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { FgnNodeModel as NodeType } from '../fg-next-draw-node/model/fgn-node.model';
+import { FgnNodeAction } from '../fg-next-draw-node/model/fgn-node-action.model';
 import { FgnConnectionModel } from './model/fgn-connection.model';
 import FgnNodeComponent from '../fg-next-draw-node/fgn-node.component';
 import FgnConnectionComponent from '../fg-next-draw-connection/fgn-connection.component';
@@ -13,7 +14,17 @@ import { handleDragOver } from './handler/handle-drag-over.handler';
 import { generateConnectionPath } from './utils/generate-connection-path.util';
 import './fgn-draw-canvas.component.css'
 
-const FgnDrawCanvasComponent: React.FC = () => {
+interface FgnDrawCanvasProps {
+  shouldShowNodeActions?: (node: NodeType) => boolean;
+  nodeActions?: FgnNodeAction[];
+  getNodeActions?: (node: NodeType) => FgnNodeAction[];
+}
+
+const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
+  shouldShowNodeActions,
+  nodeActions,
+  getNodeActions
+}) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
     const svgRef = useRef<SVGSVGElement | null>(null);
@@ -74,6 +85,27 @@ const FgnDrawCanvasComponent: React.FC = () => {
         handleConnectionMouseUp(e);
     };
 
+    // Compute nodes with actions
+    const nodesWithActions = useMemo(() => {
+        return nodes.map(node => {
+            // If node already has actions, keep them
+            if (node.actions && node.actions.length > 0) {
+                return node;
+            }
+            
+            // Otherwise, try to get actions from props
+            let actions: FgnNodeAction[] | undefined;
+            
+            if (getNodeActions) {
+                actions = getNodeActions(node);
+            } else if (nodeActions) {
+                actions = nodeActions;
+            }
+            
+            return actions ? { ...node, actions } : node;
+        });
+    }, [nodes, nodeActions, getNodeActions]);
+
     return (
         <svg
             className={"fgn-draw-canvas"}
@@ -115,12 +147,13 @@ const FgnDrawCanvasComponent: React.FC = () => {
             )}
 
             {/* Render nodes */}
-            {nodes.map(node => (
+            {nodesWithActions.map(node => (
                 <FgnNodeComponent
                     key={node.id}
                     node={node}
                     onMouseDown={handleNodeMouseDown}
                     onConnectionPointMouseDown={handleConnectionPointMouseDown}
+                    shouldShowActions={shouldShowNodeActions}
                 />
             ))}
         </svg>
