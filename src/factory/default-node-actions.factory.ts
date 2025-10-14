@@ -7,6 +7,9 @@ export const defaultNodeActions: FgnNodeAction[] = [
         order: 1,
         onClick: (nodeId: string) => {
             alert(`'Edit node:', ${nodeId}`);
+        },
+        isDisabled(node ){
+            return node.code==='X'
         }
     },
     {
@@ -16,6 +19,7 @@ export const defaultNodeActions: FgnNodeAction[] = [
         onClick: (nodeId: string) => {
             alert(`'Delete node:', ${nodeId}`);
         }
+        // isDisabled: (node) => node.status === 'active'
     },
     {
         id: 'Settings',
@@ -24,6 +28,7 @@ export const defaultNodeActions: FgnNodeAction[] = [
         onClick: (nodeId: string) => {
             alert(`'Settings node:', ${nodeId}`);
         }
+        // isDisabled: (node) => !node.status
     },
 ];
 

@@ -59,7 +59,6 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
     const [zoomLevel, setZoomLevel] = useState(1.0);
     const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
-    const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
     const [isPanning, setIsPanning] = useState(false);
     const [panStart, setPanStart] = useState({ x: 0, y: 0 });
     const svgRef = useRef<SVGSVGElement | null>(null);
@@ -152,11 +151,6 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
 
     // Combined mouse move handler
     const handleCanvasMouseMove = (e: React.MouseEvent) => {
-        const rect = svgRef.current?.getBoundingClientRect();
-        if (rect) {
-            setLastMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-        }
-        
         if (isPanning) {
             handlePanMove(e);
         } else {

@@ -21,7 +21,6 @@ export const createHandleDrop = (
     e.preventDefault();
     const nodeLabel = e.dataTransfer.getData('nodeLabel');
     const nodeIconCode = e.dataTransfer.getData('nodeIconCode');
-    const nodeCode = e.dataTransfer.getData('nodeCode');
     const itemDataStr = e.dataTransfer.getData('itemData');
 
     if (nodeLabel && svgRef.current) {
@@ -47,7 +46,7 @@ export const createHandleDrop = (
 
       // Use factory function to get defaults, or use built-in default function
       const factoryFunction = getNodeDefaults || defaultCreateNodeByCode;
-      const nodeDefaults = factoryFunction(nodeCode || undefined, {
+      const nodeDefaults = factoryFunction({
         iconCode: nodeIconCode || undefined,
         getIconConfig: getIconConfig,
         ...itemData,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FgnNodeModel } from './model/fgn-node.model';
 import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
+import { FgnNodeAction } from './model/fgn-node-action.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
 import { defaultGetIconConfig } from '../../factory';
 import './fgn-node.component.css'
@@ -20,6 +21,14 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
   
   // Get icon config if iconCode is provided
   const iconConfig = node.iconCode ? (node.getIconConfig || defaultGetIconConfig)(node.iconCode) : null;
+  
+  // Helper function to evaluate if action is disabled
+  const isActionDisabled = (action: FgnNodeAction): boolean => {
+    if (action.isDisabled) {
+      return action.isDisabled(node);
+    }
+    return action.disabled ?? false;
+  };
   
   // Use icon from config or fallback to manual icon
   const iconToRender = iconConfig?.icon;
@@ -197,7 +206,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                 className={`node-action-button ${action.className || ''}`}
                 onClick={(e) => handleActionClick(e, action.onClick)}
                 onMouseDown={(e) => e.stopPropagation()}
-                disabled={action.disabled}
+                disabled={isActionDisabled(action)}
                 data-tooltip={action.id}
                 title=""
               >
@@ -230,7 +239,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                           setShowDropdown(false);
                         }}
                         onMouseDown={(e) => e.stopPropagation()}
-                        disabled={action.disabled}
+                        disabled={isActionDisabled(action)}
                       >
                         {action.label} {action.id}
                       </button>
