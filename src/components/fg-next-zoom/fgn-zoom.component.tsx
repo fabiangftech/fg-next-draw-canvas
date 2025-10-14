@@ -29,18 +29,27 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
   const handleZoomIn = () => {
     const newZoom = Math.min(zoomLevel + zoomStep, maxZoom);
     setZoomLevel(newZoom);
+    // Emit both events - regular zoom change and zoom with point
     emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
+    // For buttons, we'll use center of viewport (0, 0) as fallback
+    emit(CANVAS_EVENTS.ZOOM_WITH_POINT, { zoom: newZoom, x: 0, y: 0 });
   };
 
   const handleZoomOut = () => {
     const newZoom = Math.max(zoomLevel - zoomStep, minZoom);
     setZoomLevel(newZoom);
+    // Emit both events - regular zoom change and zoom with point
     emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
+    // For buttons, we'll use center of viewport (0, 0) as fallback
+    emit(CANVAS_EVENTS.ZOOM_WITH_POINT, { zoom: newZoom, x: 0, y: 0 });
   };
 
   const handleReset = () => {
     setZoomLevel(initialZoom);
+    // Emit both events - regular zoom change and zoom with point
     emit(CANVAS_EVENTS.ZOOM_CHANGED, initialZoom);
+    // For reset, we'll use center of viewport (0, 0) as fallback
+    emit(CANVAS_EVENTS.ZOOM_WITH_POINT, { zoom: initialZoom, x: 0, y: 0 });
   };
 
   const zoomPercentage = Math.round(zoomLevel * 100);

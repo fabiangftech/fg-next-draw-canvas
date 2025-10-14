@@ -49,6 +49,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
     const [zoomLevel, setZoomLevel] = useState(1.0);
+    const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+    const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
     const svgRef = useRef<SVGSVGElement | null>(null);
     const { emit } = useEventBus();
 
@@ -103,6 +105,10 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
 
     // Combined mouse move handler
     const handleCanvasMouseMove = (e: React.MouseEvent) => {
+        const rect = svgRef.current?.getBoundingClientRect();
+        if (rect) {
+            setLastMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        }
         handleMouseMove(e);
         handleConnectionMouseMove(e);
     };
@@ -123,6 +129,22 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     
     // Listen for zoom changes
     useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
+    
+    // Listen for zoom with specific point
+    useEventListener<{zoom: number, x: number, y: number}>(CANVAS_EVENTS.ZOOM_WITH_POINT, (data) => {
+        const { zoom, x, y } = data;
+        
+        // Calcular punto del mouse en coordenadas SVG antes del zoom
+        const pointX = (x - panOffset.x) / zoomLevel;
+        const pointY = (y - panOffset.y) / zoomLevel;
+        
+        // Calcular nuevo pan para mantener el punto fijo
+        const newPanX = x - pointX * zoom;
+        const newPanY = y - pointY * zoom;
+        
+        setPanOffset({ x: newPanX, y: newPanY });
+        setZoomLevel(zoom);
+    });
 
     // Wheel handler for zoom with Ctrl/Cmd key using native addEventListener
     useEffect(() => {
@@ -134,9 +156,22 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
             if (e.ctrlKey || e.metaKey) {
                 e.preventDefault(); // This works now!
                 
+                const rect = svgElement.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
                 const zoomDelta = -e.deltaY * 0.005; // Increased sensitivity (5x faster)
                 const newZoom = Math.min(Math.max(zoomLevel + zoomDelta, 0.1), 2.0);
                 
+                // Calcular punto del mouse en coordenadas SVG antes del zoom
+                const pointX = (mouseX - panOffset.x) / zoomLevel;
+                const pointY = (mouseY - panOffset.y) / zoomLevel;
+                
+                // Calcular nuevo pan para mantener el punto fijo
+                const newPanX = mouseX - pointX * newZoom;
+                const newPanY = mouseY - pointY * newZoom;
+                
+                setPanOffset({ x: newPanX, y: newPanY });
                 setZoomLevel(newZoom);
                 emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
             }
@@ -149,7 +184,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         return () => {
             svgElement.removeEventListener('wheel', handleWheelEvent);
         };
-    }, [zoomLevel, emit]);
+    }, [zoomLevel, emit, panOffset]);
 
     // Compute nodes with actions
     const nodesWithActions = useMemo(() => {
@@ -185,7 +220,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                 onMouseUp={handleCanvasMouseUp}
                 onMouseLeave={handleCanvasMouseUp}
             >
-            <g transform={`scale(${zoomLevel})`}>
+            <g transform={`translate(${panOffset.x}, ${panOffset.y}) scale(${zoomLevel})`}>
                 {/* Render connections first (behind nodes) */}
                 {connections.map(connection => {
                     const sourceNode = nodes.find(n => n.id === connection.sourceNodeId);
