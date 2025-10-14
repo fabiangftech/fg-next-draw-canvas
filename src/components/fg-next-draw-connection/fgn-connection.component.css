@@ -15,3 +15,7 @@
   r: 14;
 }
 
+.fgn-connection-clickable {
+  cursor: pointer;
+}
+

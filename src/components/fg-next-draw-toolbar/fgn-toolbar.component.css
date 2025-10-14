@@ -99,3 +99,10 @@
 }
 
 /* Color variants now handled by inline styles */
+
+.fgn-toolbar-node-preview {
+  width: 24px;
+  height: 18px;
+  background-color: #4A90E2;
+  border-radius: 6px;
+}

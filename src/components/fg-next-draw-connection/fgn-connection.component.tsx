@@ -47,7 +47,7 @@ const FgnConnectionComponent: React.FC<ConnectionProps> = ({
         fill="none"
         stroke="transparent"
         strokeWidth={20}
-        style={{ cursor: 'pointer' }}
+        className="fgn-connection-clickable"
       />
       
       {/* Visible connection path */}
@@ -65,7 +65,7 @@ const FgnConnectionComponent: React.FC<ConnectionProps> = ({
         <g
           onClick={handleDelete}
           onMouseDown={(e) => e.stopPropagation()}
-          style={{ cursor: 'pointer' }}
+          className="fgn-connection-clickable"
         >
           <circle
             cx={midpoint.x}

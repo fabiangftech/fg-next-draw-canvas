@@ -106,7 +106,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
             {iconToRender}
           </div>
         )}
-        {!iconToRender && <div style={styles.nodePreview}></div>}
+        {!iconToRender && <div className="fgn-toolbar-node-preview"></div>}
         {tooltipText && (
           <div className="fgn-toolbar-tooltip">
             {tooltipText}
@@ -141,15 +141,6 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
       {items.map((item) => renderItem(item))}
     </div>
   );
-};
-
-const styles = {
-  nodePreview: {
-    width: '24px',
-    height: '18px',
-    backgroundColor: '#4A90E2',
-    borderRadius: '6px',
-  },
 };
 
 export default FgnToolbarComponent;
