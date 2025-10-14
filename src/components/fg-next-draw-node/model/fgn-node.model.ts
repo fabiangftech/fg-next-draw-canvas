@@ -1,4 +1,5 @@
 import { FgnNodeAction } from './fgn-node-action.model';
+import { IconConfig } from '../../shared/icon-config.service';
 
 export interface ConnectionPoint {
   x: number;
@@ -13,7 +14,9 @@ export interface FgnNodeModel {
   height: number;
   label: string;
   status?: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactNode; // Fallback for manual icon override
+  iconCode?: string; // Primary way to specify icon via service
+  getIconConfig?: (code: string) => IconConfig | null;
   leftConnectionPoint: ConnectionPoint;
   rightConnectionPoint: ConnectionPoint;
   connectedTo: string[];

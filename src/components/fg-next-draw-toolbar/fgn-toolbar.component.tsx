@@ -1,6 +1,7 @@
 import React from 'react';
 import './fgn-toolbar.component.css';
 import { FgnToolbarProps, FgnToolbarItem } from './model/fgn-toolbar-item.model';
+import { getIconConfig } from '../shared/icon-config.service';
 
 const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({ 
   items, 
@@ -33,15 +34,15 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     if (item.onDragStart) {
       item.onDragStart(e, item);
     } else {
-      if (item.label) {
-        e.dataTransfer.setData('nodeLabel', item.label);
+      // Use iconCode if available, fallback to item.label
+      const iconConfig = item.iconCode ? (item.getIconConfig || getIconConfig)(item.iconCode) : null;
+      const nodeLabel = iconConfig?.label || item.label;
+      
+      if (nodeLabel) {
+        e.dataTransfer.setData('nodeLabel', nodeLabel);
       }
-      if (item.icon) {
-        // Pass icon type as string since React components can't be serialized
-        e.dataTransfer.setData('nodeIconType', item.id);
-      }
-      if (item.color) {
-        e.dataTransfer.setData('nodeColor', item.color);
+      if (item.iconCode) {
+        e.dataTransfer.setData('nodeIconCode', item.iconCode);
       }
     }
   };
@@ -54,7 +55,19 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
 
   const renderDefaultItem = (item: FgnToolbarItem) => {
     const itemClassName = `fgn-toolbar-item ${item.className || ''}`.trim();
-    const itemStyle = item.color ? { backgroundColor: item.color, color: 'white' } : {};
+    
+    // Get icon config if iconCode is provided
+    const iconConfig = item.iconCode ? (item.getIconConfig || getIconConfig)(item.iconCode) : null;
+    
+    // Use icon from config or fallback to manual icon
+    const iconToRender = iconConfig?.icon || item.icon;
+    
+    // Use color from config or fallback to manual color
+    const backgroundColor = iconConfig?.color || item.color;
+    const itemStyle = backgroundColor ? { backgroundColor, color: 'white' } : {};
+    
+    // Use tooltip from config label or fallback to manual tooltip
+    const tooltipText = item.tooltip || iconConfig?.label;
     
     return (
       <div
@@ -65,15 +78,15 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
         className={itemClassName}
         style={itemStyle}
       >
-        {item.icon && (
+        {iconToRender && (
           <div className="fgn-toolbar-item-icon">
-            {item.icon}
+            {iconToRender}
           </div>
         )}
-        {!item.icon && <div style={styles.nodePreview}></div>}
-        {item.tooltip && (
+        {!iconToRender && <div style={styles.nodePreview}></div>}
+        {tooltipText && (
           <div className="fgn-toolbar-tooltip">
-            {item.tooltip}
+            {tooltipText}
           </div>
         )}
       </div>

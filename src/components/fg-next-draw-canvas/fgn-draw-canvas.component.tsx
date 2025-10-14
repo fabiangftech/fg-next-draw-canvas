@@ -22,6 +22,7 @@ interface FgnDrawCanvasProps {
   nodeActions?: FgnNodeAction[];
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
   getStatusStyle?: (status: string) => FgnNodeStatusStyle;
+  getIconConfig?: (code: string) => any;
   defaultNodeSize?: {
     width: number;
     height: number;
@@ -33,6 +34,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   nodeActions,
   getNodeActions,
   getStatusStyle,
+  getIconConfig,
   defaultNodeSize = { width: 150, height: 75 }
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
@@ -81,7 +83,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         svgRef,
         emit,
         CANVAS_EVENTS.NODE_ADDED,
-        defaultNodeSize
+        defaultNodeSize,
+        getIconConfig
     );
 
     // Combined mouse move handler

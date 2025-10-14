@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FgnNodeModel } from './model/fgn-node.model';
 import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
+import { getIconConfig } from '../shared/icon-config.service';
 import './fgn-node.component.css'
 
 interface NodeProps {
@@ -15,6 +16,12 @@ interface NodeProps {
 const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle }) => {
   const connectionRadius = 6;
   const [showDropdown, setShowDropdown] = useState(false);
+  
+  // Get icon config if iconCode is provided
+  const iconConfig = node.iconCode ? (node.getIconConfig || getIconConfig)(node.iconCode) : null;
+  
+  // Use icon from config or fallback to manual icon
+  const iconToRender = iconConfig?.icon || node.icon;
   
   const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
     if (onConnectionPointMouseDown) {
@@ -96,7 +103,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
             pointerEvents: 'none'
           }}
         >
-          {node.icon && (
+          {iconToRender && (
             <div
               style={{
                 display: 'flex',
@@ -108,7 +115,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                 pointerEvents: 'none'
               }}
             >
-              {node.icon}
+              {iconToRender}
             </div>
           )}
           <span

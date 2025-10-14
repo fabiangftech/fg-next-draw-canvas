@@ -2,26 +2,6 @@ import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
 import { generateNodeId } from '../utils/generate-node-id.util';
 import { calculateConnectionPoints } from '../utils/calculate-connection-points.util';
 import React from "react";
-import { SiAmazon, SiApachekafka, SiApacheflink } from 'react-icons/si';
-
-// Create icon components for nodes
-const S3Icon = () => React.createElement(SiAmazon as any);
-const KafkaIcon = () => React.createElement(SiApachekafka as any);
-const FlinkIcon = () => React.createElement(SiApacheflink as any);
-
-// Icon mapping function
-const createIconFromType = (iconType: string): React.ReactNode => {
-  switch (iconType) {
-    case 's3-bucket':
-      return React.createElement(S3Icon);
-    case 'kafka-topic':
-      return React.createElement(KafkaIcon);
-    case 'flink-jar':
-      return React.createElement(FlinkIcon);
-    default:
-      return null;
-  }
-};
 
 export const createHandleDrop = (
   nodes: FgnNodeModel[],
@@ -29,13 +9,13 @@ export const createHandleDrop = (
   svgRef: React.RefObject<SVGSVGElement | null>,
   emit: <T>(eventName: string, data: T) => void,
   NODE_ADDED_EVENT: string,
-  defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 }
+  defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 },
+  getIconConfig?: (code: string) => any
 ) => {
   return (e: React.DragEvent) => {
     e.preventDefault();
     const nodeLabel = e.dataTransfer.getData('nodeLabel');
-    const nodeIconType = e.dataTransfer.getData('nodeIconType');
-    const nodeColor = e.dataTransfer.getData('nodeColor');
+    const nodeIconCode = e.dataTransfer.getData('nodeIconCode');
     const itemDataStr = e.dataTransfer.getData('itemData');
 
     if (nodeLabel && svgRef.current) {
@@ -59,9 +39,6 @@ export const createHandleDrop = (
       
       const connectionPoints = calculateConnectionPoints(nodeX, nodeY, nodeWidth, nodeHeight);
 
-      // Create icon if icon type is provided
-      const icon = nodeIconType ? createIconFromType(nodeIconType) : null;
-
       const newNode: FgnNodeModel = {
         id: generateNodeId(),
         x: nodeX,
@@ -70,7 +47,8 @@ export const createHandleDrop = (
         height: nodeHeight,
         label: nodeLabel,
         status: 'draft',
-        icon: icon,
+        iconCode: nodeIconCode || undefined,
+        getIconConfig: getIconConfig,
         leftConnectionPoint: connectionPoints.left,
         rightConnectionPoint: connectionPoints.right,
         connectedTo: [],
