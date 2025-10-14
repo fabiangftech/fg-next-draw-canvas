@@ -115,12 +115,14 @@ function App() {
                 defaultNodeSize={{ width: 180, height: 90 }}
                 maxVisibleActions={2}
                 getNodeDefaults={createDefaultNodeByCode}
+                minZoom={0.5}
+                maxZoom={2.0}
             />
             <FgnToolbarComponent items={toolbarItems}/>
             <FgnZoomComponent
                 minZoom={0.5}
                 maxZoom={2.0}
-                zoomStep={0.1}
+                zoomStep={0.15}
                 initialZoom={1.0}
             />
         </div>
