@@ -74,8 +74,8 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
 
   return (
     <g
+      className="fgn-node-root"
       onMouseDown={(e) => onMouseDown(e, node.id)}
-      style={{ cursor: 'move' }}
     >
       <rect
         x={node.x}
@@ -89,49 +89,24 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
       />
       {/* Node label with icon */}
       <foreignObject
+        className="fgn-node-foreign-object"
         x={node.x + 10}
         y={node.y + 5}
         width={node.width - 20}
         height={25}
-        style={{ overflow: 'visible', pointerEvents: 'none' }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            height: '100%',
-            pointerEvents: 'none'
-          }}
-        >
+        <div className="fgn-node-label-container">
           {iconToRender && (
             <div
+              className="fgn-node-icon-wrapper"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '20px',
-                height: '20px',
-                flexShrink: 0,
-                pointerEvents: 'none',
-                color: iconConfig?.color || '#000000'  // Aplicar color del config
+                color: iconConfig?.color || '#000000'
               }}
             >
               {iconToRender}
             </div>
           )}
-          <span
-            style={{
-              color: '#333',
-              fontSize: '14px',
-              fontFamily: 'Arial',
-              fontWeight: 'normal',
-              pointerEvents: 'none',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}
-          >
+          <span className="fgn-node-label-text">
             {node.label}
           </span>
         </div>
@@ -139,6 +114,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
       
       {/* Left connection point (Input) */}
       <circle
+        className="fgn-node-connection-point"
         cx={node.leftConnectionPoint.x}
         cy={node.leftConnectionPoint.y}
         r={connectionRadius}
@@ -148,11 +124,11 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         data-node-id={node.id}
         data-connection-type="left"
         onMouseDown={handleLeftConnectionMouseDown}
-        style={{ cursor: 'crosshair' }}
       />
       
       {/* Right connection point (Output) */}
       <circle
+        className="fgn-node-connection-point"
         cx={node.rightConnectionPoint.x}
         cy={node.rightConnectionPoint.y}
         r={connectionRadius}
@@ -162,34 +138,23 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         data-node-id={node.id}
         data-connection-type="right"
         onMouseDown={handleRightConnectionMouseDown}
-        style={{ cursor: 'crosshair' }}
       />
 
       {/* Status badge */}
       {node.status && statusStyle && (
         <foreignObject
+          className="fgn-node-foreign-object"
           x={node.x + node.width / 2 - 30}
           y={node.y + node.height / 2 - 12}
           width="60"
           height="24"
-          style={{ overflow: 'visible', pointerEvents: 'none' }}
         >
           <div
+            className="fgn-node-status-badge"
             style={{
-              width: '100%',
-              height: '100%',
               backgroundColor: statusStyle.backgroundColor,
               borderColor: statusStyle.borderColor || statusStyle.backgroundColor,
-              border: '2px solid',
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '10px',
-              fontWeight: 'bold',
-              color: statusStyle.textColor,
-              textTransform: 'uppercase',
-              pointerEvents: 'none'
+              color: statusStyle.textColor
             }}
           >
             {node.status}
@@ -200,23 +165,13 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
       {/* Bottom left label */}
       {node.bottomLeftLabel && (
         <foreignObject
+          className="fgn-node-foreign-object"
           x={node.x + 5}
           y={node.y + node.height - 20}
           width={node.width - 10}
           height="20"
-          style={{ overflow: 'visible', pointerEvents: 'none' }}
         >
-          <div
-            style={{
-              fontSize: '10px',
-              color: '#666',
-              fontFamily: 'Arial',
-              pointerEvents: 'none',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}
-          >
+          <div className="fgn-node-bottom-label">
             {node.bottomLeftLabel}
           </div>
         </foreignObject>
@@ -225,15 +180,14 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
       {/* Action buttons */}
       {showActions && hasActions && (
         <foreignObject
+          className="fgn-node-foreign-object"
           x={node.x + 8}
           y={node.y + node.height - 32}
           width={node.width - 16}
           height="60"
-          style={{ overflow: 'visible', pointerEvents: 'none' }}
         >
           <div 
-            className="node-actions" 
-            style={{ pointerEvents: 'auto', position: 'relative' }}
+            className="node-actions fgn-node-actions-wrapper" 
             onMouseDown={(e) => e.stopPropagation()}
           >
             {/* Visible actions */}
@@ -253,7 +207,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
             
             {/* Dropdown button */}
             {actionsGroup.hasDropdown && (
-              <div style={{ position: 'relative', display: 'inline-block' }}>
+              <div className="fgn-node-dropdown-wrapper">
                 <button
                   className="node-action-button fgn-node-action-dropdown"
                   onClick={handleDropdownToggle}
@@ -266,20 +220,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                 
                 {/* Dropdown menu */}
                 {showDropdown && (
-                  <div 
-                    className="fgn-node-dropdown-menu"
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      right: 0,
-                      backgroundColor: 'white',
-                      border: '1px solid #ccc',
-                      borderRadius: '4px',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                      zIndex: 1000,
-                      minWidth: '120px'
-                    }}
-                  >
+                  <div className="fgn-node-dropdown-menu">
                     {actionsGroup.dropdownActions.map((action) => (
                       <button
                         key={action.id}
@@ -290,18 +231,6 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                         }}
                         onMouseDown={(e) => e.stopPropagation()}
                         disabled={action.disabled}
-                        style={{
-                          width: '100%',
-                          padding: '8px 12px',
-                          border: 'none',
-                          backgroundColor: 'transparent',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px'
-                        }}
                       >
                         {action.label} {action.id}
                       </button>
