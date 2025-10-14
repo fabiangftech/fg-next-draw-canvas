@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FgnNodeModel } from './model/fgn-node.model';
 import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
+import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
 import './fgn-node.component.css'
 
 interface NodeProps {
@@ -13,6 +14,7 @@ interface NodeProps {
 
 const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle }) => {
   const connectionRadius = 6;
+  const [showDropdown, setShowDropdown] = useState(false);
   
   const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
     if (onConnectionPointMouseDown) {
@@ -34,9 +36,20 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
     onClick(node.id);
   };
 
+  const handleDropdownToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setShowDropdown(!showDropdown);
+  };
+
   const shouldShow = shouldShowActions ? shouldShowActions(node) : true;
   const showActions = shouldShow;
   const hasActions = node.actions && node.actions.length > 0;
+
+  // Group actions for display
+  const actionsGroup: FgnNodeActionsGroup = hasActions 
+    ? NodeActionGroupingService.groupActions(node.actions!)
+    : { visibleActions: [], dropdownActions: [], hasDropdown: false };
 
   // Get status style
   const getDefaultStatusStyle = (status: string): FgnNodeStatusStyle => ({
@@ -150,10 +163,11 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         >
           <div 
             className="node-actions" 
-            style={{ pointerEvents: 'auto' }}
+            style={{ pointerEvents: 'auto', position: 'relative' }}
             onMouseDown={(e) => e.stopPropagation()}
           >
-            {node.actions!.map((action) => (
+            {/* Visible actions */}
+            {actionsGroup.visibleActions.map((action) => (
               <button
                 key={action.id}
                 className={`node-action-button ${action.className || ''}`}
@@ -166,6 +180,63 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                 {action.label}
               </button>
             ))}
+            
+            {/* Dropdown button */}
+            {actionsGroup.hasDropdown && (
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                <button
+                  className="node-action-button fgn-node-action-dropdown"
+                  onClick={handleDropdownToggle}
+                  onMouseDown={(e) => e.stopPropagation()}
+                  data-tooltip="More actions"
+                  title=""
+                >
+                  ⋮
+                </button>
+                
+                {/* Dropdown menu */}
+                {showDropdown && (
+                  <div 
+                    className="fgn-node-dropdown-menu"
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      backgroundColor: 'white',
+                      border: '1px solid #ccc',
+                      borderRadius: '4px',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      zIndex: 1000,
+                      minWidth: '120px'
+                    }}
+                  >
+                    {actionsGroup.dropdownActions.map((action) => (
+                      <button
+                        key={action.id}
+                        className="fgn-node-dropdown-item"
+                        onClick={(e) => {
+                          handleActionClick(e, action.onClick);
+                          setShowDropdown(false);
+                        }}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        disabled={action.disabled}
+                        style={{
+                          width: '100%',
+                          padding: '8px 12px',
+                          border: 'none',
+                          backgroundColor: 'transparent',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          fontSize: '12px'
+                        }}
+                      >
+                        {action.label} {action.id}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </foreignObject>
       )}

@@ -13,6 +13,13 @@ function App() {
     // Define actions for nodes
     const nodeActions: FgnNodeAction[] = [
         {
+            id: 'sort',
+            label: '↕️',
+            onClick: (nodeId: string) => {
+                console.log('Sort nodes from:', nodeId);
+           }
+        },
+        {
             id: 'edit',
             label: '✏️',
             onClick: (nodeId: string) => {
@@ -32,7 +39,14 @@ function App() {
             onClick: (nodeId: string) => {
                 console.log('Settings for node:', nodeId);
             }
-        }
+        },
+        {
+            id: 'earth',
+            label: '⚙️',
+            onClick: (nodeId: string) => {
+                console.log('Settings for node:', nodeId);
+            }
+        },
     ];
 
     // Define status styles

@@ -85,3 +85,33 @@
   cursor: not-allowed;
 }
 
+/* Dropdown specific styles */
+.fgn-node-action-dropdown {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.fgn-node-dropdown-menu {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fgn-node-dropdown-item:hover {
+  background-color: #f5f5f5 !important;
+}
+
+.fgn-node-dropdown-item:active {
+  background-color: #e0e0e0 !important;
+}
+
