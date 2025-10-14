@@ -9,6 +9,7 @@ import {FgnNodeModel} from "./components/fg-next-draw-node/model/fgn-node.model"
 import {CANVAS_EVENTS} from "./components/fg-next-draw-canvas/model/canvas-events.constants";
 import {FgnConnectionModel} from "./components/fg-next-draw-canvas/model/fgn-connection.model";
 import { MdEdit, MdDelete, MdSettings, MdPublic } from 'react-icons/md';
+import './App.css'
 const EditIcon = () => React.createElement(MdEdit as any);
 const DeleteIcon = () => React.createElement(MdDelete as any);
 const SettingsIcon = () => React.createElement(MdSettings as any);
