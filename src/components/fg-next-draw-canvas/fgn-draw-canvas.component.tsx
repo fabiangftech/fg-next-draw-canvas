@@ -58,7 +58,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         setNodes,
         svgRef,
         emit,
-        CANVAS_EVENTS.NODE_UPDATED
+        CANVAS_EVENTS.NODE_UPDATED,
+        zoomLevel
     );
 
     // Connection dragging handlers
@@ -74,7 +75,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         setConnections,
         svgRef,
         emit,
-        CANVAS_EVENTS.CONNECTION_CREATED
+        CANVAS_EVENTS.CONNECTION_CREATED,
+        zoomLevel
     );
 
     // Connection delete handler
