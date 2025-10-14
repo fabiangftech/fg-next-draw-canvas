@@ -46,10 +46,8 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
 
   const handleReset = () => {
     setZoomLevel(initialZoom);
-    // Emit both events - regular zoom change and zoom with point
-    emit(CANVAS_EVENTS.ZOOM_CHANGED, initialZoom);
-    // For reset, we'll use center of viewport (0, 0) as fallback
-    emit(CANVAS_EVENTS.ZOOM_WITH_POINT, { zoom: initialZoom, x: 0, y: 0 });
+    // Emit reset event to trigger center nodes logic
+    emit(CANVAS_EVENTS.ZOOM_RESET, null);
   };
 
   const zoomPercentage = Math.round(zoomLevel * 100);

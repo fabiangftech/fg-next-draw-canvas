@@ -16,6 +16,7 @@ import { handleDragOver } from './handler/handle-drag-over.handler';
 import { createHandleNodesReplaced } from './handler/handle-nodes-replaced.handler';
 import { createHandleNodeReplaced } from './handler/handle-node-replaced.handler';
 import { generateConnectionPath } from './utils/generate-connection-path.util';
+import { calculateNodesCenter } from './utils/calculate-nodes-center.util';
 import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {
@@ -35,6 +36,7 @@ interface FgnDrawCanvasProps {
   minZoom?: number;
   maxZoom?: number;
   zoomStep?: number;
+  initialZoom?: number;
 }
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
@@ -50,7 +52,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   canvasHeight = 5000,
   minZoom = 0.1,
   maxZoom = 2.0,
-  zoomStep = 0.1
+  zoomStep = 0.1,
+  initialZoom = 1.0
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
@@ -197,6 +200,26 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         
         setPanOffset({ x: newPanX, y: newPanY });
         setZoomLevel(zoom);
+    });
+
+    // Listen for zoom reset (center nodes)
+    useEventListener(CANVAS_EVENTS.ZOOM_RESET, () => {
+        // Calculate center of all nodes
+        const nodesCenter = calculateNodesCenter(nodes);
+        
+        // Get viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        // Calculate pan offset to center the nodes in viewport
+        const newPanX = viewportWidth / 2 - nodesCenter.x * initialZoom;
+        const newPanY = viewportHeight / 2 - nodesCenter.y * initialZoom;
+        
+        setPanOffset({ x: newPanX, y: newPanY });
+        setZoomLevel(initialZoom);
+        
+        // Emit zoom changed for sync
+        emit(CANVAS_EVENTS.ZOOM_CHANGED, initialZoom);
     });
 
     // Wheel handler for zoom with Ctrl/Cmd key using native addEventListener

@@ -118,6 +118,7 @@ function App() {
                 minZoom={0.5}
                 maxZoom={2.0}
                 zoomStep={0.7}
+                initialZoom={1.0}
             />
             <FgnToolbarComponent items={toolbarItems}/>
             <FgnZoomComponent
