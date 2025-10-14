@@ -1,6 +1,7 @@
 import React from 'react';
 import FgnToolbarComponent from './components/fg-next-draw-toolbar/fgn-toolbar.component';
 import FgnDrawCanvasComponent from './components/fg-next-draw-canvas/fgn-draw-canvas.component';
+import FgnZoomComponent from './components/fg-next-zoom/fgn-zoom.component';
 import { FgnToolbarItem } from './components/fg-next-draw-toolbar/model/fgn-toolbar-item.model';
 import { FgnNodeAction } from './components/fg-next-draw-node/model/fgn-node-action.model';
 import { FgnNodeStatusStyle } from './components/fg-next-draw-node/model/fgn-node-status-style.model';
@@ -116,6 +117,7 @@ function App() {
                 getNodeDefaults={createDefaultNodeByCode}
             />
             <FgnToolbarComponent items={toolbarItems}/>
+            <FgnZoomComponent />
         </div>
     );
 }

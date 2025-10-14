@@ -5,6 +5,7 @@ export const CANVAS_EVENTS = {
   CONNECTION_DELETED: 'connection:deleted',
   NODES_REPLACED: 'nodes:replaced',
   NODE_REPLACED: 'node:replaced',
+  ZOOM_CHANGED: 'zoom:changed',
 } as const;
 
 export type CanvasEventType = typeof CANVAS_EVENTS[keyof typeof CANVAS_EVENTS];

@@ -48,6 +48,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
+    const [zoomLevel, setZoomLevel] = useState(1.0);
     const svgRef = useRef<SVGSVGElement | null>(null);
     const { emit } = useEventBus();
 
@@ -116,6 +117,9 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     // Listen for nodes replacement events
     useEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
     useEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
+    
+    // Listen for zoom changes
+    useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
 
     // Compute nodes with actions
     const nodesWithActions = useMemo(() => {
@@ -151,48 +155,50 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                 onMouseUp={handleCanvasMouseUp}
                 onMouseLeave={handleCanvasMouseUp}
             >
-            {/* Render connections first (behind nodes) */}
-            {connections.map(connection => {
-                const sourceNode = nodes.find(n => n.id === connection.sourceNodeId);
-                const targetNode = nodes.find(n => n.id === connection.targetNodeId);
-                
-                if (!sourceNode || !targetNode) return null;
-                
-                return (
-                    <FgnConnectionComponent
-                        key={connection.id}
-                        connection={connection}
-                        sourceNode={sourceNode}
-                        targetNode={targetNode}
-                        onDelete={handleConnectionDelete}
+            <g transform={`scale(${zoomLevel})`}>
+                {/* Render connections first (behind nodes) */}
+                {connections.map(connection => {
+                    const sourceNode = nodes.find(n => n.id === connection.sourceNodeId);
+                    const targetNode = nodes.find(n => n.id === connection.targetNodeId);
+                    
+                    if (!sourceNode || !targetNode) return null;
+                    
+                    return (
+                        <FgnConnectionComponent
+                            key={connection.id}
+                            connection={connection}
+                            sourceNode={sourceNode}
+                            targetNode={targetNode}
+                            onDelete={handleConnectionDelete}
+                        />
+                    );
+                })}
+
+                {/* Render connection preview if dragging */}
+                {connectionPreview && (
+                    <path
+                        d={generateConnectionPath(connectionPreview.start, connectionPreview.end)}
+                        fill="none"
+                        stroke="#4A90E2"
+                        strokeWidth={2}
+                        strokeDasharray="5,5"
+                        pointerEvents="none"
                     />
-                );
-            })}
+                )}
 
-            {/* Render connection preview if dragging */}
-            {connectionPreview && (
-                <path
-                    d={generateConnectionPath(connectionPreview.start, connectionPreview.end)}
-                    fill="none"
-                    stroke="#4A90E2"
-                    strokeWidth={2}
-                    strokeDasharray="5,5"
-                    pointerEvents="none"
-                />
-            )}
-
-            {/* Render nodes */}
-            {nodesWithActions.map(node => (
-                <FgnNodeComponent
-                    key={node.id}
-                    node={node}
-                    onMouseDown={handleNodeMouseDown}
-                    onConnectionPointMouseDown={handleConnectionPointMouseDown}
-                    shouldShowActions={shouldShowNodeActions}
-                    getStatusStyle={getStatusStyle}
-                    maxVisibleActions={maxVisibleActions}
-                />
-            ))}
+                {/* Render nodes */}
+                {nodesWithActions.map(node => (
+                    <FgnNodeComponent
+                        key={node.id}
+                        node={node}
+                        onMouseDown={handleNodeMouseDown}
+                        onConnectionPointMouseDown={handleConnectionPointMouseDown}
+                        shouldShowActions={shouldShowNodeActions}
+                        getStatusStyle={getStatusStyle}
+                        maxVisibleActions={maxVisibleActions}
+                    />
+                ))}
+            </g>
             </svg>
         </div>
     );
