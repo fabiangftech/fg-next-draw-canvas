@@ -6,37 +6,41 @@ import './fgn-zoom.component.css';
 interface FgnZoomComponentProps {
   className?: string;
   style?: React.CSSProperties;
+  minZoom?: number;        // Zoom mínimo (default: 0.1 = 10%)
+  maxZoom?: number;        // Zoom máximo (default: 2.0 = 200%)
+  zoomStep?: number;       // Incremento/decremento del zoom (default: 0.1 = 10%)
+  initialZoom?: number;    // Zoom inicial (default: 1.0 = 100%)
 }
 
 const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({ 
   className = '', 
-  style 
+  style,
+  minZoom = 0.1,
+  maxZoom = 2.0,
+  zoomStep = 0.1,
+  initialZoom = 1.0
 }) => {
-  const [zoomLevel, setZoomLevel] = useState(1.0);
+  const [zoomLevel, setZoomLevel] = useState(initialZoom);
   const { emit } = useEventBus();
 
   // Listen for zoom changes from canvas (touchpad/wheel)
   useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
 
-  const MIN_ZOOM = 0.1;
-  const MAX_ZOOM = 2.0;
-  const ZOOM_STEP = 0.1;
-
   const handleZoomIn = () => {
-    const newZoom = Math.min(zoomLevel + ZOOM_STEP, MAX_ZOOM);
+    const newZoom = Math.min(zoomLevel + zoomStep, maxZoom);
     setZoomLevel(newZoom);
     emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
   };
 
   const handleZoomOut = () => {
-    const newZoom = Math.max(zoomLevel - ZOOM_STEP, MIN_ZOOM);
+    const newZoom = Math.max(zoomLevel - zoomStep, minZoom);
     setZoomLevel(newZoom);
     emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
   };
 
   const handleReset = () => {
-    setZoomLevel(1.0);
-    emit(CANVAS_EVENTS.ZOOM_CHANGED, 1.0);
+    setZoomLevel(initialZoom);
+    emit(CANVAS_EVENTS.ZOOM_CHANGED, initialZoom);
   };
 
   const zoomPercentage = Math.round(zoomLevel * 100);
@@ -46,7 +50,7 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
       <button
         className="fgn-zoom-button"
         onClick={handleZoomOut}
-        disabled={zoomLevel <= MIN_ZOOM}
+        disabled={zoomLevel <= minZoom}
         title="Zoom Out"
       >
         −
@@ -59,7 +63,7 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
       <button
         className="fgn-zoom-button"
         onClick={handleZoomIn}
-        disabled={zoomLevel >= MAX_ZOOM}
+        disabled={zoomLevel >= maxZoom}
         title="Zoom In"
       >
         +
