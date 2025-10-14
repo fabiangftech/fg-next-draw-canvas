@@ -13,18 +13,12 @@ import { getIconConfig } from './components/shared/icon-config.service';
 import './App.css'
 import {createDefaultNodeByCode} from "./components/fg-next-draw-node/model/fgn-node-factory.model";
 
-// Create wrapper components to handle TypeScript issues
-const EditIcon = () => React.createElement(MdEdit as any);
-const DeleteIcon = () => React.createElement(MdDelete as any);
-const SettingsIcon = () => React.createElement(MdSettings as any);
-const PublicIcon = () => React.createElement(MdPublic as any);
-
 function App() {
     // Define actions for nodes
     const nodeActions: FgnNodeAction[] = [
         {
             id: 'Edit',
-            label: <EditIcon />,
+            label: React.createElement(MdEdit as any),
             order: 1,
             onClick: (nodeId: string) => {
                 console.log('Edit node:', nodeId);
@@ -32,7 +26,7 @@ function App() {
         },
         {
             id: 'Delete',
-            label: <DeleteIcon />,
+            label: React.createElement(MdDelete as any),
             order: 2,
             onClick: (nodeId: string) => {
                 console.log('Delete node:', nodeId);
@@ -40,7 +34,7 @@ function App() {
         },
         {
             id: 'Settings',
-            label: <SettingsIcon />,
+            label: React.createElement(MdSettings as any),
             order: 3,
             onClick: (nodeId: string) => {
                 console.log('Settings for node:', nodeId);
@@ -48,7 +42,7 @@ function App() {
         },
         {
             id: 'Earth',
-            label: <PublicIcon />,
+            label: React.createElement(MdPublic as any),
             order: 4,
             onClick: (nodeId: string) => {
                 console.log('Earth action for node:', nodeId);
