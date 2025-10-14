@@ -98,6 +98,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         defaultNodeSize,
         getNodeDefaults,
         getIconConfig,
+        zoomLevel
     );
 
     // Combined mouse move handler

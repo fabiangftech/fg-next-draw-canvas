@@ -12,7 +12,8 @@ export const createHandleDrop = (
   NODE_ADDED_EVENT: string,
   defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 },
   getNodeDefaults: NodeFactoryFunction,
-  getIconConfig?: (code: string) => any
+  getIconConfig?: (code: string) => any,
+  zoomLevel: number = 1.0
 ) => {
   return (e: React.DragEvent) => {
     e.preventDefault();
@@ -23,8 +24,8 @@ export const createHandleDrop = (
 
     if (nodeLabel && svgRef.current) {
       const rect = svgRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = (e.clientX - rect.left) / zoomLevel;
+      const y = (e.clientY - rect.top) / zoomLevel;
 
       let itemData = null;
       try {
