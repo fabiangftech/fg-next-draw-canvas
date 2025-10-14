@@ -11,8 +11,8 @@ import {CANVAS_EVENTS} from "./components/fg-next-draw-canvas/model/canvas-event
 import {FgnConnectionModel} from "./components/fg-next-draw-canvas/model/fgn-connection.model";
 import { MdEdit, MdDelete, MdSettings, MdPublic } from 'react-icons/md';
 import { getIconConfig } from './components/shared/icon-config.service';
-import './App.css'
 import {createDefaultNodeByCode} from "./components/fg-next-draw-node/model/fgn-node-factory.model";
+import './App.css'
 
 function App() {
     // Define actions for nodes
