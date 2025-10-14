@@ -11,6 +11,7 @@ import {FgnConnectionModel} from "./components/fg-next-draw-canvas/model/fgn-con
 import { MdEdit, MdDelete, MdSettings, MdPublic } from 'react-icons/md';
 import { getIconConfig } from './components/shared/icon-config.service';
 import './App.css'
+import {createDefaultNodeByCode} from "./components/fg-next-draw-node/model/fgn-node-factory.model";
 
 // Create wrapper components to handle TypeScript issues
 const EditIcon = () => React.createElement(MdEdit as any);
@@ -112,6 +113,8 @@ function App() {
                 getStatusStyle={getStatusStyle}
                 getIconConfig={getIconConfig}
                 defaultNodeSize={{ width: 180, height: 90 }}
+                maxVisibleActions={2}
+                getNodeDefaults={createDefaultNodeByCode}
             />
             <FgnToolbarComponent items={toolbarItems}/>
         </div>

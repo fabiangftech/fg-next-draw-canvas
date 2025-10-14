@@ -13,8 +13,8 @@ export interface FgnNodeModel {
   width: number;
   height: number;
   label: string;
+  code?: string;
   status?: string;
-  icon?: React.ReactNode; // Fallback for manual icon override
   iconCode?: string; // Primary way to specify icon via service
   getIconConfig?: (code: string) => IconConfig | null;
   leftConnectionPoint: ConnectionPoint;
@@ -22,5 +22,6 @@ export interface FgnNodeModel {
   connectedTo: string[];
   connectedFrom: string[];
   actions?: FgnNodeAction[];
+  bottomLeftLabel: string;
 }
 

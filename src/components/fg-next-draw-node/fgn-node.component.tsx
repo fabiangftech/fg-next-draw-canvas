@@ -11,9 +11,10 @@ interface NodeProps {
   onConnectionPointMouseDown?: (e: React.MouseEvent, nodeId: string, pointType: 'left' | 'right') => void;
   shouldShowActions?: (node: FgnNodeModel) => boolean;
   getStatusStyle?: (status: string) => FgnNodeStatusStyle;
+  maxVisibleActions?: number;
 }
 
-const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle }) => {
+const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle, maxVisibleActions = 3 }) => {
   const connectionRadius = 6;
   const [showDropdown, setShowDropdown] = useState(false);
   
@@ -21,7 +22,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
   const iconConfig = node.iconCode ? (node.getIconConfig || getIconConfig)(node.iconCode) : null;
   
   // Use icon from config or fallback to manual icon
-  const iconToRender = iconConfig?.icon || node.icon;
+  const iconToRender = iconConfig?.icon;
   
   const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
     if (onConnectionPointMouseDown) {
@@ -55,7 +56,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
 
   // Group actions for display
   const actionsGroup: FgnNodeActionsGroup = hasActions 
-    ? NodeActionGroupingService.groupActions(node.actions!)
+    ? NodeActionGroupingService.groupActions(node.actions!, { maxVisibleActions, dropdownLabel: '⋮' })
     : { visibleActions: [], dropdownActions: [], hasDropdown: false };
 
   // Get status style
@@ -192,6 +193,31 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
             }}
           >
             {node.status}
+          </div>
+        </foreignObject>
+      )}
+
+      {/* Bottom left label */}
+      {node.bottomLeftLabel && (
+        <foreignObject
+          x={node.x + 5}
+          y={node.y + node.height - 20}
+          width={node.width - 10}
+          height="20"
+          style={{ overflow: 'visible', pointerEvents: 'none' }}
+        >
+          <div
+            style={{
+              fontSize: '10px',
+              color: '#666',
+              fontFamily: 'Arial',
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+          >
+            {node.bottomLeftLabel}
           </div>
         </foreignObject>
       )}

@@ -1,4 +1,5 @@
 import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
+import { NodeFactoryFunction, createDefaultNodeByCode } from '../../fg-next-draw-node/model/fgn-node-factory.model';
 import { generateNodeId } from '../utils/generate-node-id.util';
 import { calculateConnectionPoints } from '../utils/calculate-connection-points.util';
 import React from "react";
@@ -10,12 +11,14 @@ export const createHandleDrop = (
   emit: <T>(eventName: string, data: T) => void,
   NODE_ADDED_EVENT: string,
   defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 },
+  getNodeDefaults: NodeFactoryFunction,
   getIconConfig?: (code: string) => any
 ) => {
   return (e: React.DragEvent) => {
     e.preventDefault();
     const nodeLabel = e.dataTransfer.getData('nodeLabel');
     const nodeIconCode = e.dataTransfer.getData('nodeIconCode');
+    const nodeCode = e.dataTransfer.getData('nodeCode');
     const itemDataStr = e.dataTransfer.getData('itemData');
 
     if (nodeLabel && svgRef.current) {
@@ -39,6 +42,14 @@ export const createHandleDrop = (
       
       const connectionPoints = calculateConnectionPoints(nodeX, nodeY, nodeWidth, nodeHeight);
 
+      // Use factory function to get defaults, or use built-in default function
+      const factoryFunction = getNodeDefaults || createDefaultNodeByCode;
+      const nodeDefaults = factoryFunction(nodeCode || undefined, {
+        iconCode: nodeIconCode || undefined,
+        getIconConfig: getIconConfig,
+        ...itemData,
+      });
+
       const newNode: FgnNodeModel = {
         id: generateNodeId(),
         x: nodeX,
@@ -46,14 +57,12 @@ export const createHandleDrop = (
         width: nodeWidth,
         height: nodeHeight,
         label: nodeLabel,
-        status: 'draft',
-        iconCode: nodeIconCode || undefined,
-        getIconConfig: getIconConfig,
         leftConnectionPoint: connectionPoints.left,
         rightConnectionPoint: connectionPoints.right,
         connectedTo: [],
         connectedFrom: [],
-        ...itemData,
+        bottomLeftLabel: '',
+        ...nodeDefaults,
       };
 
       setNodes([...nodes, newNode]);

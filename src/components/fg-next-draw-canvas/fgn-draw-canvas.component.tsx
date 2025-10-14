@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { FgnNodeModel as NodeType } from '../fg-next-draw-node/model/fgn-node.model';
 import { FgnNodeAction } from '../fg-next-draw-node/model/fgn-node-action.model';
 import { FgnNodeStatusStyle } from '../fg-next-draw-node/model/fgn-node-status-style.model';
+import { NodeFactoryFunction } from '../fg-next-draw-node/model/fgn-node-factory.model';
 import { FgnConnectionModel } from './model/fgn-connection.model';
 import FgnNodeComponent from '../fg-next-draw-node/fgn-node.component';
 import FgnConnectionComponent from '../fg-next-draw-connection/fgn-connection.component';
@@ -19,6 +20,7 @@ import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {
   shouldShowNodeActions?: (node: NodeType) => boolean;
+    getNodeDefaults: NodeFactoryFunction;
   nodeActions?: FgnNodeAction[];
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
   getStatusStyle?: (status: string) => FgnNodeStatusStyle;
@@ -27,6 +29,7 @@ interface FgnDrawCanvasProps {
     width: number;
     height: number;
   };
+  maxVisibleActions?: number;
 }
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
@@ -35,7 +38,9 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   getNodeActions,
   getStatusStyle,
   getIconConfig,
-  defaultNodeSize = { width: 150, height: 75 }
+  defaultNodeSize = { width: 150, height: 75 },
+  maxVisibleActions = 3,
+  getNodeDefaults
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
@@ -84,7 +89,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         emit,
         CANVAS_EVENTS.NODE_ADDED,
         defaultNodeSize,
-        getIconConfig
+        getNodeDefaults,
+        getIconConfig,
     );
 
     // Combined mouse move handler
@@ -177,6 +183,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                     onConnectionPointMouseDown={handleConnectionPointMouseDown}
                     shouldShowActions={shouldShowNodeActions}
                     getStatusStyle={getStatusStyle}
+                    maxVisibleActions={maxVisibleActions}
                 />
             ))}
         </svg>
