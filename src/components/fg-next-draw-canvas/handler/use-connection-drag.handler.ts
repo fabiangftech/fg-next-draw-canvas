@@ -1,7 +1,7 @@
 import { useState, useCallback, RefObject } from 'react';
 import { FgnNodeModel, ConnectionPoint } from '../../fg-next-draw-node/model/fgn-node.model';
 import { FgnConnectionModel } from '../model/fgn-connection.model';
-import { generateConnectionId } from '../utils/generate-connection-id.util';
+import { generateConnectionId } from '../../../utils/generate-connection-id.util';
 
 export interface ConnectionPreview {
   start: ConnectionPoint;

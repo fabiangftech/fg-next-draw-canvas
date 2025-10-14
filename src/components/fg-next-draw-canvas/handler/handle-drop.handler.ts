@@ -1,7 +1,7 @@
 import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
 import { NodeFactoryFunction, createDefaultNodeByCode } from '../../fg-next-draw-node/model/fgn-node-factory.model';
-import { generateNodeId } from '../utils/generate-node-id.util';
-import { calculateConnectionPoints } from '../utils/calculate-connection-points.util';
+import { generateNodeId } from '../../../utils/generate-node-id.util';
+import { calculateConnectionPoints } from '../../../utils/calculate-connection-points.util';
 import React from "react";
 
 export const createHandleDrop = (

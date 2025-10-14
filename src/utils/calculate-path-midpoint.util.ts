@@ -1,4 +1,4 @@
-import { ConnectionPoint } from '../../fg-next-draw-node/model/fgn-node.model';
+import { ConnectionPoint } from '../components/fg-next-draw-node/model/fgn-node.model';
 
 /**
  * Calculates approximate midpoint of a Bezier curve path

@@ -15,8 +15,8 @@ import { useConnectionDelete } from './handler/handle-connection-delete.handler'
 import { handleDragOver } from './handler/handle-drag-over.handler';
 import { createHandleNodesReplaced } from './handler/handle-nodes-replaced.handler';
 import { createHandleNodeReplaced } from './handler/handle-node-replaced.handler';
-import { generateConnectionPath } from './utils/generate-connection-path.util';
-import { calculateNodesCenter } from './utils/calculate-nodes-center.util';
+import { generateConnectionPath } from '../../utils/generate-connection-path.util';
+import { calculateNodesCenter } from '../../utils/calculate-nodes-center.util';
 import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {

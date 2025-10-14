@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FgnConnectionModel } from '../fg-next-draw-canvas/model/fgn-connection.model';
 import { FgnNodeModel } from '../fg-next-draw-node/model/fgn-node.model';
-import { generateConnectionPath } from '../fg-next-draw-canvas/utils/generate-connection-path.util';
-import { calculatePathMidpoint } from '../fg-next-draw-canvas/utils/calculate-path-midpoint.util';
+import { generateConnectionPath } from '../../utils/generate-connection-path.util';
+import { calculatePathMidpoint } from '../../utils/calculate-path-midpoint.util';
 import './fgn-connection.component.css';
 
 interface ConnectionProps {

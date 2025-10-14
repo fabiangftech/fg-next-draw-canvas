@@ -1,4 +1,4 @@
-import { ConnectionPoint } from '../../fg-next-draw-node/model/fgn-node.model';
+import { ConnectionPoint } from '../components/fg-next-draw-node/model/fgn-node.model';
 
 export const calculateConnectionPoints = (
   x: number,
