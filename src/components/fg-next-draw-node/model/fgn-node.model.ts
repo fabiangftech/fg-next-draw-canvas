@@ -15,7 +15,7 @@ export interface FgnNodeModel {
   label: string;
   code?: string;
   status?: string;
-  iconCode?: string; // Primary way to specify icon via service
+  iconCode?: string;
   getIconConfig?: (code: string) => IconConfig | null;
   leftConnectionPoint: ConnectionPoint;
   rightConnectionPoint: ConnectionPoint;

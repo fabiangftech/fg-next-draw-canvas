@@ -54,7 +54,7 @@ const FgnConnectionComponent: React.FC<ConnectionProps> = ({
       <path
         d={pathData}
         fill="none"
-        stroke={isHovered ? "#2E5C8A" : "#4A90E2"}
+        stroke={isHovered ? "#616161" : "#9E9E9E"}
         strokeWidth={2}
         className="connection-path"
         pointerEvents="none"
