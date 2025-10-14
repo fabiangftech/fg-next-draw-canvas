@@ -99,25 +99,4 @@
   transform: translateY(-50%) translateX(5px);
 }
 
-/* Color variants with exact hex codes */
-.fgn-toolbar-item.color-aws {
-  background: #FF9900;
-  color: white;
-}
-
-.fgn-toolbar-item.color-kafka {
-  background: #000000;
-  color: white;
-}
-
-.fgn-toolbar-item.color-flink {
-  background: #E6526F;
-  color: white;
-}
-
-.fgn-toolbar-item.color-aws:hover,
-.fgn-toolbar-item.color-kafka:hover,
-.fgn-toolbar-item.color-flink:hover {
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
+/* Color variants now handled by inline styles */

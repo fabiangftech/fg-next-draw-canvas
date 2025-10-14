@@ -13,6 +13,7 @@ export interface FgnNodeModel {
   height: number;
   label: string;
   status?: string;
+  icon?: React.ReactNode;
   leftConnectionPoint: ConnectionPoint;
   rightConnectionPoint: ConnectionPoint;
   connectedTo: string[];

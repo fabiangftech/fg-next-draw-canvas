@@ -85,21 +85,21 @@ function App() {
             id: 's3-bucket',
             label: 'S3',
             icon: <S3Icon />,
-            color: 'aws',
+            color: '#FF9900',
             tooltip: 'S3'
         },
         {
             id: 'kafka-topic',
             label: 'Kafka',
             icon: <KafkaIcon />,
-            color: 'kafka',
+            color: '#000000',
             tooltip: 'Kafka'
         },
         {
             id: 'flink-jar',
             label: 'Flink',
             icon: <FlinkIcon />,
-            color: 'flink',
+            color: '#E6526F',
             tooltip: 'Flink'
         },
     ];

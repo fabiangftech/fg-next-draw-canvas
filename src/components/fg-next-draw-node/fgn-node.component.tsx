@@ -79,18 +79,54 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         strokeWidth={2}
         rx={4}
       />
-      <text
+      {/* Node label with icon */}
+      <foreignObject
         x={node.x + 10}
-        y={node.y + 18}
-        textAnchor="start"
-        dominantBaseline="middle"
-        fill="#333"
-        fontSize="14"
-        fontFamily="Arial"
-        pointerEvents="none"
+        y={node.y + 5}
+        width={node.width - 20}
+        height={25}
+        style={{ overflow: 'visible', pointerEvents: 'none' }}
       >
-        {node.label}
-      </text>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            height: '100%',
+            pointerEvents: 'none'
+          }}
+        >
+          {node.icon && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '20px',
+                height: '20px',
+                flexShrink: 0,
+                pointerEvents: 'none'
+              }}
+            >
+              {node.icon}
+            </div>
+          )}
+          <span
+            style={{
+              color: '#333',
+              fontSize: '14px',
+              fontFamily: 'Arial',
+              fontWeight: 'normal',
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+          >
+            {node.label}
+          </span>
+        </div>
+      </foreignObject>
       
       {/* Left connection point (Input) */}
       <circle

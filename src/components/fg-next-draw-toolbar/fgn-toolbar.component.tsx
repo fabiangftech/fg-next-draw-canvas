@@ -36,6 +36,13 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
       if (item.label) {
         e.dataTransfer.setData('nodeLabel', item.label);
       }
+      if (item.icon) {
+        // Pass icon type as string since React components can't be serialized
+        e.dataTransfer.setData('nodeIconType', item.id);
+      }
+      if (item.color) {
+        e.dataTransfer.setData('nodeColor', item.color);
+      }
     }
   };
 
@@ -46,8 +53,8 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
   };
 
   const renderDefaultItem = (item: FgnToolbarItem) => {
-    const colorClass = item.color ? `color-${item.color}` : '';
-    const itemClassName = `fgn-toolbar-item ${colorClass} ${item.className || ''}`.trim();
+    const itemClassName = `fgn-toolbar-item ${item.className || ''}`.trim();
+    const itemStyle = item.color ? { backgroundColor: item.color, color: 'white' } : {};
     
     return (
       <div
@@ -56,6 +63,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
         onDragStart={(e) => handleDragStart(e, item)}
         onClick={() => handleClick(item)}
         className={itemClassName}
+        style={itemStyle}
       >
         {item.icon && (
           <div className="fgn-toolbar-item-icon">
