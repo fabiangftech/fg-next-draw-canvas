@@ -122,7 +122,7 @@ function App() {
             <FgnZoomComponent
                 minZoom={0.5}
                 maxZoom={2.0}
-                zoomStep={0.2}
+                zoomStep={0.5}
                 initialZoom={1.0}
             />
         </div>

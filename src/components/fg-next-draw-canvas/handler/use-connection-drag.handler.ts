@@ -16,7 +16,8 @@ export const useConnectionDrag = (
   svgRef: RefObject<SVGSVGElement | null>,
   emit: <T>(eventName: string, data: T) => void,
   CONNECTION_CREATED_EVENT: string,
-  zoomLevel: number = 1.0
+  zoomLevel: number = 1.0,
+  panOffset: { x: number, y: number } = { x: 0, y: 0 }
 ) => {
   const [connectionPreview, setConnectionPreview] = useState<ConnectionPreview | null>(null);
   const [draggingFromNode, setDraggingFromNode] = useState<string | null>(null);
@@ -47,15 +48,15 @@ export const useConnectionDrag = (
       if (!connectionPreview || !draggingFromNode || !svgRef.current) return;
 
       const rect = svgRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / zoomLevel;
-      const y = (e.clientY - rect.top) / zoomLevel;
+      const x = (e.clientX - rect.left - panOffset.x) / zoomLevel;
+      const y = (e.clientY - rect.top - panOffset.y) / zoomLevel;
 
       setConnectionPreview({
         ...connectionPreview,
         end: { x, y }
       });
     },
-    [connectionPreview, draggingFromNode, svgRef, zoomLevel]
+    [connectionPreview, draggingFromNode, svgRef, zoomLevel, panOffset]
   );
 
   const handleConnectionMouseUp = useCallback(

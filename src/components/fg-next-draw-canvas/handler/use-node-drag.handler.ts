@@ -8,7 +8,8 @@ export const useNodeDrag = (
   svgRef: React.RefObject<SVGSVGElement | null>,
   emit: <T>(eventName: string, data: T) => void,
   eventName: string,
-  zoomLevel: number = 1.0
+  zoomLevel: number = 1.0,
+  panOffset: { x: number, y: number } = { x: 0, y: 0 }
 ) => {
   const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -19,8 +20,8 @@ export const useNodeDrag = (
 
     if (node && svgRef.current) {
       const rect = svgRef.current.getBoundingClientRect();
-      const mouseX = (e.clientX - rect.left) / zoomLevel;
-      const mouseY = (e.clientY - rect.top) / zoomLevel;
+      const mouseX = (e.clientX - rect.left - panOffset.x) / zoomLevel;
+      const mouseY = (e.clientY - rect.top - panOffset.y) / zoomLevel;
 
       setDraggedNodeId(nodeId);
       setDragOffset({
@@ -33,8 +34,8 @@ export const useNodeDrag = (
   const handleMouseMove = (e: React.MouseEvent) => {
     if (draggedNodeId && svgRef.current) {
       const rect = svgRef.current.getBoundingClientRect();
-      const mouseX = (e.clientX - rect.left) / zoomLevel;
-      const mouseY = (e.clientY - rect.top) / zoomLevel;
+      const mouseX = (e.clientX - rect.left - panOffset.x) / zoomLevel;
+      const mouseY = (e.clientY - rect.top - panOffset.y) / zoomLevel;
 
       setNodes(nodes.map(node => {
         if (node.id === draggedNodeId) {
