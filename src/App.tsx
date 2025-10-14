@@ -78,6 +78,11 @@ function App() {
 
     const toolbarItems: FgnToolbarItem[] = [
         {
+            id: 'node-default',
+            iconCode: 'node-default',
+            getIconConfig: getIconConfig
+        },
+        {
             id: 's3-bucket',
             iconCode: 's3-bucket',
             getIconConfig: getIconConfig
