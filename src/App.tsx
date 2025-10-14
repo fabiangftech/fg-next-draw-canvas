@@ -13,15 +13,9 @@ function App() {
     // Define actions for nodes
     const nodeActions: FgnNodeAction[] = [
         {
-            id: 'sort',
-            label: '↕️',
-            onClick: (nodeId: string) => {
-                console.log('Sort nodes from:', nodeId);
-           }
-        },
-        {
             id: 'edit',
             label: '✏️',
+            order: 1,
             onClick: (nodeId: string) => {
                 console.log('Edit node:', nodeId);
             }
@@ -29,6 +23,7 @@ function App() {
         {
             id: 'delete',
             label: '🗑️',
+            order: 2,
             onClick: (nodeId: string) => {
                 console.log('Delete node:', nodeId);
             }
@@ -36,15 +31,17 @@ function App() {
         {
             id: 'settings',
             label: '⚙️',
+            order: 3,
             onClick: (nodeId: string) => {
                 console.log('Settings for node:', nodeId);
             }
         },
         {
             id: 'earth',
-            label: '⚙️',
+            label: '🌍',
+            order: 4,
             onClick: (nodeId: string) => {
-                console.log('Settings for node:', nodeId);
+                console.log('Earth action for node:', nodeId);
             }
         },
     ];

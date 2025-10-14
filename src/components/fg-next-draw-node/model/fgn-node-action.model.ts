@@ -4,5 +4,6 @@ export interface FgnNodeAction {
   onClick: (nodeId: string) => void;
   className?: string;
   disabled?: boolean;
+  order?: number;
 }
 

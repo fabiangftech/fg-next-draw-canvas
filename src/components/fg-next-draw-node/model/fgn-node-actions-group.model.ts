@@ -42,16 +42,23 @@ export class NodeActionGroupingService {
         actions: FgnNodeAction[], 
         config: ActionGroupingConfig = DEFAULT_ACTION_GROUPING_CONFIG
     ): FgnNodeActionsGroup {
-        if (actions.length <= config.maxVisibleActions) {
+        // Sort actions by order property (actions without order go to the end)
+        const sortedActions = [...actions].sort((a, b) => {
+            const orderA = a.order ?? Infinity;
+            const orderB = b.order ?? Infinity;
+            return orderA - orderB;
+        });
+
+        if (sortedActions.length <= config.maxVisibleActions) {
             return {
-                visibleActions: actions,
+                visibleActions: sortedActions,
                 dropdownActions: [],
                 hasDropdown: false
             };
         }
 
-        const visibleActions = actions.slice(0, config.maxVisibleActions);
-        const dropdownActions = actions.slice(config.maxVisibleActions);
+        const visibleActions = sortedActions.slice(0, config.maxVisibleActions);
+        const dropdownActions = sortedActions.slice(config.maxVisibleActions);
 
         return {
             visibleActions,
