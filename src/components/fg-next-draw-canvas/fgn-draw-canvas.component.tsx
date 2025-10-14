@@ -30,6 +30,8 @@ interface FgnDrawCanvasProps {
     height: number;
   };
   maxVisibleActions?: number;
+  canvasWidth?: number;
+  canvasHeight?: number;
 }
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
@@ -40,7 +42,9 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   getIconConfig,
   defaultNodeSize = { width: 150, height: 75 },
   maxVisibleActions = 3,
-  getNodeDefaults
+  getNodeDefaults,
+  canvasWidth = 5000,
+  canvasHeight = 5000
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
@@ -135,15 +139,18 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     }, [nodes, nodeActions, getNodeActions]);
 
     return (
-        <svg
-            className={"fgn-draw-canvas"}
-            ref={svgRef}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onMouseMove={handleCanvasMouseMove}
-            onMouseUp={handleCanvasMouseUp}
-            onMouseLeave={handleCanvasMouseUp}
-        >
+        <div className="fgn-canvas-container">
+            <svg
+                className="fgn-draw-canvas"
+                ref={svgRef}
+                width={canvasWidth}
+                height={canvasHeight}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                onMouseMove={handleCanvasMouseMove}
+                onMouseUp={handleCanvasMouseUp}
+                onMouseLeave={handleCanvasMouseUp}
+            >
             {/* Render connections first (behind nodes) */}
             {connections.map(connection => {
                 const sourceNode = nodes.find(n => n.id === connection.sourceNodeId);
@@ -186,7 +193,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                     maxVisibleActions={maxVisibleActions}
                 />
             ))}
-        </svg>
+            </svg>
+        </div>
     );
 };
 

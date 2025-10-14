@@ -1,8 +1,15 @@
-.fgn-draw-canvas {
+.fgn-canvas-container {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    width: 100%;
+    overflow: auto;
+    background-color: #f7f8fa;
     z-index: 1;
+}
+
+.fgn-draw-canvas {
     background-color: #f7f8fa;
     background-image: 
         /* Líneas de cuadrícula pequeñas */
