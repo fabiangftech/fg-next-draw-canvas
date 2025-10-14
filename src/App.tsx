@@ -9,11 +9,19 @@ import {FgnNodeModel} from "./components/fg-next-draw-node/model/fgn-node.model"
 import {CANVAS_EVENTS} from "./components/fg-next-draw-canvas/model/canvas-events.constants";
 import {FgnConnectionModel} from "./components/fg-next-draw-canvas/model/fgn-connection.model";
 import { MdEdit, MdDelete, MdSettings, MdPublic } from 'react-icons/md';
+import { SiAmazon, SiApachekafka, SiApacheflink } from 'react-icons/si';
 import './App.css'
+
+// Create wrapper components to handle TypeScript issues
 const EditIcon = () => React.createElement(MdEdit as any);
 const DeleteIcon = () => React.createElement(MdDelete as any);
 const SettingsIcon = () => React.createElement(MdSettings as any);
 const PublicIcon = () => React.createElement(MdPublic as any);
+
+// New icon wrappers for toolbar
+const S3Icon = () => React.createElement(SiAmazon as any);
+const KafkaIcon = () => React.createElement(SiApachekafka as any);
+const FlinkIcon = () => React.createElement(SiApacheflink as any);
 
 function App() {
     // Define actions for nodes
@@ -74,12 +82,25 @@ function App() {
 
     const toolbarItems: FgnToolbarItem[] = [
         {
-            id: 'node-basic',
-            label: 'Node A',
+            id: 's3-bucket',
+            label: 'S3',
+            icon: <S3Icon />,
+            color: 'aws',
+            tooltip: 'S3'
         },
         {
-            id: 'node-advanced',
-            label: 'Node B'
+            id: 'kafka-topic',
+            label: 'Kafka',
+            icon: <KafkaIcon />,
+            color: 'kafka',
+            tooltip: 'Kafka'
+        },
+        {
+            id: 'flink-jar',
+            label: 'Flink',
+            icon: <FlinkIcon />,
+            color: 'flink',
+            tooltip: 'Flink'
         },
     ];
     

@@ -10,6 +10,26 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
 }) => {
   
   const handleDragStart = (e: React.DragEvent, item: FgnToolbarItem) => {
+    // Create a custom drag image to hide the default cursor
+    const dragImage = document.createElement('div');
+    dragImage.style.width = '44px';
+    dragImage.style.height = '44px';
+    dragImage.style.borderRadius = '50%';
+    dragImage.style.background = 'transparent';
+    dragImage.style.position = 'absolute';
+    dragImage.style.top = '-1000px';
+    dragImage.style.left = '-1000px';
+    document.body.appendChild(dragImage);
+    
+    e.dataTransfer.setDragImage(dragImage, 22, 22);
+    
+    // Clean up the drag image after a short delay
+    setTimeout(() => {
+      if (document.body.contains(dragImage)) {
+        document.body.removeChild(dragImage);
+      }
+    }, 0);
+
     if (item.onDragStart) {
       item.onDragStart(e, item);
     } else {
@@ -26,7 +46,8 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
   };
 
   const renderDefaultItem = (item: FgnToolbarItem) => {
-    const itemStyle = { ...styles.toolbarItem };
+    const colorClass = item.color ? `color-${item.color}` : '';
+    const itemClassName = `fgn-toolbar-item ${colorClass} ${item.className || ''}`.trim();
     
     return (
       <div
@@ -34,12 +55,19 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
         draggable
         onDragStart={(e) => handleDragStart(e, item)}
         onClick={() => handleClick(item)}
-        style={itemStyle}
-        className={item.className}
+        className={itemClassName}
       >
-        {item.icon && <div style={styles.iconContainer}>{item.icon}</div>}
+        {item.icon && (
+          <div className="fgn-toolbar-item-icon">
+            {item.icon}
+          </div>
+        )}
         {!item.icon && <div style={styles.nodePreview}></div>}
-        <span>{item.label}</span>
+        {item.tooltip && (
+          <div className="fgn-toolbar-tooltip">
+            {item.tooltip}
+          </div>
+        )}
       </div>
     );
   };
@@ -64,48 +92,19 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     return renderDefaultItem(item);
   };
 
-  const toolbarStyle = { ...styles.toolbar, ...style };
-
   return (
-    <div className={`fgn-toolbar ${className}`} style={toolbarStyle}>
+    <div className={`fgn-toolbar ${className}`} style={style}>
       {items.map((item) => renderItem(item))}
     </div>
   );
 };
 
 const styles = {
-  toolbar: {
-    width: '100px',
-    backgroundColor: '#f0f0f0',
-    padding: '10px',
-    borderRight: '1px solid #ccc',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '10px',
-  },
-  toolbarItem: {
-    padding: '10px',
-    backgroundColor: '#fff',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    cursor: 'grab',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    gap: '5px',
-  },
   nodePreview: {
-    width: '40px',
-    height: '30px',
+    width: '24px',
+    height: '18px',
     backgroundColor: '#4A90E2',
-    borderRadius: '4px',
-  },
-  iconContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '40px',
-    height: '30px',
+    borderRadius: '6px',
   },
 };
 

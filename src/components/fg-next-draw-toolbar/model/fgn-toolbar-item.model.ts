@@ -7,6 +7,8 @@ export interface FgnToolbarItem {
   id: string;
   label: string;
   icon?: React.ReactNode;
+  color?: string;
+  tooltip?: string;
   component?: React.ComponentType<FgnToolbarItemProps>;
   onDragStart?: (e: React.DragEvent, item: FgnToolbarItem) => void;
   onClick?: (item: FgnToolbarItem) => void;
