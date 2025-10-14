@@ -28,6 +28,12 @@
   box-sizing: border-box;
 }
 
+.node-action-button svg {
+  width: 14px;
+  height: 14px;
+  color: #333;
+}
+
 .node-action-button::before {
   content: attr(data-tooltip);
   position: absolute;
@@ -75,6 +81,10 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
+.node-action-button:hover:not(:disabled) svg {
+  color: #4A90E2;
+}
+
 .node-action-button:active:not(:disabled) {
   transform: scale(1.05);
   box-shadow: none;
@@ -90,6 +100,11 @@
   font-weight: bold;
   font-size: 14px;
   line-height: 1;
+}
+
+.fgn-node-action-dropdown svg {
+  width: 12px;
+  height: 12px;
 }
 
 .fgn-node-dropdown-menu {

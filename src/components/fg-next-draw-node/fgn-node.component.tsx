@@ -227,7 +227,10 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                           backgroundColor: 'transparent',
                           textAlign: 'left',
                           cursor: 'pointer',
-                          fontSize: '12px'
+                          fontSize: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
                         }}
                       >
                         {action.label} {action.id}

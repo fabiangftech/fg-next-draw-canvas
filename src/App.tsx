@@ -8,37 +8,42 @@ import {useEventListener} from "./utils/event-system/use-event-bus.hook";
 import {FgnNodeModel} from "./components/fg-next-draw-node/model/fgn-node.model";
 import {CANVAS_EVENTS} from "./components/fg-next-draw-canvas/model/canvas-events.constants";
 import {FgnConnectionModel} from "./components/fg-next-draw-canvas/model/fgn-connection.model";
+import { MdEdit, MdDelete, MdSettings, MdPublic } from 'react-icons/md';
+const EditIcon = () => React.createElement(MdEdit as any);
+const DeleteIcon = () => React.createElement(MdDelete as any);
+const SettingsIcon = () => React.createElement(MdSettings as any);
+const PublicIcon = () => React.createElement(MdPublic as any);
 
 function App() {
     // Define actions for nodes
     const nodeActions: FgnNodeAction[] = [
         {
-            id: 'edit',
-            label: '✏️',
+            id: 'Edit',
+            label: <EditIcon />,
             order: 1,
             onClick: (nodeId: string) => {
                 console.log('Edit node:', nodeId);
             }
         },
         {
-            id: 'delete',
-            label: '🗑️',
+            id: 'Delete',
+            label: <DeleteIcon />,
             order: 2,
             onClick: (nodeId: string) => {
                 console.log('Delete node:', nodeId);
             }
         },
         {
-            id: 'settings',
-            label: '⚙️',
+            id: 'Settings',
+            label: <SettingsIcon />,
             order: 3,
             onClick: (nodeId: string) => {
                 console.log('Settings for node:', nodeId);
             }
         },
         {
-            id: 'earth',
-            label: '🌍',
+            id: 'Earth',
+            label: <PublicIcon />,
             order: 4,
             onClick: (nodeId: string) => {
                 console.log('Earth action for node:', nodeId);
