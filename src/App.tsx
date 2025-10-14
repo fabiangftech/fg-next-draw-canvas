@@ -3,6 +3,7 @@ import FgnToolbarComponent from './components/fg-next-draw-toolbar/fgn-toolbar.c
 import FgnDrawCanvasComponent from './components/fg-next-draw-canvas/fgn-draw-canvas.component';
 import { FgnToolbarItem } from './components/fg-next-draw-toolbar/model/fgn-toolbar-item.model';
 import { FgnNodeAction } from './components/fg-next-draw-node/model/fgn-node-action.model';
+import { FgnNodeStatusStyle } from './components/fg-next-draw-node/model/fgn-node-status-style.model';
 import {useEventListener} from "./utils/event-system/use-event-bus.hook";
 import {FgnNodeModel} from "./components/fg-next-draw-node/model/fgn-node.model";
 import {CANVAS_EVENTS} from "./components/fg-next-draw-canvas/model/canvas-events.constants";
@@ -34,6 +35,26 @@ function App() {
         }
     ];
 
+    // Define status styles
+    const getStatusStyle = (status: string): FgnNodeStatusStyle => {
+        switch(status) {
+            case 'draft': 
+                return { backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD' };
+            case 'active': 
+                return { backgroundColor: '#4CAF50', textColor: 'white', borderColor: '#388E3C' };
+            case 'pending': 
+                return { backgroundColor: '#FFC107', textColor: '#333', borderColor: '#F57C00' };
+            case 'completed': 
+                return { backgroundColor: '#2196F3', textColor: 'white', borderColor: '#1976D2' };
+            case 'error': 
+                return { backgroundColor: '#F44336', textColor: 'white', borderColor: '#D32F2F' };
+            case 'warning': 
+                return { backgroundColor: '#FF9800', textColor: 'white', borderColor: '#F57C00' };
+            default: 
+                return { backgroundColor: '#9E9E9E', textColor: 'white', borderColor: '#757575' };
+        }
+    };
+
     const toolbarItems: FgnToolbarItem[] = [
         {
             id: 'node-basic',
@@ -61,6 +82,7 @@ function App() {
         <div>
             <FgnDrawCanvasComponent
                 nodeActions={nodeActions}
+                getStatusStyle={getStatusStyle}
             />
             <FgnToolbarComponent items={toolbarItems}/>
         </div>

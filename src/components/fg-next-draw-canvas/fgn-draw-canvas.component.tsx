@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { FgnNodeModel as NodeType } from '../fg-next-draw-node/model/fgn-node.model';
 import { FgnNodeAction } from '../fg-next-draw-node/model/fgn-node-action.model';
+import { FgnNodeStatusStyle } from '../fg-next-draw-node/model/fgn-node-status-style.model';
 import { FgnConnectionModel } from './model/fgn-connection.model';
 import FgnNodeComponent from '../fg-next-draw-node/fgn-node.component';
 import FgnConnectionComponent from '../fg-next-draw-connection/fgn-connection.component';
@@ -18,12 +19,14 @@ interface FgnDrawCanvasProps {
   shouldShowNodeActions?: (node: NodeType) => boolean;
   nodeActions?: FgnNodeAction[];
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
+  getStatusStyle?: (status: string) => FgnNodeStatusStyle;
 }
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
   shouldShowNodeActions,
   nodeActions,
-  getNodeActions
+  getNodeActions,
+  getStatusStyle
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
@@ -154,6 +157,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                     onMouseDown={handleNodeMouseDown}
                     onConnectionPointMouseDown={handleConnectionPointMouseDown}
                     shouldShowActions={shouldShowNodeActions}
+                    getStatusStyle={getStatusStyle}
                 />
             ))}
         </svg>

@@ -12,10 +12,11 @@ export interface FgnNodeModel {
   width: number;
   height: number;
   label: string;
+  status?: string;
   leftConnectionPoint: ConnectionPoint;
   rightConnectionPoint: ConnectionPoint;
-  connectedTo: string[];      // IDs of nodes this node connects TO (right -> left)
-  connectedFrom: string[];    // IDs of nodes connected TO this node (left <- right)
+  connectedTo: string[];
+  connectedFrom: string[];
   actions?: FgnNodeAction[];
 }
 

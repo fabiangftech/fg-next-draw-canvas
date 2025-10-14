@@ -43,6 +43,7 @@ export const createHandleDrop = (
         width: nodeWidth,
         height: nodeHeight,
         label: nodeLabel,
+        status: 'draft',
         leftConnectionPoint: connectionPoints.left,
         rightConnectionPoint: connectionPoints.right,
         connectedTo: [],

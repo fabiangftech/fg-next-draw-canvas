@@ -1,5 +1,6 @@
 import React from 'react';
 import { FgnNodeModel } from './model/fgn-node.model';
+import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import './fgn-node.component.css'
 
 interface NodeProps {
@@ -7,9 +8,10 @@ interface NodeProps {
   onMouseDown: (e: React.MouseEvent, nodeId: string) => void;
   onConnectionPointMouseDown?: (e: React.MouseEvent, nodeId: string, pointType: 'left' | 'right') => void;
   shouldShowActions?: (node: FgnNodeModel) => boolean;
+  getStatusStyle?: (status: string) => FgnNodeStatusStyle;
 }
 
-const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions }) => {
+const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle }) => {
   const connectionRadius = 6;
   
   const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
@@ -36,6 +38,19 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
   const showActions = shouldShow;
   const hasActions = node.actions && node.actions.length > 0;
 
+  // Get status style
+  const getDefaultStatusStyle = (status: string): FgnNodeStatusStyle => ({
+    backgroundColor: '#9E9E9E',
+    textColor: 'white',
+    borderColor: '#757575'
+  });
+
+  const statusStyle = node.status && getStatusStyle 
+    ? getStatusStyle(node.status) 
+    : node.status 
+      ? getDefaultStatusStyle(node.status)
+      : null;
+
   return (
     <g
       onMouseDown={(e) => onMouseDown(e, node.id)}
@@ -46,17 +61,17 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         y={node.y}
         width={node.width}
         height={node.height}
-        fill="#4A90E2"
-        stroke="#2E5C8A"
+        fill="white"
+        stroke="#ccc"
         strokeWidth={2}
         rx={4}
       />
       <text
-        x={node.x + node.width / 2}
-        y={node.y + node.height / 2}
-        textAnchor="middle"
+        x={node.x + 10}
+        y={node.y + 18}
+        textAnchor="start"
         dominantBaseline="middle"
-        fill="white"
+        fill="#333"
         fontSize="14"
         fontFamily="Arial"
         pointerEvents="none"
@@ -91,6 +106,38 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         onMouseDown={handleRightConnectionMouseDown}
         style={{ cursor: 'crosshair' }}
       />
+
+      {/* Status badge */}
+      {node.status && statusStyle && (
+        <foreignObject
+          x={node.x + node.width / 2 - 30}
+          y={node.y + node.height / 2 - 12}
+          width="60"
+          height="24"
+          style={{ overflow: 'visible', pointerEvents: 'none' }}
+        >
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: statusStyle.backgroundColor,
+              borderColor: statusStyle.borderColor || statusStyle.backgroundColor,
+              border: '2px solid',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '10px',
+              fontWeight: 'bold',
+              color: statusStyle.textColor,
+              textTransform: 'uppercase',
+              pointerEvents: 'none'
+            }}
+          >
+            {node.status}
+          </div>
+        </foreignObject>
+      )}
 
       {/* Action buttons */}
       {showActions && hasActions && (
