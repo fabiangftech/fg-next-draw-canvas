@@ -55,6 +55,8 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const [zoomLevel, setZoomLevel] = useState(1.0);
     const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
     const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
+    const [isPanning, setIsPanning] = useState(false);
+    const [panStart, setPanStart] = useState({ x: 0, y: 0 });
     const svgRef = useRef<SVGSVGElement | null>(null);
     const { emit } = useEventBus();
 
@@ -107,20 +109,62 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         zoomLevel
     );
 
+    // Pan handlers
+    const handlePanStart = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsPanning(true);
+        setPanStart({ x: e.clientX, y: e.clientY });
+    };
+
+    const handlePanMove = (e: React.MouseEvent) => {
+        if (isPanning) {
+            const deltaX = e.clientX - panStart.x;
+            const deltaY = e.clientY - panStart.y;
+            
+            setPanOffset({
+                x: panOffset.x + deltaX,
+                y: panOffset.y + deltaY
+            });
+            
+            setPanStart({ x: e.clientX, y: e.clientY });
+        }
+    };
+
+    const handlePanEnd = () => {
+        setIsPanning(false);
+    };
+
+    // Canvas mouse down handler to detect pan start
+    const handleCanvasMouseDown = (e: React.MouseEvent) => {
+        if (e.button === 1 || (e.button === 0 && e.shiftKey)) { // Middle click or Shift+left click
+            handlePanStart(e);
+        }
+        // Note: Node dragging is handled by the node component itself
+    };
+
     // Combined mouse move handler
     const handleCanvasMouseMove = (e: React.MouseEvent) => {
         const rect = svgRef.current?.getBoundingClientRect();
         if (rect) {
             setLastMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }
-        handleMouseMove(e);
-        handleConnectionMouseMove(e);
+        
+        if (isPanning) {
+            handlePanMove(e);
+        } else {
+            handleMouseMove(e);
+            handleConnectionMouseMove(e);
+        }
     };
 
     // Combined mouse up handler
     const handleCanvasMouseUp = (e: React.MouseEvent) => {
-        handleMouseUp();
-        handleConnectionMouseUp(e);
+        if (isPanning) {
+            handlePanEnd();
+        } else {
+            handleMouseUp();
+            handleConnectionMouseUp(e);
+        }
     };
 
     // Node replacement handlers
@@ -156,9 +200,9 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         if (!svgElement) return;
 
         const handleWheelEvent = (e: WheelEvent) => {
-            // Detect Ctrl+wheel (pinch on touchpad)
             if (e.ctrlKey || e.metaKey) {
-                e.preventDefault(); // This works now!
+                // Zoom with Ctrl+wheel (pinch on touchpad)
+                e.preventDefault();
                 
                 const rect = svgElement.getBoundingClientRect();
                 const mouseX = e.clientX - rect.left;
@@ -178,6 +222,13 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                 setPanOffset({ x: newPanX, y: newPanY });
                 setZoomLevel(newZoom);
                 emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
+            } else {
+                // Pan with wheel (without Ctrl)
+                e.preventDefault();
+                setPanOffset({
+                    x: panOffset.x - e.deltaX,
+                    y: panOffset.y - e.deltaY
+                });
             }
         };
 
@@ -212,7 +263,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     }, [nodes, nodeActions, getNodeActions]);
 
     return (
-        <div className="fgn-canvas-container">
+        <div className={`fgn-canvas-container ${isPanning ? 'panning' : ''}`}>
             <svg
                 className="fgn-draw-canvas"
                 ref={svgRef}
@@ -220,6 +271,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                 height={canvasHeight}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
+                onMouseDown={handleCanvasMouseDown}
                 onMouseMove={handleCanvasMouseMove}
                 onMouseUp={handleCanvasMouseUp}
                 onMouseLeave={handleCanvasMouseUp}

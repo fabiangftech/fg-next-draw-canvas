@@ -4,7 +4,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    overflow: auto;
+    overflow: hidden; /* Changed from auto to hidden for manual pan */
     background-color: #f7f8fa;
     z-index: 1;
     user-select: none;
@@ -12,6 +12,15 @@
     -moz-user-select: none;
     -ms-user-select: none;
     touch-action: none; /* Prevent browser touch gestures */
+    cursor: default;
+}
+
+.fgn-canvas-container.panning {
+    cursor: grabbing !important;
+}
+
+.fgn-canvas-container.pan-ready {
+    cursor: grab;
 }
 
 .fgn-draw-canvas {
