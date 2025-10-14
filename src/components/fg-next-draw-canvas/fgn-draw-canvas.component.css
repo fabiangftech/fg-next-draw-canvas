@@ -7,6 +7,10 @@
     overflow: auto;
     background-color: #f7f8fa;
     z-index: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .fgn-draw-canvas {
@@ -24,4 +28,5 @@
         100px 100px,
         100px 100px;
     background-position: 0 0;
+    user-select: none;
 }
