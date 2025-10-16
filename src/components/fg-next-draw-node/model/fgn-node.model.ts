@@ -1,5 +1,4 @@
 import { FgnNodeAction } from './fgn-node-action.model';
-import { IconConfig } from '../../shared/icon-config.service';
 
 export interface ConnectionPoint {
   x: number;
@@ -15,8 +14,7 @@ export interface FgnNodeModel {
   label: string;
   code?: string;
   status?: string;
-  iconCode?: string;
-  getIconConfig?: (code: string) => IconConfig | null;
+  color?: string;
   leftConnectionPoint: ConnectionPoint;
   rightConnectionPoint: ConnectionPoint;
   connectedTo: string[];

@@ -3,7 +3,7 @@ import { FgnNodeModel } from './model/fgn-node.model';
 import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import { FgnNodeAction } from './model/fgn-node-action.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
-import { defaultGetIconConfig } from '../../factory';
+import { IconStrategy } from '../shared/icon-strategy.service';
 import './fgn-node.component.css'
 
 interface NodeProps {
@@ -12,15 +12,13 @@ interface NodeProps {
   onConnectionPointMouseDown?: (e: React.MouseEvent, nodeId: string, pointType: 'left' | 'right') => void;
   shouldShowActions?: (node: FgnNodeModel) => boolean;
   getStatusStyle?: (status: string) => FgnNodeStatusStyle;
+  iconStrategy?: IconStrategy;
   maxVisibleActions?: number;
 }
 
-const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle, maxVisibleActions = 3 }) => {
+const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle, iconStrategy, maxVisibleActions = 3 }) => {
   const connectionRadius = 6;
   const [showDropdown, setShowDropdown] = useState(false);
-  
-  // Get icon config if iconCode is provided
-  const iconConfig = node.iconCode ? (node.getIconConfig || defaultGetIconConfig)(node.iconCode) : null;
   
   // Helper function to evaluate if action is disabled
   const isActionDisabled = (action: FgnNodeAction): boolean => {
@@ -30,8 +28,8 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
     return action.disabled ?? false;
   };
   
-  // Use icon from config or fallback to manual icon
-  const iconToRender = iconConfig?.icon;
+  // Get icon from iconStrategy
+  const iconToRender = iconStrategy ? iconStrategy(node.code) : null;
   
   const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
     if (onConnectionPointMouseDown) {
@@ -109,7 +107,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
             <div
               className="fgn-node-icon-wrapper"
               style={{
-                color: iconConfig?.color || '#000000'
+                color: node.color || '#000000'
               }}
             >
               {iconToRender}

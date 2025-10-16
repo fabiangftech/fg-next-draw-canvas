@@ -3,11 +3,13 @@ import React from 'react';
 import {
     FgnDrawCanvasComponent,
     FgnToolbarComponent, FgnToolbarItem,
-    FgnZoomComponent, IconConfig,
+    FgnZoomComponent,
 } from '../src';
+import type {IconStrategy} from '../src';
 import {SiApacheflink, SiApachekafka, SiClickhouse} from "react-icons/si";
 import {PiVault} from "react-icons/pi";
 import {BsBucket} from "react-icons/bs";
+import {GiAerialSignal} from "react-icons/gi";
 
 const meta: Meta<typeof FgnDrawCanvasComponent> = {
     title: 'Canvas/Interactive Canvas',
@@ -26,109 +28,87 @@ const meta: Meta<typeof FgnDrawCanvasComponent> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-
-export const iconConfig = (iconCode: string): IconConfig | null => {
+// Custom icon strategy using react-icons
+const customIconStrategy: IconStrategy = (iconCode?: string) => {
     switch (iconCode) {
         case 'asm':
-            return {
-                icon: React.createElement(PiVault as any),
-                color: '#FF9900',
-                label: 'Secret Manager'
-            };
+            return React.createElement(PiVault as any);
         case 's3-bucket':
-            return {
-                icon: React.createElement(BsBucket as any),
-                color: '#15ad0b',
-                label: 'S3 Bucket'
-            };
+            return React.createElement(BsBucket as any);
         case 'msk-topic':
-            return {
-                icon: React.createElement(SiApachekafka as any),
-                color: '#830bc9',
-                label: 'MSK Topic'
-            };
+            return React.createElement(SiApachekafka as any);
         case 'flink-jar':
-            return {
-                icon: React.createElement(SiApacheflink as any),
-                color: '#e30f40',
-                label: 'Flink JAR'
-            };
+            return React.createElement(SiApacheflink as any);
         case 'flink-sql':
-            return {
-                icon: React.createElement(SiApacheflink as any),
-                color: '#2344f5',
-                label: 'Flink SQL'
-            };
+            return React.createElement(SiApacheflink as any);
         case 'clickhouse-table':
-            return {
-                icon: React.createElement(SiClickhouse as any),
-                color: '#ffc100',
-                label: 'Clickhouse Table'
-            };
+            return React.createElement(SiClickhouse as any);
         case 'clickhouse-view':
-            return {
-                icon: React.createElement(SiClickhouse as any),
-                color: '#17150f',
-                label: 'Clickhouse View'
-            };
+            return React.createElement(SiClickhouse as any);
+        case 'signal-catalog':
+            return React.createElement(GiAerialSignal as any);
         default:
-            return {
-                icon: 'D',
-                color: '#909090',
-                label: 'Node X'
-            };
+            return 'D';
     }
 };
+
+
 const items: FgnToolbarItem[] = [
     {
         id: 'asm',
-        icon: React.createElement(PiVault as any),
-        iconCode: 'asm',
-        label: 'S3 Bucket',
-        getIconConfig: iconConfig
+        code: 'asm',
+        color: '#FF9900',
+        label: 'Secret Manager'
     }, {
         id: 's3-bucket',
-        icon: React.createElement(BsBucket as any),
-        iconCode: 's3-bucket',
-        getIconConfig: iconConfig
+        code: 's3-bucket',
+        color: '#15ad0b',
+        label: 'S3 Bucket'
     },
     {
         id: 'msk-topic',
-        icon: React.createElement(SiApachekafka as any),
-        iconCode: 'msk-topic',
-        getIconConfig: iconConfig
+        code: 'msk-topic',
+        color: '#830bc9',
+        label: 'MSK Topic'
     }, {
         id: 'flink-jar',
-        icon: React.createElement(SiApacheflink as any),
-        iconCode: 'flink-jar',
-        getIconConfig: iconConfig
+        code: 'flink-jar',
+        color: '#e30f40',
+        label: 'Flink JAR'
     },
     {
         id: 'flink-sql',
-        icon: React.createElement(SiApacheflink as any),
-        iconCode: 'flink-sql',
-        getIconConfig: iconConfig
+        code: 'flink-sql',
+        color: '#2344f5',
+        label: 'Flink SQL'
     },
     {
         id: 'clickhouse-table',
-        icon: React.createElement(SiClickhouse as any),
-        iconCode: 'clickhouse-table',
-        getIconConfig: iconConfig
+        code: 'clickhouse-table',
+        color: '#ffc100',
+        label: 'Clickhouse Table'
     },
     {
         id: 'clickhouse-view',
-        icon: React.createElement(SiClickhouse as any),
-        iconCode: 'clickhouse-view',
-        getIconConfig: iconConfig
-    }
+        code: 'clickhouse-view',
+        color: '#17150f',
+        label: 'Clickhouse View'
+    }, {
+        id: 'signal-catalog',
+        code: 'signal-catalog',
+        color: '#c862ff',
+        label: 'Signal Catalog'
+    },
 ]
 
 export const Default: Story = {
 
     render: (args) => (
         <div>
-            <FgnToolbarComponent items={items}/>
-            <FgnDrawCanvasComponent getIconConfig={iconConfig} maxVisibleActions={1}/>
+            <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
+            <FgnDrawCanvasComponent maxVisibleActions={1}
+                                    defaultNodeSize={{width: 180, height: 90}}
+                                    iconStrategy={customIconStrategy}/>
             <FgnZoomComponent zoomStep={2.5} maxZoom={10.0}/>
         </div>
     ),

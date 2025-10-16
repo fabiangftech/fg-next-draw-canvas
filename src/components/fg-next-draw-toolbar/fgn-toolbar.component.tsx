@@ -1,20 +1,21 @@
 import React from 'react';
 import './fgn-toolbar.component.css';
 import { FgnToolbarProps, FgnToolbarItem } from './model/fgn-toolbar-item.model';
-import { defaultGetIconConfig, defaultToolbarItems } from '../../factory';
+import { defaultToolbarItems } from '../../factory';
+import { IconStrategy } from '../shared/icon-strategy.service';
 
 const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({ 
   items = defaultToolbarItems, 
   className = '', 
   style,
+  iconStrategy,
   renderCustomItem 
 }) => {
   
   const handleDragStart = (e: React.DragEvent, item: FgnToolbarItem) => {
-    // Get icon config and node label for preview
-    const iconConfig = item.iconCode ? (item.getIconConfig || defaultGetIconConfig)(item.iconCode) : null;
-    const nodeLabel = iconConfig?.label || item.label;
-    const backgroundColor = iconConfig?.color || item.color;
+    // Get node label and background color directly from item
+    const nodeLabel = item.label;
+    const backgroundColor = item.color;
     
     // Create a custom drag image that looks like a node preview
     const dragPreview = document.createElement('div');
@@ -35,7 +36,8 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     dragPreview.style.cursor = 'grabbing';
     
     // Create icon element (only icon, no text)
-    if (iconConfig?.icon) {
+    const iconToShow = iconStrategy ? iconStrategy(item.code) : null;
+    if (iconToShow) {
       const iconElement = document.createElement('div');
       iconElement.style.width = '32px';
       iconElement.style.height = '32px';
@@ -64,8 +66,11 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
       if (nodeLabel) {
         e.dataTransfer.setData('nodeLabel', nodeLabel);
       }
-      if (item.iconCode) {
-        e.dataTransfer.setData('nodeIconCode', item.iconCode);
+      if (item.code) {
+        e.dataTransfer.setData('nodeIconCode', item.code);
+      }
+      if (item.color) {
+        e.dataTransfer.setData('nodeColor', item.color);
       }
     }
   };
@@ -79,18 +84,15 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
   const renderDefaultItem = (item: FgnToolbarItem) => {
     const itemClassName = `fgn-toolbar-item ${item.className || ''}`.trim();
     
-    // Get icon config if iconCode is provided
-    const iconConfig = item.iconCode ? (item.getIconConfig || defaultGetIconConfig)(item.iconCode) : null;
+    // Get icon from iconStrategy
+    const iconToRender = iconStrategy ? iconStrategy(item.code) : null;
     
-    // Use icon from config or fallback to manual icon
-    const iconToRender = iconConfig?.icon || item.icon;
-    
-    // Use color from config or fallback to manual color
-    const backgroundColor = iconConfig?.color || item.color;
+    // Use color directly from item
+    const backgroundColor = item.color;
     const itemStyle = backgroundColor ? { backgroundColor, color: 'white' } : {};
     
-    // Use tooltip from config label or fallback to manual tooltip
-    const tooltipText = item.tooltip || iconConfig?.label;
+    // Use tooltip from item
+    const tooltipText = item.tooltip || item.label;
     
     return (
       <div

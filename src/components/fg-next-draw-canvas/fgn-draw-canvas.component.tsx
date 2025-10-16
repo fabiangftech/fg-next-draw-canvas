@@ -20,9 +20,9 @@ import { calculateNodesCenter } from '../../utils/calculate-nodes-center.util';
 import { 
   defaultCreateNodeByCode, 
   defaultGetStatusStyle, 
-  defaultGetIconConfig, 
   defaultNodeActions 
 } from '../../factory';
+import { IconStrategy } from '../shared/icon-strategy.service';
 import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {
@@ -31,7 +31,7 @@ interface FgnDrawCanvasProps {
   nodeActions?: FgnNodeAction[];
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
   getStatusStyle?: (status: string) => FgnNodeStatusStyle;
-  getIconConfig?: (code: string) => any;
+  iconStrategy?: IconStrategy;
   defaultNodeSize?: {
     width: number;
     height: number;
@@ -46,7 +46,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   nodeActions = defaultNodeActions,
   getNodeActions,
   getStatusStyle = defaultGetStatusStyle,
-  getIconConfig = defaultGetIconConfig,
+  iconStrategy,
   defaultNodeSize = { width: 150, height: 75 },
   maxVisibleActions = 3,
   getNodeDefaults = defaultCreateNodeByCode,
@@ -116,7 +116,6 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         CANVAS_EVENTS.NODE_ADDED,
         defaultNodeSize,
         getNodeDefaults,
-        getIconConfig,
         zoomLevel,
         panOffset
     );
@@ -356,6 +355,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                         onConnectionPointMouseDown={handleConnectionPointMouseDown}
                         shouldShowActions={shouldShowNodeActions}
                         getStatusStyle={getStatusStyle}
+                        iconStrategy={iconStrategy}
                         maxVisibleActions={maxVisibleActions}
                     />
                 ))}

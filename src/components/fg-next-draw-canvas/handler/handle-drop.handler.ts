@@ -13,7 +13,6 @@ export const createHandleDrop = (
   NODE_ADDED_EVENT: string,
   defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 },
   getNodeDefaults: NodeFactoryFunction,
-  getIconConfig?: (code: string) => any,
   zoomLevel: number = 1.0,
   panOffset: { x: number, y: number } = { x: 0, y: 0 }
 ) => {
@@ -21,6 +20,7 @@ export const createHandleDrop = (
     e.preventDefault();
     const nodeLabel = e.dataTransfer.getData('nodeLabel');
     const nodeIconCode = e.dataTransfer.getData('nodeIconCode');
+    const nodeColor = e.dataTransfer.getData('nodeColor');
     const itemDataStr = e.dataTransfer.getData('itemData');
 
     if (nodeLabel && svgRef.current) {
@@ -48,7 +48,6 @@ export const createHandleDrop = (
       const factoryFunction = getNodeDefaults || defaultCreateNodeByCode;
       const nodeDefaults = factoryFunction({
         iconCode: nodeIconCode || undefined,
-        getIconConfig: getIconConfig,
         ...itemData,
       });
 
@@ -66,6 +65,8 @@ export const createHandleDrop = (
         bottomLeftLabel: '',
         ...nodeDefaults,
         code: nodeIconCode || nodeDefaults.iconCode,
+        icon: nodeDefaults.icon,
+        color: nodeColor || nodeDefaults.color,
       };
 
       setNodes([...nodes, newNode]);

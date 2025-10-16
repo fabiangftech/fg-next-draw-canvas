@@ -1,18 +1,16 @@
 import React from 'react';
-import { IconConfig } from '../../shared/icon-config.service';
+import { IconStrategy } from '../../shared/icon-strategy.service';
 
 /**
  * Interface for toolbar item configuration
  */
 export interface FgnToolbarItem {
   id: string;
-  label?: string; // Optional, can be overridden by iconCode
-  icon?: React.ReactNode; // Fallback for manual icon override
-  iconCode?: string; // Primary way to specify icon via service
-  color?: string; // Fallback for manual color override
+  label?: string; // Optional label for the item
+  code?: string; // Primary way to specify icon via iconStrategy
+  color?: string; // Optional color override
   tooltip?: string;
   component?: React.ComponentType<FgnToolbarItemProps>;
-  getIconConfig?: (code: string) => IconConfig | null;
   onDragStart?: (e: React.DragEvent, item: FgnToolbarItem) => void;
   onClick?: (item: FgnToolbarItem) => void;
   className?: string;
@@ -34,6 +32,7 @@ export interface FgnToolbarProps {
   items?: FgnToolbarItem[];
   className?: string;
   style?: React.CSSProperties;
+  iconStrategy?: IconStrategy;
   renderCustomItem?: (item: FgnToolbarItem, defaultRenderer: (item: FgnToolbarItem) => React.ReactNode) => React.ReactNode;
 }
 
