@@ -1,4 +1,4 @@
-import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
+import { FgnNodeModel } from '../../fg-next-node/model/fgn-node.model';
 import { FgnConnectionModel } from '../model/fgn-connection.model';
 import React, { useCallback } from 'react';
 

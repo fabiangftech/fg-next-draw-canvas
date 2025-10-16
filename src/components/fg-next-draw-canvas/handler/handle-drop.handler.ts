@@ -1,5 +1,5 @@
-import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
-import { NodeFactoryFunction } from '../../fg-next-draw-node/model/fgn-node-factory.model';
+import { FgnNodeModel } from '../../fg-next-node/model/fgn-node.model';
+import { NodeFactoryFunction } from '../../fg-next-node/model/fgn-node-factory.model';
 import { defaultCreateNodeByCode } from '../../../factory';
 import { generateNodeId } from '../../../utils/generate-node-id.util';
 import { calculateConnectionPoints } from '../../../utils/calculate-connection-points.util';

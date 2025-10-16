@@ -1,4 +1,4 @@
-import {FgnNodeAction} from '../components/fg-next-draw-node/model/fgn-node-action.model';
+import {FgnNodeAction} from '../components/fg-next-node/model/fgn-node-action.model';
 
 export const defaultNodeActions: FgnNodeAction[] = [
     {

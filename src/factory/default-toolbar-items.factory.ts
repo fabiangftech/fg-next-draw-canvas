@@ -1,4 +1,4 @@
-import { FgnToolbarItem } from '../components/fg-next-draw-toolbar/model/fgn-toolbar-item.model';
+import { FgnToolbarItem } from '../components/fg-next-toolbar/model/fgn-toolbar-item.model';
 
 /**
  * Default toolbar items for the system

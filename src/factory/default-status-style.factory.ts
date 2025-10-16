@@ -1,4 +1,4 @@
-import {FgnNodeStatusStyle} from '../components/fg-next-draw-node/model/fgn-node-status-style.model';
+import {FgnNodeStatusStyle} from '../components/fg-next-node/model/fgn-node-status-style.model';
 
 /**
  * Default status style function for the system

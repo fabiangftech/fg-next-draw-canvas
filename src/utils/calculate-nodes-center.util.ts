@@ -1,4 +1,4 @@
-import { FgnNodeModel } from '../components/fg-next-draw-node/model/fgn-node.model';
+import { FgnNodeModel } from '../components/fg-next-node/model/fgn-node.model';
 
 export const calculateNodesCenter = (nodes: FgnNodeModel[]) => {
   if (nodes.length === 0) {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FgnNodeModel } from '../../fg-next-draw-node/model/fgn-node.model';
+import { FgnNodeModel } from '../../fg-next-node/model/fgn-node.model';
 import { calculateConnectionPoints } from '../../../utils/calculate-connection-points.util';
 
 export const useNodeDrag = (
