@@ -4,6 +4,7 @@ import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import { FgnNodeAction } from './model/fgn-node-action.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
 import { IconStrategy } from '../shared/icon-strategy.service';
+import { defaultGetStatusStyle } from '../../factory';
 import './fgn-node.component.css'
 
 interface NodeProps {
@@ -11,12 +12,12 @@ interface NodeProps {
   onMouseDown: (e: React.MouseEvent, nodeId: string) => void;
   onConnectionPointMouseDown?: (e: React.MouseEvent, nodeId: string, pointType: 'left' | 'right') => void;
   shouldShowActions?: (node: FgnNodeModel) => boolean;
-  getStatusStyle?: (status: string) => FgnNodeStatusStyle;
+  statusStrategy?: (status: string) => FgnNodeStatusStyle;
   iconStrategy?: IconStrategy;
   maxVisibleActions?: number;
 }
 
-const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, getStatusStyle, iconStrategy, maxVisibleActions = 3 }) => {
+const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnectionPointMouseDown, shouldShowActions, statusStrategy, iconStrategy, maxVisibleActions = 3 }) => {
   const connectionRadius = 6;
   const [showDropdown, setShowDropdown] = useState(false);
   
@@ -67,16 +68,10 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
     : { visibleActions: [], dropdownActions: [], hasDropdown: false };
 
   // Get status style
-  const getDefaultStatusStyle = (status: string): FgnNodeStatusStyle => ({
-    backgroundColor: '#9E9E9E',
-    textColor: 'white',
-    borderColor: '#757575'
-  });
-
-  const statusStyle = node.status && getStatusStyle 
-    ? getStatusStyle(node.status) 
+  const statusStyle = node.status && statusStrategy 
+    ? statusStrategy(node.status) 
     : node.status 
-      ? getDefaultStatusStyle(node.status)
+      ? defaultGetStatusStyle(node.status)
       : null;
 
   return (

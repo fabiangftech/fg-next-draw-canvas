@@ -30,7 +30,7 @@ interface FgnDrawCanvasProps {
   getNodeDefaults?: NodeFactoryFunction;
   nodeActions?: FgnNodeAction[];
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
-  getStatusStyle?: (status: string) => FgnNodeStatusStyle;
+  statusStrategy?: (status: string) => FgnNodeStatusStyle;
   iconStrategy?: IconStrategy;
   defaultNodeSize?: {
     width: number;
@@ -45,7 +45,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   shouldShowNodeActions,
   nodeActions = defaultNodeActions,
   getNodeActions,
-  getStatusStyle = defaultGetStatusStyle,
+  statusStrategy = defaultGetStatusStyle,
   iconStrategy,
   defaultNodeSize = { width: 150, height: 75 },
   maxVisibleActions = 3,
@@ -354,7 +354,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                         onMouseDown={handleNodeMouseDown}
                         onConnectionPointMouseDown={handleConnectionPointMouseDown}
                         shouldShowActions={shouldShowNodeActions}
-                        getStatusStyle={getStatusStyle}
+                        statusStrategy={statusStrategy}
                         iconStrategy={iconStrategy}
                         maxVisibleActions={maxVisibleActions}
                     />

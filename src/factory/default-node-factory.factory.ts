@@ -9,6 +9,7 @@ export const defaultCreateNodeByCode: NodeFactoryFunction = (
   nodeData: Partial<FgnNodeModel>
 ): Partial<FgnNodeModel> => {
   return {
+    status: 'default',
     ...nodeData,
   };
 };
