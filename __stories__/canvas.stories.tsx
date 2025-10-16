@@ -9,7 +9,7 @@ import type {IconStrategy} from '../src';
 import {SiApacheflink, SiApachekafka, SiClickhouse} from "react-icons/si";
 import {PiVault} from "react-icons/pi";
 import {BsBucket} from "react-icons/bs";
-import {GiAerialSignal} from "react-icons/gi";
+import {GiAerialSignal, GiKeyLock} from "react-icons/gi";
 
 const meta: Meta<typeof FgnDrawCanvasComponent> = {
     title: 'Canvas/Interactive Canvas',
@@ -47,6 +47,8 @@ const customIconStrategy: IconStrategy = (iconCode?: string) => {
             return React.createElement(SiClickhouse as any);
         case 'signal-catalog':
             return React.createElement(GiAerialSignal as any);
+        case 'kms':
+            return React.createElement(GiKeyLock as any);
         default:
             return 'D';
     }
@@ -59,6 +61,11 @@ const items: FgnToolbarItem[] = [
         code: 'asm',
         color: '#FF9900',
         label: 'Secret Manager'
+    } ,{
+        id: 'kms',
+        code: 'kms',
+        color: '#8294f5',
+        label: 'Key Manager'
     }, {
         id: 's3-bucket',
         code: 's3-bucket',
