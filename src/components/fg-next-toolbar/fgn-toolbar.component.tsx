@@ -37,7 +37,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     dragPreview.style.cursor = 'grabbing';
     
     // Create icon element (only icon, no text)
-    const iconToShow = iconStrategy ? iconStrategy.getIcon(item.code) : null;
+    const iconToShow = iconStrategy ? iconStrategy.getIcon(item.code || item.id) : null;
     if (iconToShow) {
       const iconElement = document.createElement('div');
       iconElement.style.width = '32px';
@@ -86,7 +86,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     const itemClassName = `fgn-toolbar-item ${item.className || ''}`.trim();
     
     // Get icon from iconStrategy
-    const iconToRender = iconStrategy ? iconStrategy.getIcon(item.code) : null;
+    const iconToRender = iconStrategy ? iconStrategy.getIcon(item.code || item.id) : null;
     
     // Use color directly from item
     const backgroundColor = item.color;
