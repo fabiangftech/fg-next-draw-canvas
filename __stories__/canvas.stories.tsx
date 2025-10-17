@@ -4,6 +4,8 @@ import {
     FgnDrawCanvasComponent,
     FgnToolbarComponent, FgnToolbarItem,
     FgnZoomComponent,
+    useFgnEventListener,
+    CANVAS_EVENTS,
 } from '../src';
 import type {IconStrategy, StatusStrategy} from '../src';
 import {SiApacheflink, SiApachekafka} from "react-icons/si";
@@ -90,16 +92,44 @@ const items: FgnToolbarItem[] = [
     }
 ]
 
-export const Default: Story = {
+// Component wrapper with event listeners
+const CanvasWithListeners: React.FC = () => {
+    // Listen to all canvas events and log them
+    useFgnEventListener(CANVAS_EVENTS.NODE_ADDED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODE_ADDED:`, data);
+    });
 
-    //todo add listeners and print console.log
-    render: (args) => (
+    useFgnEventListener(CANVAS_EVENTS.NODE_UPDATED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODE_UPDATED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.CONNECTION_CREATED, (data) => {
+        console.log(`[${new Date().toISOString()}] CONNECTION_CREATED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.CONNECTION_DELETED, (data) => {
+        console.log(`[${new Date().toISOString()}] CONNECTION_DELETED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.NODES_REPLACED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODES_REPLACED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.NODE_REPLACED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODE_REPLACED:`, data);
+    });
+
+    return (
         <div>
             <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
             <FgnDrawCanvasComponent iconStrategy={customIconStrategy}
                                     statusStrategy={customStatusStrategy}/>
             <FgnZoomComponent/>
         </div>
-    ),
+    );
+};
+
+export const Default: Story = {
+    render: (args) => <CanvasWithListeners />,
     args: {},
 };
