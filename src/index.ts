@@ -44,7 +44,7 @@ export { calculatePathMidpoint } from './utils/calculate-path-midpoint.util';
 export { defaultToolbarItems } from './factory/default-toolbar-items.factory';
 export { defaultNodeActions } from './factory/default-node-actions.factory';
 export { defaultStatusStrategy } from './factory/default-status-style.factory';
-export { defaultIconStrategy } from './factory/default-icon-strategy.factory';
+export { defaultIconStrategy } from './strategy/default-icon.strategy';
 export { defaultCreateNodeByCode } from './factory/default-node-factory.factory';
 export { defaultCanvasConfig } from './factory/default-canvas-config.factory';
 
