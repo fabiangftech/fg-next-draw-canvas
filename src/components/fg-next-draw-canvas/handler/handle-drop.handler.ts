@@ -13,6 +13,7 @@ export const createHandleDrop = (
   NODE_ADDED_EVENT: string,
   defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 },
   getNodeDefaults: NodeFactoryFunction,
+  defaultStatus: string,
   zoomLevel: number = 1.0,
   panOffset: { x: number, y: number } = { x: 0, y: 0 }
 ) => {
@@ -48,6 +49,7 @@ export const createHandleDrop = (
       const factoryFunction = getNodeDefaults || defaultCreateNodeByCode;
       const nodeDefaults = factoryFunction({
         iconCode: nodeIconCode || undefined,
+        status: defaultStatus,
         ...itemData,
       });
 

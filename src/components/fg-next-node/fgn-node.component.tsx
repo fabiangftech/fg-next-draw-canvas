@@ -70,9 +70,9 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
 
   // Get status style
   const statusStyle = node.status && statusStrategy 
-    ? statusStrategy(node.status) 
+    ? statusStrategy.getStyle(node.status) 
     : node.status 
-      ? defaultStatusStrategy(node.status)
+      ? defaultStatusStrategy.getStyle(node.status)
       : null;
 
   return (

@@ -1,22 +1,26 @@
 import {FgnNodeStatusStyle} from '../components/fg-next-node/model/fgn-node-status-style.model';
+import {StatusStrategy} from '../components/shared/status-strategy.service';
 
 /**
- * Default status strategy function for the system
+ * Default status strategy object for the system
  * This follows the Strategy pattern, allowing different implementations
  * for different styling approaches
  */
-export const defaultStatusStrategy = (status: string): FgnNodeStatusStyle => {
-    switch (status) {
-        case 'default':
-            return {backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD'};
-        case 'info':
-            return {backgroundColor: '#2196F3', textColor: 'white', borderColor: '#1976D2'};
-        case 'error':
-            return {backgroundColor: '#F44336', textColor: 'white', borderColor: '#D32F2F'};
-        case 'warning':
-            return {backgroundColor: '#FF9800', textColor: 'white', borderColor: '#F57C00'};
-        default:
-            return {backgroundColor: '#9E9E9E', textColor: 'white', borderColor: '#757575'};
+export const defaultStatusStrategy: StatusStrategy = {
+    defaultStatus: 'default',
+    getStyle: (status: string): FgnNodeStatusStyle => {
+        switch (status) {
+            case 'default':
+                return {backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD'};
+            case 'info':
+                return {backgroundColor: '#2196F3', textColor: 'white', borderColor: '#1976D2'};
+            case 'error':
+                return {backgroundColor: '#F44336', textColor: 'white', borderColor: '#D32F2F'};
+            case 'warning':
+                return {backgroundColor: '#FF9800', textColor: 'white', borderColor: '#F57C00'};
+            default:
+                return {backgroundColor: '#9E9E9E', textColor: 'white', borderColor: '#757575'};
+        }
     }
 };
 

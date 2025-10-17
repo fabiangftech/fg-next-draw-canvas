@@ -33,7 +33,7 @@ interface FgnDrawCanvasProps {
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
   statusStrategy?: StatusStrategy;
   iconStrategy?: IconStrategy;
-  defaultNodeSize?: {
+  nodeSize?: {
     width: number;
     height: number;
   };
@@ -48,7 +48,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   getNodeActions,
   statusStrategy = defaultStatusStrategy,
   iconStrategy,
-  defaultNodeSize = { width: 150, height: 75 },
+                                                                  nodeSize = { width: 150, height: 75 },
   maxVisibleActions = 3,
   getNodeDefaults = defaultCreateNodeByCode,
   canvasWidth = 5000,
@@ -115,8 +115,9 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         svgRef,
         emit,
         CANVAS_EVENTS.NODE_ADDED,
-        defaultNodeSize,
+        nodeSize,
         getNodeDefaults,
+        statusStrategy.defaultStatus,
         zoomLevel,
         panOffset
     );

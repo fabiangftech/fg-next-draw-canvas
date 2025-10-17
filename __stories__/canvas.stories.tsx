@@ -5,7 +5,7 @@ import {
     FgnToolbarComponent, FgnToolbarItem,
     FgnZoomComponent,
 } from '../src';
-import type {IconStrategy} from '../src';
+import type {IconStrategy, StatusStrategy} from '../src';
 import {SiApacheflink, SiApachekafka} from "react-icons/si";
 import {BsBucket} from "react-icons/bs";
 
@@ -27,8 +27,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Custom icon strategy using react-icons
-const customIconStrategy: IconStrategy = (iconCode?: string) => {
-    switch (iconCode) {
+const customIconStrategy: IconStrategy = (code?: string) => {
+    switch (code) {
         case 's3-bucket':
             return React.createElement(BsBucket as any);
         case 'msk-topic':
@@ -40,22 +40,47 @@ const customIconStrategy: IconStrategy = (iconCode?: string) => {
     }
 };
 
+// Custom status strategy for node lifecycle states
+const customStatusStrategy: StatusStrategy = {
+    defaultStatus: 'draft',
+    getStyle: (status: string) => {
+        switch (status) {
+            case 'draft':
+                return {backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD'};
+            case 'ready':
+                return {backgroundColor: '#2196F3', textColor: 'white', borderColor: '#1976D2'};
+            case 'deploying':
+                return {backgroundColor: '#FF9800', textColor: 'white', borderColor: '#F57C00'};
+            case 'running':
+                return {backgroundColor: '#4CAF50', textColor: 'white', borderColor: '#388E3C'};
+            case 'failed':
+                return {backgroundColor: '#F44336', textColor: 'white', borderColor: '#D32F2F'};
+            case 'paused':
+                return {backgroundColor: '#FF5722', textColor: 'white', borderColor: '#E64A19'};
+            case 'terminated':
+                return {backgroundColor: '#757575', textColor: 'white', borderColor: '#616161'};
+            default:
+                return {backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD'}; // draft as default
+        }
+    }
+};
+
 
 const items: FgnToolbarItem[] = [
     {
-        id: 's3-bucket',
+        id: '1',
         code: 's3-bucket',
         color: '#15ad0b',
         label: 'S3 Bucket'
     },
     {
-        id: 'msk-topic',
+        id: '2',
         code: 'msk-topic',
         color: '#830bc9',
         label: 'MSK Topic'
     },
     {
-        id: 'flink-sql',
+        id: '3',
         code: 'flink-sql',
         color: '#2344f5',
         label: 'Flink SQL'
@@ -68,8 +93,9 @@ export const Default: Story = {
         <div>
             <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
             <FgnDrawCanvasComponent maxVisibleActions={1}
-                                    defaultNodeSize={{width: 180, height: 90}}
-                                    iconStrategy={customIconStrategy}/>
+                                    nodeSize={{width: 180, height: 90}}
+                                    iconStrategy={customIconStrategy}
+                                    statusStrategy={customStatusStrategy}/>
             <FgnZoomComponent zoomStep={2.5} maxZoom={10.0}/>
         </div>
     ),
