@@ -1,9 +1,11 @@
 import {FgnNodeStatusStyle} from '../components/fg-next-node/model/fgn-node-status-style.model';
 
 /**
- * Default status style function for the system
+ * Default status strategy function for the system
+ * This follows the Strategy pattern, allowing different implementations
+ * for different styling approaches
  */
-export const defaultGetStatusStyle = (status: string): FgnNodeStatusStyle => {
+export const defaultStatusStrategy = (status: string): FgnNodeStatusStyle => {
     switch (status) {
         case 'default':
             return {backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD'};

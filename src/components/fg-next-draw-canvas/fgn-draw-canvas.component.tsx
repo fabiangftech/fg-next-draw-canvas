@@ -19,10 +19,11 @@ import { generateConnectionPath } from '../../utils/generate-connection-path.uti
 import { calculateNodesCenter } from '../../utils/calculate-nodes-center.util';
 import { 
   defaultCreateNodeByCode, 
-  defaultGetStatusStyle, 
+  defaultStatusStrategy, 
   defaultNodeActions 
 } from '../../factory';
 import { IconStrategy } from '../shared/icon-strategy.service';
+import { StatusStrategy } from '../shared/status-strategy.service';
 import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {
@@ -30,7 +31,7 @@ interface FgnDrawCanvasProps {
   getNodeDefaults?: NodeFactoryFunction;
   nodeActions?: FgnNodeAction[];
   getNodeActions?: (node: NodeType) => FgnNodeAction[];
-  statusStrategy?: (status: string) => FgnNodeStatusStyle;
+  statusStrategy?: StatusStrategy;
   iconStrategy?: IconStrategy;
   defaultNodeSize?: {
     width: number;
@@ -45,7 +46,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   shouldShowNodeActions,
   nodeActions = defaultNodeActions,
   getNodeActions,
-  statusStrategy = defaultGetStatusStyle,
+  statusStrategy = defaultStatusStrategy,
   iconStrategy,
   defaultNodeSize = { width: 150, height: 75 },
   maxVisibleActions = 3,

@@ -4,7 +4,8 @@ import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import { FgnNodeAction } from './model/fgn-node-action.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
 import { IconStrategy } from '../shared/icon-strategy.service';
-import { defaultGetStatusStyle } from '../../factory';
+import { StatusStrategy } from '../shared/status-strategy.service';
+import { defaultStatusStrategy } from '../../factory';
 import './fgn-node.component.css'
 
 interface NodeProps {
@@ -12,7 +13,7 @@ interface NodeProps {
   onMouseDown: (e: React.MouseEvent, nodeId: string) => void;
   onConnectionPointMouseDown?: (e: React.MouseEvent, nodeId: string, pointType: 'left' | 'right') => void;
   shouldShowActions?: (node: FgnNodeModel) => boolean;
-  statusStrategy?: (status: string) => FgnNodeStatusStyle;
+  statusStrategy?: StatusStrategy;
   iconStrategy?: IconStrategy;
   maxVisibleActions?: number;
 }
@@ -71,7 +72,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
   const statusStyle = node.status && statusStrategy 
     ? statusStrategy(node.status) 
     : node.status 
-      ? defaultGetStatusStyle(node.status)
+      ? defaultStatusStrategy(node.status)
       : null;
 
   return (

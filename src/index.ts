@@ -43,11 +43,12 @@ export { calculatePathMidpoint } from './utils/calculate-path-midpoint.util';
 // Factories
 export { defaultToolbarItems } from './factory/default-toolbar-items.factory';
 export { defaultNodeActions } from './factory/default-node-actions.factory';
-export { defaultGetStatusStyle } from './factory/default-status-style.factory';
+export { defaultStatusStrategy } from './factory/default-status-style.factory';
 export { defaultIconStrategy } from './factory/default-icon-strategy.factory';
 export { defaultCreateNodeByCode } from './factory/default-node-factory.factory';
 export { defaultCanvasConfig } from './factory/default-canvas-config.factory';
 
 // Types from Services
 export type { IconStrategy } from './components/shared/icon-strategy.service';
+export type { StatusStrategy } from './components/shared/status-strategy.service';
 
