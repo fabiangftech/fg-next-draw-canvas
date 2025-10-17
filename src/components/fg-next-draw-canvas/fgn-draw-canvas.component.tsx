@@ -6,7 +6,7 @@ import { NodeFactoryFunction } from '../fg-next-node/model/fgn-node-factory.mode
 import { FgnConnectionModel } from './model/fgn-connection.model';
 import FgnNodeComponent from '../fg-next-node/fgn-node.component';
 import FgnConnectionComponent from '../fg-next-connection/fgn-connection.component';
-import { useEventBus, useEventListener } from '../../utils/event-system/use-event-bus.hook';
+import { useFgnEventBus, useFgnEventListener } from '../../utils/fg-next-event-system/fgn-use-event-bus.hook';
 import { CANVAS_EVENTS } from './model/canvas-events.constants';
 import { createHandleDrop } from './handler/handle-drop.handler';
 import { useNodeDrag } from './handler/use-node-drag.handler';
@@ -69,7 +69,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const [initialZoom, setInitialZoom] = useState(1.0);
 
     const svgRef = useRef<SVGSVGElement | null>(null);
-    const { emit } = useEventBus();
+    const { emit } = useFgnEventBus();
 
     // Node dragging handlers
     const { handleNodeMouseDown, handleMouseMove, handleMouseUp } = useNodeDrag(
@@ -181,11 +181,11 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const handleNodeReplaced = createHandleNodeReplaced(setNodes);
 
     // Listen for nodes replacement events
-    useEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
-    useEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
+    useFgnEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
+    useFgnEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
 
     // Listen for zoom configuration updates from FgnZoomComponent
-    useEventListener<{minZoom: number, maxZoom: number, zoomStep: number, initialZoom: number}>(
+    useFgnEventListener<{minZoom: number, maxZoom: number, zoomStep: number, initialZoom: number}>(
         CANVAS_EVENTS.ZOOM_CONFIG_UPDATED,
         (config) => {
             setMinZoom(config.minZoom);
@@ -197,10 +197,10 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     );
 
     // Listen for zoom changes
-    useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
+    useFgnEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
 
     // Listen for zoom with specific point
-    useEventListener<{zoom: number, x: number, y: number}>(CANVAS_EVENTS.ZOOM_WITH_POINT, (data) => {
+    useFgnEventListener<{zoom: number, x: number, y: number}>(CANVAS_EVENTS.ZOOM_WITH_POINT, (data) => {
         const { zoom, x, y } = data;
 
         // Calcular punto del mouse en coordenadas SVG antes del zoom
@@ -216,7 +216,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     });
 
     // Listen for zoom reset (center nodes)
-    useEventListener(CANVAS_EVENTS.ZOOM_RESET, () => {
+    useFgnEventListener(CANVAS_EVENTS.ZOOM_RESET, () => {
         // Calculate center of all nodes
         const nodesCenter = calculateNodesCenter(nodes);
 

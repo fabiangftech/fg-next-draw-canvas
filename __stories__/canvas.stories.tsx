@@ -92,11 +92,13 @@ const items: FgnToolbarItem[] = [
 
 export const Default: Story = {
 
+    //todo add listeners and print console.log
     render: (args) => (
         <div>
-            <FgnToolbarComponent/>
-            <FgnDrawCanvasComponent />
-            <FgnZoomComponent />
+            <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
+            <FgnDrawCanvasComponent iconStrategy={customIconStrategy}
+                                    statusStrategy={customStatusStrategy}/>
+            <FgnZoomComponent/>
         </div>
     ),
     args: {},

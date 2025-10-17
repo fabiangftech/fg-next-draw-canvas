@@ -29,8 +29,8 @@ export type { FgnToolbarItem, FgnToolbarProps } from './components/fg-next-toolb
 export { CANVAS_EVENTS } from './components/fg-next-draw-canvas/model/canvas-events.constants';
 
 // Event System
-export { useEventBus, useEventListener } from './utils/event-system/use-event-bus.hook';
-export type { EventListener, EventSubscription, IEventBus } from './utils/event-system/event-bus.types';
+export { useFgnEventBus, useFgnEventListener } from './utils/fg-next-event-system/fgn-use-event-bus.hook';
+export type { FgnEventListener, FgnEventSubscription, IFgnEventBus } from './utils/fg-next-event-system/fgn-event-bus.types';
 
 // Utilities
 export { generateNodeId } from './utils/generate-node-id.util';

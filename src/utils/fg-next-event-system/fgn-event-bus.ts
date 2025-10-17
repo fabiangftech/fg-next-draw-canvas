@@ -1,11 +1,11 @@
-import { EventListener, EventSubscription, IEventBus } from './event-bus.types';
+import { FgnEventListener, FgnEventSubscription, IFgnEventBus } from './fgn-event-bus.types';
 
 /**
  * Simple EventBus implementation following the Observer pattern
  * Allows components to communicate without direct dependencies
  */
-export class EventBus implements IEventBus {
-  private listeners: Map<string, Set<EventListener>>;
+export class FgnEventBus implements IFgnEventBus {
+  private listeners: Map<string, Set<FgnEventListener>>;
 
   constructor() {
     this.listeners = new Map();
@@ -17,13 +17,13 @@ export class EventBus implements IEventBus {
    * @param listener - The callback function to execute when event is emitted
    * @returns EventSubscription object with unsubscribe method
    */
-  on<T>(eventName: string, listener: EventListener<T>): EventSubscription {
+  on<T>(eventName: string, listener: FgnEventListener<T>): FgnEventSubscription {
     if (!this.listeners.has(eventName)) {
       this.listeners.set(eventName, new Set());
     }
 
     const eventListeners = this.listeners.get(eventName)!;
-    eventListeners.add(listener as EventListener);
+    eventListeners.add(listener as FgnEventListener);
 
     return {
       unsubscribe: () => this.off(eventName, listener),
@@ -35,10 +35,10 @@ export class EventBus implements IEventBus {
    * @param eventName - The name of the event
    * @param listener - The callback function to remove
    */
-  off<T>(eventName: string, listener: EventListener<T>): void {
+  off<T>(eventName: string, listener: FgnEventListener<T>): void {
     const eventListeners = this.listeners.get(eventName);
     if (eventListeners) {
-      eventListeners.delete(listener as EventListener);
+      eventListeners.delete(listener as FgnEventListener);
       
       if (eventListeners.size === 0) {
         this.listeners.delete(eventName);
@@ -98,5 +98,4 @@ export class EventBus implements IEventBus {
 }
 
 // Singleton instance for global event bus
-export const globalEventBus = new EventBus();
-
+export const fgnGlobalEventBus = new FgnEventBus();

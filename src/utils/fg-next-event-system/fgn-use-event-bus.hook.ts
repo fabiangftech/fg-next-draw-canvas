@@ -1,12 +1,12 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { EventListener } from './event-bus.types';
-import { globalEventBus, EventBus } from './event-bus';
+import { FgnEventListener } from './fgn-event-bus.types';
+import { fgnGlobalEventBus, FgnEventBus } from './fgn-event-bus';
 
 /**
  * Custom React hook to interact with the EventBus
- * @param eventBus - Optional EventBus instance, defaults to globalEventBus
+ * @param eventBus - Optional EventBus instance, defaults to fgnGlobalEventBus
  */
-export const useEventBus = (eventBus: EventBus = globalEventBus) => {
+export const useFgnEventBus = (eventBus: FgnEventBus = fgnGlobalEventBus) => {
   const eventBusRef = useRef(eventBus);
 
   useEffect(() => {
@@ -17,14 +17,14 @@ export const useEventBus = (eventBus: EventBus = globalEventBus) => {
    * Subscribe to an event
    * The subscription will be automatically cleaned up when component unmounts
    */
-  const on = useCallback(<T>(eventName: string, listener: EventListener<T>) => {
+  const on = useCallback(<T>(eventName: string, listener: FgnEventListener<T>) => {
     return eventBusRef.current.on(eventName, listener);
   }, []);
 
   /**
    * Unsubscribe from an event
    */
-  const off = useCallback(<T>(eventName: string, listener: EventListener<T>) => {
+  const off = useCallback(<T>(eventName: string, listener: FgnEventListener<T>) => {
     eventBusRef.current.off(eventName, listener);
   }, []);
 
@@ -50,12 +50,12 @@ export const useEventBus = (eventBus: EventBus = globalEventBus) => {
  * Automatically handles subscription and cleanup
  * @param eventName - The name of the event to listen to
  * @param listener - The callback function to execute when event is emitted
- * @param eventBus - Optional EventBus instance, defaults to globalEventBus
+ * @param eventBus - Optional EventBus instance, defaults to fgnGlobalEventBus
  */
-export const useEventListener = <T>(
+export const useFgnEventListener = <T>(
   eventName: string,
-  listener: EventListener<T>,
-  eventBus: EventBus = globalEventBus
+  listener: FgnEventListener<T>,
+  eventBus: FgnEventBus = fgnGlobalEventBus
 ) => {
   const listenerRef = useRef(listener);
 
@@ -72,4 +72,3 @@ export const useEventListener = <T>(
     };
   }, [eventName, eventBus]);
 };
-
