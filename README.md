@@ -145,3 +145,41 @@ const customStatusStrategy: StatusStrategy = {
 // Apply to canvas
 <FgnDrawCanvasComponent statusStrategy={customStatusStrategy} />
 ```
+
+## Component API
+
+### FgnDrawCanvasComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `shouldShowNodeActions` | `(node: FgnNodeModel) => boolean` | - | Función que determina si mostrar las acciones de un nodo específico |
+| `getNodeDefaults` | `NodeFactoryFunction` | `defaultCreateNodeByCode` | Función para crear nodos por defecto basada en el código |
+| `nodeActions` | `FgnNodeAction[]` | `defaultNodeActions` | Array de acciones disponibles para los nodos |
+| `getNodeActions` | `(node: FgnNodeModel) => FgnNodeAction[]` | - | Función que retorna las acciones específicas para un nodo |
+| `statusStrategy` | `StatusStrategy` | `defaultStatusStrategy` | Estrategia para manejar los estilos de estado de los nodos |
+| `iconStrategy` | `IconStrategy` | `defaultIconStrategy` | Estrategia para renderizar iconos en los nodos |
+| `nodeSize` | `{ width: number; height: number }` | `{ width: 150, height: 75 }` | Tamaño por defecto de los nodos |
+| `maxVisibleActions` | `number` | `3` | Número máximo de acciones visibles en un nodo |
+| `canvasWidth` | `number` | `5000` | Ancho del canvas SVG |
+| `canvasHeight` | `number` | `5000` | Alto del canvas SVG |
+
+### FgnToolbarComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `items` | `FgnToolbarItem[]` | `defaultToolbarItems` | Array de elementos del toolbar |
+| `className` | `string` | `''` | Clase CSS adicional para el contenedor del toolbar |
+| `style` | `React.CSSProperties` | - | Estilos CSS inline para el contenedor del toolbar |
+| `iconStrategy` | `IconStrategy` | `defaultIconStrategy` | Estrategia para renderizar iconos en los elementos del toolbar |
+| `renderCustomItem` | `(item: FgnToolbarItem, defaultRenderer: (item: FgnToolbarItem) => React.ReactNode) => React.ReactNode` | - | Función personalizada para renderizar elementos del toolbar |
+
+### FgnZoomComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `className` | `string` | `''` | Clase CSS adicional para el contenedor del zoom |
+| `style` | `React.CSSProperties` | - | Estilos CSS inline para el contenedor del zoom |
+| `minZoom` | `number` | `0.1` | Nivel mínimo de zoom (10%) |
+| `maxZoom` | `number` | `5.0` | Nivel máximo de zoom (500%) |
+| `zoomStep` | `number` | `3.5` | Incremento/decremento del zoom para eventos de rueda |
+| `initialZoom` | `number` | `1.0` | Nivel inicial de zoom (100%) |
