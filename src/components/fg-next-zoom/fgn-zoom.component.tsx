@@ -16,10 +16,11 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
   className = '', 
   style,
   minZoom = 0.1,
-  maxZoom = 2.0,
-  zoomStep = 0.1,
+  maxZoom = 5.0,
+  zoomStep = 3.5,
   initialZoom = 1.0
 }) => {
+  const ZOOM_BUTTON_STEP = 0.25;
   const [zoomLevel, setZoomLevel] = useState(initialZoom);
   const { emit } = useEventBus();
 
@@ -32,7 +33,7 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
   useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
 
   const handleZoomIn = () => {
-    const newZoom = Math.min(zoomLevel + zoomStep, maxZoom);
+    const newZoom = Math.min(zoomLevel + ZOOM_BUTTON_STEP, maxZoom);
     setZoomLevel(newZoom);
     // Emit both events - regular zoom change and zoom with point
     emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
@@ -41,7 +42,7 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
   };
 
   const handleZoomOut = () => {
-    const newZoom = Math.max(zoomLevel - zoomStep, minZoom);
+    const newZoom = Math.max(zoomLevel - ZOOM_BUTTON_STEP, minZoom);
     setZoomLevel(newZoom);
     // Emit both events - regular zoom change and zoom with point
     emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
