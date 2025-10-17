@@ -48,7 +48,7 @@ export const createHandleDrop = (
       // Use factory function to get defaults, or use built-in default function
       const factoryFunction = getNodeDefaults || defaultCreateNodeByCode;
       const nodeDefaults = factoryFunction({
-        iconCode: nodeIconCode || undefined,
+        code: nodeIconCode || undefined,
         status: defaultStatus,
         ...itemData,
       });
@@ -66,8 +66,7 @@ export const createHandleDrop = (
         connectedFrom: [],
         bottomLeftLabel: '',
         ...nodeDefaults,
-        code: nodeIconCode || nodeDefaults.iconCode,
-        icon: nodeDefaults.icon,
+        code: nodeIconCode || nodeDefaults.code,
         color: nodeColor || nodeDefaults.color,
       };
 
