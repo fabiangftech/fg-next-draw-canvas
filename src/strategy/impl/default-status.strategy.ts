@@ -1,11 +1,6 @@
-import {FgnNodeStatusStyle} from '../components/fg-next-node/model/fgn-node-status-style.model';
-import {StatusStrategy} from '../components/shared/status-strategy.service';
+import {FgnNodeStatusStyle} from '../../components/fg-next-node/model/fgn-node-status-style.model';
+import {StatusStrategy} from '../status.strategy';
 
-/**
- * Default status strategy object for the system
- * This follows the Strategy pattern, allowing different implementations
- * for different styling approaches
- */
 export const defaultStatusStrategy: StatusStrategy = {
     defaultStatus: 'default',
     getStyle: (status: string): FgnNodeStatusStyle => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconStrategy } from '../../shared/icon-strategy.service';
+import { IconStrategy } from '../../../strategy/icon.strategy';
 
 /**
  * Interface for toolbar item configuration

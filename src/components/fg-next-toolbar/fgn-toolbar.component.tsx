@@ -2,13 +2,14 @@ import React from 'react';
 import './fgn-toolbar.component.css';
 import { FgnToolbarProps, FgnToolbarItem } from './model/fgn-toolbar-item.model';
 import { defaultToolbarItems } from '../../factory';
-import { IconStrategy } from '../shared/icon-strategy.service';
+import { IconStrategy } from '../../strategy/icon.strategy';
+import {defaultIconStrategy} from "../../strategy/impl/default-icon.strategy";
 
 const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({ 
   items = defaultToolbarItems, 
   className = '', 
   style,
-  iconStrategy,
+  iconStrategy = defaultIconStrategy,
   renderCustomItem 
 }) => {
   
@@ -36,7 +37,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     dragPreview.style.cursor = 'grabbing';
     
     // Create icon element (only icon, no text)
-    const iconToShow = iconStrategy ? iconStrategy(item.code) : null;
+    const iconToShow = iconStrategy ? iconStrategy.getIcon(item.code) : null;
     if (iconToShow) {
       const iconElement = document.createElement('div');
       iconElement.style.width = '32px';
@@ -85,7 +86,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     const itemClassName = `fgn-toolbar-item ${item.className || ''}`.trim();
     
     // Get icon from iconStrategy
-    const iconToRender = iconStrategy ? iconStrategy(item.code) : null;
+    const iconToRender = iconStrategy ? iconStrategy.getIcon(item.code) : null;
     
     // Use color directly from item
     const backgroundColor = item.color;

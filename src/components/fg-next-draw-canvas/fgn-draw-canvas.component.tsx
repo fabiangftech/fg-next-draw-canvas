@@ -17,13 +17,14 @@ import { createHandleNodesReplaced } from './handler/handle-nodes-replaced.handl
 import { createHandleNodeReplaced } from './handler/handle-node-replaced.handler';
 import { generateConnectionPath } from '../../utils/generate-connection-path.util';
 import { calculateNodesCenter } from '../../utils/calculate-nodes-center.util';
-import { 
-  defaultCreateNodeByCode, 
-  defaultStatusStrategy, 
-  defaultNodeActions 
+import {
+  defaultCreateNodeByCode,
+  defaultStatusStrategy,
+  defaultNodeActions
 } from '../../factory';
-import { IconStrategy } from '../shared/icon-strategy.service';
-import { StatusStrategy } from '../shared/status-strategy.service';
+import { defaultIconStrategy } from '../../strategy/impl/default-icon.strategy';
+import { IconStrategy } from '../../strategy/icon.strategy';
+import { StatusStrategy } from '../../strategy/status.strategy';
 import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {
@@ -42,13 +43,13 @@ interface FgnDrawCanvasProps {
   canvasHeight?: number;
 }
 
-const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({ 
+const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   shouldShowNodeActions,
   nodeActions = defaultNodeActions,
   getNodeActions,
   statusStrategy = defaultStatusStrategy,
-  iconStrategy,
-                                                                  nodeSize = { width: 150, height: 75 },
+  iconStrategy = defaultIconStrategy,
+  nodeSize = { width: 150, height: 75 },
   maxVisibleActions = 3,
   getNodeDefaults = defaultCreateNodeByCode,
   canvasWidth = 5000,
@@ -60,13 +61,13 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
     const [isPanning, setIsPanning] = useState(false);
     const [panStart, setPanStart] = useState({ x: 0, y: 0 });
-    
+
     // Zoom configuration state (received from FgnZoomComponent via events)
     const [minZoom, setMinZoom] = useState(0.1);
     const [maxZoom, setMaxZoom] = useState(2.0);
     const [zoomStep, setZoomStep] = useState(0.1);
     const [initialZoom, setInitialZoom] = useState(1.0);
-    
+
     const svgRef = useRef<SVGSVGElement | null>(null);
     const { emit } = useEventBus();
 
@@ -133,12 +134,12 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         if (isPanning) {
             const deltaX = e.clientX - panStart.x;
             const deltaY = e.clientY - panStart.y;
-            
+
             setPanOffset({
                 x: panOffset.x + deltaX,
                 y: panOffset.y + deltaY
             });
-            
+
             setPanStart({ x: e.clientX, y: e.clientY });
         }
     };
@@ -182,10 +183,10 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     // Listen for nodes replacement events
     useEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
     useEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
-    
+
     // Listen for zoom configuration updates from FgnZoomComponent
     useEventListener<{minZoom: number, maxZoom: number, zoomStep: number, initialZoom: number}>(
-        CANVAS_EVENTS.ZOOM_CONFIG_UPDATED, 
+        CANVAS_EVENTS.ZOOM_CONFIG_UPDATED,
         (config) => {
             setMinZoom(config.minZoom);
             setMaxZoom(config.maxZoom);
@@ -194,22 +195,22 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
             setZoomLevel(config.initialZoom);
         }
     );
-    
+
     // Listen for zoom changes
     useEventListener<number>(CANVAS_EVENTS.ZOOM_CHANGED, setZoomLevel);
-    
+
     // Listen for zoom with specific point
     useEventListener<{zoom: number, x: number, y: number}>(CANVAS_EVENTS.ZOOM_WITH_POINT, (data) => {
         const { zoom, x, y } = data;
-        
+
         // Calcular punto del mouse en coordenadas SVG antes del zoom
         const pointX = (x - panOffset.x) / zoomLevel;
         const pointY = (y - panOffset.y) / zoomLevel;
-        
+
         // Calcular nuevo pan para mantener el punto fijo
         const newPanX = x - pointX * zoom;
         const newPanY = y - pointY * zoom;
-        
+
         setPanOffset({ x: newPanX, y: newPanY });
         setZoomLevel(zoom);
     });
@@ -218,18 +219,18 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     useEventListener(CANVAS_EVENTS.ZOOM_RESET, () => {
         // Calculate center of all nodes
         const nodesCenter = calculateNodesCenter(nodes);
-        
+
         // Get viewport dimensions
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-        
+
         // Calculate pan offset to center the nodes in viewport
         const newPanX = viewportWidth / 2 - nodesCenter.x * initialZoom;
         const newPanY = viewportHeight / 2 - nodesCenter.y * initialZoom;
-        
+
         setPanOffset({ x: newPanX, y: newPanY });
         setZoomLevel(initialZoom);
-        
+
         // Emit zoom changed for sync
         emit(CANVAS_EVENTS.ZOOM_CHANGED, initialZoom);
     });
@@ -243,23 +244,23 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
             if (e.ctrlKey || e.metaKey) {
                 // Zoom with Ctrl+wheel (pinch on touchpad)
                 e.preventDefault();
-                
+
                 const rect = svgElement.getBoundingClientRect();
                 const mouseX = e.clientX - rect.left;
                 const mouseY = e.clientY - rect.top;
-                
+
                 // Use zoomStep with a multiplier based on wheel deltaY
                 const zoomDelta = -e.deltaY * 0.01 * zoomStep;
                 const newZoom = Math.min(Math.max(zoomLevel + zoomDelta, minZoom), maxZoom);
-                
+
                 // Calcular punto del mouse en coordenadas SVG antes del zoom
                 const pointX = (mouseX - panOffset.x) / zoomLevel;
                 const pointY = (mouseY - panOffset.y) / zoomLevel;
-                
+
                 // Calcular nuevo pan para mantener el punto fijo
                 const newPanX = mouseX - pointX * newZoom;
                 const newPanY = mouseY - pointY * newZoom;
-                
+
                 setPanOffset({ x: newPanX, y: newPanY });
                 setZoomLevel(newZoom);
                 emit(CANVAS_EVENTS.ZOOM_CHANGED, newZoom);
@@ -289,16 +290,16 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
             if (node.actions && node.actions.length > 0) {
                 return node;
             }
-            
+
             // Otherwise, try to get actions from props
             let actions: FgnNodeAction[] | undefined;
-            
+
             if (getNodeActions) {
                 actions = getNodeActions(node);
             } else if (nodeActions) {
                 actions = nodeActions;
             }
-            
+
             return actions ? { ...node, actions } : node;
         });
     }, [nodes, nodeActions, getNodeActions]);
@@ -322,9 +323,9 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                 {connections.map(connection => {
                     const sourceNode = nodes.find(n => n.id === connection.sourceNodeId);
                     const targetNode = nodes.find(n => n.id === connection.targetNodeId);
-                    
+
                     if (!sourceNode || !targetNode) return null;
-                    
+
                     return (
                         <FgnConnectionComponent
                             key={connection.id}

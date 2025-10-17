@@ -3,8 +3,8 @@ import { FgnNodeModel } from './model/fgn-node.model';
 import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import { FgnNodeAction } from './model/fgn-node-action.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
-import { IconStrategy } from '../shared/icon-strategy.service';
-import { StatusStrategy } from '../shared/status-strategy.service';
+import { IconStrategy } from '../../strategy/icon.strategy';
+import { StatusStrategy } from '../../strategy/status.strategy';
 import { defaultStatusStrategy } from '../../factory';
 import './fgn-node.component.css'
 
@@ -31,7 +31,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
   };
   
   // Get icon from iconStrategy
-  const iconToRender = iconStrategy ? iconStrategy(node.code) : null;
+  const iconToRender = iconStrategy ? iconStrategy.getIcon(node.code) : null;
   
   const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
     if (onConnectionPointMouseDown) {

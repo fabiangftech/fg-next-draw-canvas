@@ -27,16 +27,19 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Custom icon strategy using react-icons
-const customIconStrategy: IconStrategy = (code?: string) => {
-    switch (code) {
-        case 's3-bucket':
-            return React.createElement(BsBucket as any);
-        case 'msk-topic':
-            return React.createElement(SiApachekafka as any);
-        case 'flink-sql':
-            return React.createElement(SiApacheflink as any);
-        default:
-            return 'unknown';
+const customIconStrategy: IconStrategy = {
+    useLetters: false,
+    getIcon: (code?: string) => {
+        switch (code) {
+            case 's3-bucket':
+                return React.createElement(BsBucket as any);
+            case 'msk-topic':
+                return React.createElement(SiApachekafka as any);
+            case 'flink-sql':
+                return React.createElement(SiApacheflink as any);
+            default:
+                return undefined;
+        }
     }
 };
 
@@ -91,12 +94,9 @@ export const Default: Story = {
 
     render: (args) => (
         <div>
-            <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
-            <FgnDrawCanvasComponent maxVisibleActions={1}
-                                    nodeSize={{width: 180, height: 90}}
-                                    iconStrategy={customIconStrategy}
-                                    statusStrategy={customStatusStrategy}/>
-            <FgnZoomComponent zoomStep={2.5} maxZoom={10.0}/>
+            <FgnToolbarComponent/>
+            <FgnDrawCanvasComponent />
+            <FgnZoomComponent />
         </div>
     ),
     args: {},
