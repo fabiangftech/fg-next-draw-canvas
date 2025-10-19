@@ -184,6 +184,15 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     useFgnEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
     useFgnEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
 
+    // Listen for get node by ID requests
+    useFgnEventListener<{id: string, requestId: string}>(CANVAS_EVENTS.GET_NODE_BY_ID_REQUEST, (data) => {
+        const node = nodes.find(n => n.id === data.id);
+        emit<{node: NodeType | null, requestId: string}>(CANVAS_EVENTS.GET_NODE_BY_ID_RESPONSE, {
+            node: node || null,
+            requestId: data.requestId
+        });
+    });
+
     // Listen for zoom configuration updates from FgnZoomComponent
     useFgnEventListener<{minZoom: number, maxZoom: number, zoomStep: number, initialZoom: number}>(
         CANVAS_EVENTS.ZOOM_CONFIG_UPDATED,

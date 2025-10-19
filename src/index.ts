@@ -39,6 +39,7 @@ export { generateConnectionPath } from './utils/generate-connection-path.util';
 export { calculateConnectionPoints } from './utils/calculate-connection-points.util';
 export { calculateNodesCenter } from './utils/calculate-nodes-center.util';
 export { calculatePathMidpoint } from './utils/calculate-path-midpoint.util';
+export { getNodeById } from './utils/get-node-by-id.util';
 
 // Factories
 export { defaultToolbarItems } from './factory/default-toolbar-items.factory';
