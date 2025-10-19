@@ -68,6 +68,7 @@ export const createHandleDrop = (
         ...nodeDefaults,
         code: nodeIconCode || nodeDefaults.code,
         color: nodeColor || nodeDefaults.color,
+        properties:{}
       };
 
       setNodes([...nodes, newNode]);
