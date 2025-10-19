@@ -21,5 +21,6 @@ export interface FgnNodeModel {
   connectedFrom: string[];
   actions?: FgnNodeAction[];
   bottomLeftLabel: string;
+  properties: Record<string, any>;
 }
 
