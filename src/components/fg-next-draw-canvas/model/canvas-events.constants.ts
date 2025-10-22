@@ -12,6 +12,7 @@ export const CANVAS_EVENTS = {
   ZOOM_CONFIG_UPDATED: 'zoom:config-updated',
   GET_NODE_BY_ID_REQUEST: 'get-node-by-id:request',
   GET_NODE_BY_ID_RESPONSE: 'get-node-by-id:response',
+  NODE_ALIGNMENT_CHANGED: 'node:alignment-changed',
 } as const;
 
 export type CanvasEventType = typeof CANVAS_EVENTS[keyof typeof CANVAS_EVENTS];
