@@ -10,6 +10,7 @@ interface FgnZoomComponentProps {
   maxZoom?: number;        // Zoom máximo (default: 2.0 = 200%)
   zoomStep?: number;       // Incremento/decremento del zoom (default: 0.1 = 10%)
   initialZoom?: number;    // Zoom inicial (default: 1.0 = 100%)
+  alignment?: 'left' | 'center' | 'right';  // Alineación horizontal (default: 'right')
 }
 
 const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({ 
@@ -18,7 +19,8 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
   minZoom = 0.1,
   maxZoom = 5.0,
   zoomStep = 3.5,
-  initialZoom = 1.0
+  initialZoom = 1.0,
+  alignment = 'right'
 }) => {
   const ZOOM_BUTTON_STEP = 0.25;
   const [zoomLevel, setZoomLevel] = useState(initialZoom);
@@ -58,8 +60,11 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
 
   const zoomPercentage = Math.round(zoomLevel * 100);
 
+  // Generate alignment class
+  const alignmentClass = `fgn-zoom-${alignment}`;
+
   return (
-    <div className={`fgn-zoom ${className}`} style={style}>
+    <div className={`fgn-zoom ${alignmentClass} ${className}`} style={style}>
       <button
         className="fgn-zoom-button"
         onClick={handleZoomOut}

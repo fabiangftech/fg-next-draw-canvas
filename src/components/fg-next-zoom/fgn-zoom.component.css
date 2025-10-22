@@ -1,7 +1,6 @@
 .fgn-zoom {
   position: fixed;
   bottom: 1rem;
-  right: 1rem;
   z-index: 2;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
@@ -13,6 +12,20 @@
   align-items: center;
   gap: .2rem;
   user-select: none;
+}
+
+/* Alignment classes */
+.fgn-zoom-left {
+  left: 1rem;
+}
+
+.fgn-zoom-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.fgn-zoom-right {
+  right: 1rem;
 }
 
 .fgn-zoom-button {

@@ -26,8 +26,6 @@ import {
 import { defaultIconStrategy } from '../../strategy/impl/default-icon.strategy';
 import { IconStrategy } from '../../strategy/icon.strategy';
 import { StatusStrategy } from '../../strategy/status.strategy';
-import { FgnNodeAlignment } from './model/fgn-node-alignment.model';
-import { calculateNodeAlignmentOffsetWithTransform } from '../../utils/calculate-node-alignment.util';
 import './fgn-draw-canvas.component.css'
 
 interface FgnDrawCanvasProps {
@@ -44,7 +42,6 @@ interface FgnDrawCanvasProps {
   maxVisibleActions?: number;
   canvasWidth?: number;
   canvasHeight?: number;
-  nodeAlignment?: FgnNodeAlignment;
 }
 
 const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
@@ -57,8 +54,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
   maxVisibleActions = 3,
   getNodeDefaults = defaultCreateNodeByCode,
   canvasWidth = 5000,
-  canvasHeight = 5000,
-  nodeAlignment = 'center'
+  canvasHeight = 5000
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
@@ -66,7 +62,6 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
     const [isPanning, setIsPanning] = useState(false);
     const [panStart, setPanStart] = useState({ x: 0, y: 0 });
-    const [currentNodeAlignment, setCurrentNodeAlignment] = useState<FgnNodeAlignment>(nodeAlignment);
 
     // Zoom configuration state (received from FgnZoomComponent via events)
     const [minZoom, setMinZoom] = useState(0.1);
@@ -256,11 +251,6 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         emit(CANVAS_EVENTS.ZOOM_CHANGED, initialZoom);
     });
 
-    // Listen for node alignment changes
-    useFgnEventListener<FgnNodeAlignment>(CANVAS_EVENTS.NODE_ALIGNMENT_CHANGED, (newAlignment) => {
-        setCurrentNodeAlignment(newAlignment);
-    });
-
     // Wheel handler for zoom with Ctrl/Cmd key using native addEventListener
     useEffect(() => {
         const svgElement = svgRef.current;
@@ -330,22 +320,6 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         });
     }, [nodes, nodeActions, getNodeActions]);
 
-    // Calculate alignment offset
-    const alignmentOffset = useMemo(() => {
-        if (nodes.length === 0) return 0;
-        
-        return calculateNodeAlignmentOffsetWithTransform(
-            nodes,
-            {
-                alignment: currentNodeAlignment,
-                viewportWidth: window.innerWidth,
-                viewportHeight: window.innerHeight
-            },
-            zoomLevel,
-            panOffset
-        );
-    }, [nodes, currentNodeAlignment, zoomLevel, panOffset]);
-
     return (
         <div className={`fgn-canvas-container ${isPanning ? 'panning' : ''}`}>
             <svg
@@ -360,7 +334,7 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
                 onMouseUp={handleCanvasMouseUp}
                 onMouseLeave={handleCanvasMouseUp}
             >
-            <g transform={`translate(${panOffset.x + alignmentOffset}, ${panOffset.y}) scale(${zoomLevel})`}>
+            <g transform={`translate(${panOffset.x}, ${panOffset.y}) scale(${zoomLevel})`}>
                 {/* Render connections first (behind nodes) */}
                 {connections.map(connection => {
                     const sourceNode = nodes.find(n => n.id === connection.sourceNodeId);

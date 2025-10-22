@@ -22,9 +22,6 @@ export type { FgnNodeStatusStyle } from './components/fg-next-node/model/fgn-nod
 // Models and Types - Connection
 export type { FgnConnectionModel } from './components/fg-next-draw-canvas/model/fgn-connection.model';
 
-// Models and Types - Canvas
-export type { FgnNodeAlignment, FgnNodeAlignmentConfig } from './components/fg-next-draw-canvas/model/fgn-node-alignment.model';
-
 // Models and Types - Toolbar
 export type { FgnToolbarItem, FgnToolbarProps } from './components/fg-next-toolbar/model/fgn-toolbar-item.model';
 
@@ -43,7 +40,6 @@ export { calculateConnectionPoints } from './utils/calculate-connection-points.u
 export { calculateNodesCenter } from './utils/calculate-nodes-center.util';
 export { calculatePathMidpoint } from './utils/calculate-path-midpoint.util';
 export { getNodeById } from './utils/get-node-by-id.util';
-export { calculateNodeAlignmentOffset, calculateNodeAlignmentOffsetWithTransform } from './utils/calculate-node-alignment.util';
 
 // Factories
 export { defaultToolbarItems } from './factory/default-toolbar-items.factory';
