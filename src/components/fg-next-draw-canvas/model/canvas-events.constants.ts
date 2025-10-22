@@ -5,6 +5,7 @@ export const CANVAS_EVENTS = {
   CONNECTION_DELETED: 'connection:deleted',
   NODES_REPLACED: 'nodes:replaced',
   NODE_REPLACED: 'node:replaced',
+  CONNECTIONS_REPLACED: 'connections:replaced',
   ZOOM_CHANGED: 'zoom:changed',
   ZOOM_WITH_POINT: 'zoom:with-point',
   ZOOM_RESET: 'zoom:reset',

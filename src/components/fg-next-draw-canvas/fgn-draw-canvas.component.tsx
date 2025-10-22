@@ -15,6 +15,7 @@ import { useConnectionDelete } from './handler/handle-connection-delete.handler'
 import { handleDragOver } from './handler/handle-drag-over.handler';
 import { createHandleNodesReplaced } from './handler/handle-nodes-replaced.handler';
 import { createHandleNodeReplaced } from './handler/handle-node-replaced.handler';
+import { createHandleConnectionsReplaced } from './handler/handle-connections-replaced.handler';
 import { generateConnectionPath } from '../../utils/generate-connection-path.util';
 import { calculateNodesCenter } from '../../utils/calculate-nodes-center.util';
 import {
@@ -179,10 +180,16 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
     // Node replacement handlers
     const handleNodesReplaced = createHandleNodesReplaced(setNodes);
     const handleNodeReplaced = createHandleNodeReplaced(setNodes);
+    
+    // Connection replacement handler
+    const handleConnectionsReplaced = createHandleConnectionsReplaced(setConnections);
 
     // Listen for nodes replacement events
     useFgnEventListener<NodeType[]>(CANVAS_EVENTS.NODES_REPLACED, handleNodesReplaced);
     useFgnEventListener<NodeType>(CANVAS_EVENTS.NODE_REPLACED, handleNodeReplaced);
+    
+    // Listen for connections replacement events
+    useFgnEventListener<FgnConnectionModel[]>(CANVAS_EVENTS.CONNECTIONS_REPLACED, handleConnectionsReplaced);
 
     // Listen for get node by ID requests
     useFgnEventListener<{id: string, requestId: string}>(CANVAS_EVENTS.GET_NODE_BY_ID_REQUEST, (data) => {
