@@ -59,4 +59,82 @@
   --icon-color-secondary: #666;
   --icon-color-hover: #4A90E2;
   --icon-color-disabled: #ccc;
+
+  /* Background Colors */
+  --bg-color-white: #ffffff;
+  --bg-color-transparent: transparent;
+  --bg-color-canvas: #f7f8fa;
+  --bg-color-overlay: rgba(255, 255, 255, 0.85);
+  --bg-color-tooltip: rgba(0, 0, 0, 0.9);
+  --bg-color-dropdown: #ffffff;
+  --bg-color-dropdown-hover: #f5f5f5;
+  --bg-color-dropdown-active: #e0e0e0;
+
+  /* Border Colors */
+  --border-color-primary: rgba(46, 92, 138, 0.6);
+  --border-color-secondary: #ccc;
+  --border-color-hover: #4A90E2;
+  --border-color-disabled: #ccc;
+  --border-color-subtle: rgba(0, 0, 0, 0.1);
+  --border-color-overlay: rgba(255, 255, 255, 0.15);
+
+  /* Interactive Colors */
+  --interactive-color-hover: #4A90E2;
+  --interactive-color-active: #2E5C8A;
+  --interactive-color-error: #C0392B;
+
+  /* Spacing - Padding */
+  --padding-xs: 2px;
+  --padding-sm: 4px;
+  --padding-md: 6px;
+  --padding-lg: 8px;
+  --padding-xl: 10px;
+  --padding-2xl: 12px;
+
+  /* Spacing - Gap */
+  --gap-xs: 3px;
+  --gap-sm: 8px;
+
+  /* Spacing - Margin */
+  --margin-xs: 8px;
+  --margin-sm: 15px;
+
+  /* Border Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 12px;
+  --radius-3xl: 16px;
+  --radius-full: 50%;
+
+  /* Box Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.12);
+  --shadow-tooltip: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  /* Z-Index */
+  --z-index-base: 1;
+  --z-index-overlay: 2;
+  --z-index-dropdown: 1000;
+  --z-index-tooltip: 9999;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-cubic: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-ease-in-out: 0.2s ease-in-out;
+
+  /* Opacity */
+  --opacity-disabled: 0.4;
+  --opacity-hidden: 0;
+  --opacity-visible: 1;
+  --opacity-overlay: 0.85;
+  --opacity-overlay-light: 0.9;
+
+  /* Grid Colors */
+  --grid-color-light: rgba(0, 0, 0, 0.03);
+  --grid-color-dark: rgba(0, 0, 0, 0.08);
 }

@@ -6,29 +6,29 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-color-overlay);
   backdrop-filter: blur(8px);
-  border-radius: 16px;
-  padding: 8px 6px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-3xl);
+  padding: var(--padding-lg) var(--padding-md);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color-overlay);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--gap-sm);
 }
 
 .fgn-toolbar-item {
   position: relative;
   width: 2rem;
   height: 2rem;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
+  background: var(--bg-color-white);
+  border-radius: var(--radius-full);
   cursor: grab;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: var(--transition-cubic);
+  border: 1px solid var(--border-color-subtle);
 }
 
 .fgn-toolbar-item * {
@@ -37,8 +37,8 @@
 
 .fgn-toolbar-item:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  background: rgba(255, 255, 255, 1);
+  box-shadow: var(--shadow-hover);
+  background: var(--bg-color-white);
 }
 
 .fgn-toolbar-item:active {
@@ -71,18 +71,19 @@
   top: 50%;
   transform: translateY(-50%);
   margin-left: 15px;
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--bg-color-tooltip);
   color: var(--text-color-tooltip);
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: var(--padding-lg) var(--padding-2xl);
+  border-radius: var(--radius-xl);
+  font-family: var(--font-family-primary);
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: var(--transition-cubic);
+  z-index: var(--z-index-dropdown);
+  box-shadow: var(--shadow-tooltip);
 }
 
 .fgn-toolbar-tooltip::before {
@@ -92,7 +93,7 @@
   top: 50%;
   transform: translateY(-50%);
   border: 6px solid transparent;
-  border-right-color: rgba(0, 0, 0, 0.9);
+  border-right-color: var(--bg-color-tooltip);
 }
 
 .fgn-toolbar-item:hover .fgn-toolbar-tooltip {
@@ -105,6 +106,6 @@
 .fgn-toolbar-node-preview {
   width: 24px;
   height: 18px;
-  background-color: #4A90E2;
-  border-radius: 6px;
+  background-color: var(--interactive-color-hover);
+  border-radius: var(--radius-md);
 }

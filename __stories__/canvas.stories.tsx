@@ -124,7 +124,7 @@ const CanvasWithListeners: React.FC = () => {
             <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
             <FgnDrawCanvasComponent iconStrategy={customIconStrategy}
                                     statusStrategy={customStatusStrategy}/>
-            <FgnZoomComponent/>
+            <FgnZoomComponent alignment={"center"}/>
         </div>
     );
 };

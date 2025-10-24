@@ -1,3 +1,5 @@
+@import '../../styles/variables.css';
+
 .fgn-canvas-container {
     position: fixed;
     top: 0;
@@ -5,8 +7,8 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden; /* Changed from auto to hidden for manual pan */
-    background-color: #f7f8fa;
-    z-index: 1;
+    background-color: var(--bg-color-canvas);
+    z-index: var(--z-index-base);
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -24,14 +26,14 @@
 }
 
 .fgn-draw-canvas {
-    background-color: #f7f8fa;
+    background-color: var(--bg-color-canvas);
     background-image: 
         /* Líneas de cuadrícula pequeñas */
-        linear-gradient(rgba(0, 0, 0, 0.03) 0.5px, transparent 0.5px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 0.5px, transparent 0.5px),
+        linear-gradient(var(--grid-color-light) 0.5px, transparent 0.5px),
+        linear-gradient(90deg, var(--grid-color-light) 0.5px, transparent 0.5px),
         /* Líneas de cuadrícula grandes */
-        linear-gradient(rgba(0, 0, 0, 0.08) 0.5px, transparent 0.5px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0.5px, transparent 0.5px);
+        linear-gradient(var(--grid-color-dark) 0.5px, transparent 0.5px),
+        linear-gradient(90deg, var(--grid-color-dark) 0.5px, transparent 0.5px);
     background-size: 
         10px 10px,
         10px 10px,

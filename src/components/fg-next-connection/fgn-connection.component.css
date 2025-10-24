@@ -1,17 +1,19 @@
+@import '../../styles/variables.css';
+
 .fgn-connection {
   pointer-events: all;
 }
 
 .connection-path {
-  transition: stroke 0.2s ease-in-out;
+  transition: stroke var(--transition-ease-in-out);
 }
 
 .delete-button {
-  transition: all 0.2s ease-in-out;
+  transition: all var(--transition-ease-in-out);
 }
 
 .delete-button:hover {
-  fill: #C0392B;
+  fill: var(--interactive-color-error);
   r: 14;
 }
 
