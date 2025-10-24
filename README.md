@@ -1,3 +1,15 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
+
 # fg-next-draw-canvas
 
 ## Installation
