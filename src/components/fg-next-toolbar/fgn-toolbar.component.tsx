@@ -33,7 +33,6 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     dragPreview.style.position = 'absolute';
     dragPreview.style.top = '-1000px';
     dragPreview.style.left = '-1000px';
-    dragPreview.style.fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     dragPreview.style.cursor = 'grabbing';
     
     // Create icon element (only icon, no text)
