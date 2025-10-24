@@ -1,0 +1,62 @@
+/* CSS Variables System for fg-next-draw-canvas */
+
+/* Typography Variables */
+:root {
+  /* Font Families */
+  --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --font-family-secondary: 'Helvetica Neue', Arial, sans-serif;
+  --font-family-monospace: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+
+  /* Font Sizes */
+  --font-size-xs: 8px;
+  --font-size-sm: 10px;
+  --font-size-base: 11px;
+  --font-size-md: 12px;
+  --font-size-lg: 14px;
+  --font-size-xl: 16px;
+  --font-size-2xl: 20px;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+
+  /* Text Colors */
+  --text-color-primary: #333;
+  --text-color-secondary: #666;
+  --text-color-muted: #999;
+  --text-color-white: #ffffff;
+  --text-color-inverse: #ffffff;
+
+  /* Interactive Text Colors */
+  --text-color-hover: #4A90E2;
+  --text-color-active: #2E5C8A;
+  --text-color-disabled: #ccc;
+
+  /* Status Text Colors */
+  --text-color-success: #27AE60;
+  --text-color-warning: #F39C12;
+  --text-color-error: #E74C3C;
+  --text-color-info: #3498DB;
+
+  /* Background Text Colors (for tooltips, badges, etc.) */
+  --text-color-tooltip: #ffffff;
+  --text-color-badge: #ffffff;
+  --text-color-overlay: #ffffff;
+
+  /* Icon Colors */
+  --icon-color-primary: #333;
+  --icon-color-secondary: #666;
+  --icon-color-hover: #4A90E2;
+  --icon-color-disabled: #ccc;
+}

@@ -1,3 +1,5 @@
+@import '../../styles/variables.css';
+
 .fgn-toolbar {
   position: fixed;
   left: 20px;
@@ -45,7 +47,7 @@
 }
 
 .fgn-toolbar-item-icon {
-  font-size: 20px;
+  font-size: var(--font-size-2xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,11 +72,11 @@
   transform: translateY(-50%);
   margin-left: 15px;
   background: rgba(0, 0, 0, 0.9);
-  color: white;
+  color: var(--text-color-tooltip);
   padding: 8px 12px;
   border-radius: 8px;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;

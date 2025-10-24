@@ -1,3 +1,5 @@
+@import '../../styles/variables.css';
+
 .node-actions {
   display: flex;
   flex-direction: row;
@@ -22,7 +24,7 @@
   border-radius: 2px;
   background: rgba(255, 255, 255, 1);
   cursor: pointer;
-  font-size: 11px;
+  font-size: var(--font-size-base);
   transition: all 0.2s ease;
   pointer-events: auto;
   box-sizing: border-box;
@@ -31,7 +33,7 @@
 .node-action-button svg {
   width: 14px;
   height: 14px;
-  color: #333;
+  color: var(--icon-color-primary);
 }
 
 .node-action-button::before {
@@ -42,11 +44,11 @@
   transform: translateX(-50%);
   margin-top: 8px;
   background: rgba(0, 0, 0, 0.9);
-  color: white;
+  color: var(--text-color-tooltip);
   padding: 6px 10px;
   border-radius: 6px;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -96,9 +98,9 @@
 
 /* Dropdown specific styles */
 .fgn-node-action-dropdown {
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 1;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
 }
 
 .fgn-node-action-dropdown svg {
@@ -162,9 +164,9 @@
 
 /* Label text */
 .fgn-node-label-text {
-  color: #333;
-  font-size: 14px;
-  font-weight: normal;
+  color: var(--text-color-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
   pointer-events: none;
   white-space: nowrap;
   overflow: hidden;
@@ -185,8 +187,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 8px;
-  font-weight: bold;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   pointer-events: none;
   padding: 1px 3px;
@@ -194,8 +196,8 @@
 
 /* Bottom left label */
 .fgn-node-bottom-label {
-  font-size: 10px;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--text-color-secondary);
   pointer-events: none;
   white-space: nowrap;
   overflow: hidden;
@@ -236,7 +238,7 @@
   background-color: transparent;
   text-align: left;
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--font-size-md);
   display: flex;
   align-items: center;
   gap: 8px;
