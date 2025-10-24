@@ -28,20 +28,26 @@ const meta: Meta<typeof FgnDrawCanvasComponent> = {
 
 const customNodeActions: FgnNodeAction[] = [
     {
-        id: 'Edit',
-        label: React.createElement(TbEdit as any),
-        onClick(nodeId: string) {
-            // too nothing
-        },
-        order: 2
-    },
-    {
         id: 'Delete',
         label: React.createElement(TbTrash as any),
         onClick(nodeId: string) {
-            // too nothing
+            // do nothing
         },
         order: 1,
+        borderColor: 'red',
+        iconColor: 'red',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Edit',
+        label: React.createElement(TbEdit as any),
+        onClick(nodeId: string) {
+            // do nothing
+        },
+        order: 2,
+        borderColor: 'blue',
+        iconColor: 'blue',
+        backgroundColor: '#ffffff'
     }
 ];
 

@@ -34,7 +34,7 @@
 .node-action-button svg {
   width: 14px;
   height: 14px;
-  color: var(--icon-color-primary);
+  color: inherit;
 }
 
 .node-action-button::before {
@@ -80,13 +80,8 @@
 
 .node-action-button:hover:not(:disabled) {
   background: var(--bg-color-white);
-  border-color: var(--border-color-hover);
   transform: scale(1.1);
   box-shadow: var(--shadow-sm);
-}
-
-.node-action-button:hover:not(:disabled) svg {
-  color: var(--interactive-color-hover);
 }
 
 .node-action-button:active:not(:disabled) {

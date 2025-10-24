@@ -202,6 +202,11 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                 disabled={isActionDisabled(action)}
                 data-tooltip={action.id}
                 title=""
+                style={{
+                  borderColor: action.borderColor,
+                  backgroundColor: action.backgroundColor,
+                  color: action.iconColor,
+                }}
               >
                 {action.label}
               </button>

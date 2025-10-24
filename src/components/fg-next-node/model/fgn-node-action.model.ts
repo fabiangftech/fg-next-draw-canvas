@@ -9,5 +9,8 @@ export interface FgnNodeAction {
   disabled?: boolean;
   isDisabled?: (node: FgnNodeModel) => boolean;
   order?: number;
+  borderColor?: string;
+  iconColor?: string;
+  backgroundColor?: string;
 }
 
