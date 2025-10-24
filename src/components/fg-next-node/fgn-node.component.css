@@ -106,10 +106,6 @@
   height: 12px;
 }
 
-.fgn-node-dropdown-menu {
-  animation: fadeIn 0.2s ease-in-out;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

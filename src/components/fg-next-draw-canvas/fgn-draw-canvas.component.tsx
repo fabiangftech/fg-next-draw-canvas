@@ -1,7 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { FgnNodeModel as NodeType } from '../fg-next-node/model/fgn-node.model';
 import { FgnNodeAction } from '../fg-next-node/model/fgn-node-action.model';
-import { FgnNodeStatusStyle } from '../fg-next-node/model/fgn-node-status-style.model';
 import { NodeFactoryFunction } from '../fg-next-node/model/fgn-node-factory.model';
 import { FgnConnectionModel } from './model/fgn-connection.model';
 import FgnNodeComponent from '../fg-next-node/fgn-node.component';
