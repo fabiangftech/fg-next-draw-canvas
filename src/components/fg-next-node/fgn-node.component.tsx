@@ -238,6 +238,9 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
                         }}
                         onMouseDown={(e) => e.stopPropagation()}
                         disabled={isActionDisabled(action)}
+                        style={{
+                          color: action.iconColor
+                        }}
                       >
                         {action.label} {action.id}
                       </button>

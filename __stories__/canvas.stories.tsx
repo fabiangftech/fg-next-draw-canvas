@@ -11,6 +11,8 @@ import type {IconStrategy, StatusStrategy} from '../src';
 import {SiApacheflink, SiApachekafka} from "react-icons/si";
 import {BsBucket} from "react-icons/bs";
 import {TbEdit, TbTrash} from "react-icons/tb";
+import {IoRocketSharp} from "react-icons/io5";
+import {FaPlay} from "react-icons/fa";
 
 const meta: Meta<typeof FgnDrawCanvasComponent> = {
     title: 'Canvas/Interactive Canvas',
@@ -47,6 +49,27 @@ const customNodeActions: FgnNodeAction[] = [
         order: 2,
         borderColor: 'blue',
         iconColor: 'blue',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Deploy',
+        label: React.createElement(IoRocketSharp as any),
+        onClick(nodeId: string) {
+            // do nothing
+        },
+        order: 3,
+        borderColor: 'black',
+        iconColor: 'black',
+        backgroundColor: '#ffffff'
+    }, {
+        id: 'Start',
+        label: React.createElement(FaPlay as any),
+        onClick(nodeId: string) {
+            // do nothing
+        },
+        order: 4,
+        borderColor: 'green',
+        iconColor: 'green',
         backgroundColor: '#ffffff'
     }
 ];
@@ -150,7 +173,8 @@ const CanvasWithListeners: React.FC = () => {
             <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
             <FgnDrawCanvasComponent iconStrategy={customIconStrategy}
                                     statusStrategy={customStatusStrategy}
-                                    nodeActions={customNodeActions}/>
+                                    nodeActions={customNodeActions}
+                                    maxVisibleActions={4}/>
             <FgnZoomComponent alignment={"center"}/>
         </div>
     );
