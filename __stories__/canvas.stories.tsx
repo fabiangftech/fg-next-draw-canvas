@@ -5,11 +5,12 @@ import {
     FgnToolbarComponent, FgnToolbarItem,
     FgnZoomComponent,
     useFgnEventListener,
-    CANVAS_EVENTS,
+    CANVAS_EVENTS, FgnNodeAction,
 } from '../src';
 import type {IconStrategy, StatusStrategy} from '../src';
 import {SiApacheflink, SiApachekafka} from "react-icons/si";
 import {BsBucket} from "react-icons/bs";
+import {TbEdit} from "react-icons/tb";
 
 const meta: Meta<typeof FgnDrawCanvasComponent> = {
     title: 'Canvas/Interactive Canvas',
@@ -24,6 +25,16 @@ const meta: Meta<typeof FgnDrawCanvasComponent> = {
     },
     argTypes: {},
 };
+
+const customNodeActions: FgnNodeAction[] = [
+    {
+        id: 'Edit',
+        label:  React.createElement(TbEdit as any),
+        onClick(nodeId: string) {
+            // too nothing
+        }
+    }
+];
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -123,13 +134,14 @@ const CanvasWithListeners: React.FC = () => {
         <div>
             <FgnToolbarComponent items={items} iconStrategy={customIconStrategy}/>
             <FgnDrawCanvasComponent iconStrategy={customIconStrategy}
-                                    statusStrategy={customStatusStrategy}/>
+                                    statusStrategy={customStatusStrategy}
+                                    nodeActions={customNodeActions}/>
             <FgnZoomComponent alignment={"center"}/>
         </div>
     );
 };
 
 export const Default: Story = {
-    render: (args) => <CanvasWithListeners />,
+    render: (args) => <CanvasWithListeners/>,
     args: {},
 };
