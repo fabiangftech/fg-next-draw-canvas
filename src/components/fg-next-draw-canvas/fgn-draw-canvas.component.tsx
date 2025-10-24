@@ -20,13 +20,13 @@ import { generateConnectionPath } from '../../utils/generate-connection-path.uti
 import { calculateNodesCenter } from '../../utils/calculate-nodes-center.util';
 import {
   defaultCreateNodeByCode,
-  defaultStatusStrategy,
   defaultNodeActions
 } from '../../factory';
 import { defaultIconStrategy } from '../../strategy/impl/default-icon.strategy';
 import { IconStrategy } from '../../strategy/icon.strategy';
 import { StatusStrategy } from '../../strategy/status.strategy';
 import './fgn-draw-canvas.component.css'
+import {defaultStatusStrategy} from "../../strategy/impl/default-status.strategy";
 
 interface FgnDrawCanvasProps {
   shouldShowNodeActions?: (node: NodeType) => boolean;

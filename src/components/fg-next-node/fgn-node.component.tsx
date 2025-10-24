@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { FgnNodeModel } from './model/fgn-node.model';
-import { FgnNodeStatusStyle } from './model/fgn-node-status-style.model';
 import { FgnNodeAction } from './model/fgn-node-action.model';
 import { NodeActionGroupingService, FgnNodeActionsGroup } from './model/fgn-node-actions-group.model';
 import { IconStrategy } from '../../strategy/icon.strategy';
 import { StatusStrategy } from '../../strategy/status.strategy';
-import { defaultStatusStrategy } from '../../factory';
 import './fgn-node.component.css'
+import {defaultStatusStrategy} from "../../strategy/impl/default-status.strategy";
 
 interface NodeProps {
   node: FgnNodeModel;
