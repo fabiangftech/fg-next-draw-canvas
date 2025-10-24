@@ -10,7 +10,7 @@ import {
 import type {IconStrategy, StatusStrategy} from '../src';
 import {SiApacheflink, SiApachekafka} from "react-icons/si";
 import {BsBucket} from "react-icons/bs";
-import {TbEdit} from "react-icons/tb";
+import {TbEdit, TbTrash} from "react-icons/tb";
 
 const meta: Meta<typeof FgnDrawCanvasComponent> = {
     title: 'Canvas/Interactive Canvas',
@@ -29,10 +29,19 @@ const meta: Meta<typeof FgnDrawCanvasComponent> = {
 const customNodeActions: FgnNodeAction[] = [
     {
         id: 'Edit',
-        label:  React.createElement(TbEdit as any),
+        label: React.createElement(TbEdit as any),
         onClick(nodeId: string) {
             // too nothing
-        }
+        },
+        order: 2
+    },
+    {
+        id: 'Delete',
+        label: React.createElement(TbTrash as any),
+        onClick(nodeId: string) {
+            // too nothing
+        },
+        order: 1,
     }
 ];
 
