@@ -7,7 +7,7 @@ describe('generateConnectionId', () => {
 
     // Assert
     expect(typeof id).toBe('string');
-    expect(id).toMatch(/^connection_\d+_[a-z0-9]+$/);
+    expect(id).toMatch(/^connection_\d+_\d+$/);
   });
 
   it('should generate different IDs on consecutive calls', () => {
@@ -30,7 +30,7 @@ describe('generateConnectionId', () => {
     expect(Number(timestampPart)).toBeGreaterThan(timestamp - 1000);
   });
 
-  it('should include random string part', () => {
+  it('should include counter part', () => {
     // Act
     const id = generateConnectionId();
 
@@ -38,7 +38,7 @@ describe('generateConnectionId', () => {
     const parts = id.split('_');
     expect(parts).toHaveLength(3);
     expect(parts[0]).toBe('connection');
-    expect(parts[2]).toMatch(/^[a-z0-9]+$/);
+    expect(parts[2]).toMatch(/^\d+$/);
     expect(parts[2].length).toBeGreaterThan(0);
   });
 });
