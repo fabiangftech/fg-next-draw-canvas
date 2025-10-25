@@ -7,14 +7,14 @@ export const createHandleNodeReplaced = (
   return (updatedNode: FgnNodeModel) => {
     setNodes(prevNodes => {
       const nodeIndex = prevNodes.findIndex(node => node.id === updatedNode.id);
-      if (nodeIndex !== -1) {
+      if (nodeIndex === -1) {
+        // Add new node if not found
+        return [...prevNodes, updatedNode];
+      } else {
         // Replace existing node
         const newNodes = [...prevNodes];
         newNodes[nodeIndex] = updatedNode;
         return newNodes;
-      } else {
-        // Add new node if not found
-        return [...prevNodes, updatedNode];
       }
     });
   };

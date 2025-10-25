@@ -10,17 +10,30 @@ export interface ConnectionPreview {
 
 const DEFAULT_PAN_OFFSET = { x: 0, y: 0 };
 
-export const useConnectionDrag = (
-  nodes: FgnNodeModel[],
-  setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>,
-  connections: FgnConnectionModel[],
-  setConnections: React.Dispatch<React.SetStateAction<FgnConnectionModel[]>>,
-  svgRef: RefObject<SVGSVGElement | null>,
-  emit: <T>(eventName: string, data: T) => void,
-  CONNECTION_CREATED_EVENT: string,
-  zoomLevel: number = 1.0,
-  panOffset: { x: number, y: number } = DEFAULT_PAN_OFFSET
-) => {
+export interface UseConnectionDragConfig {
+  nodes: FgnNodeModel[];
+  setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>;
+  connections: FgnConnectionModel[];
+  setConnections: React.Dispatch<React.SetStateAction<FgnConnectionModel[]>>;
+  svgRef: RefObject<SVGSVGElement | null>;
+  emit: <T>(eventName: string, data: T) => void;
+  CONNECTION_CREATED_EVENT: string;
+  zoomLevel?: number;
+  panOffset?: { x: number, y: number };
+}
+
+export const useConnectionDrag = (config: UseConnectionDragConfig) => {
+  const {
+    nodes,
+    setNodes,
+    connections,
+    setConnections,
+    svgRef,
+    emit,
+    CONNECTION_CREATED_EVENT,
+    zoomLevel = 1,
+    panOffset = DEFAULT_PAN_OFFSET
+  } = config;
   const [connectionPreview, setConnectionPreview] = useState<ConnectionPreview | null>(null);
   const [draggingFromNode, setDraggingFromNode] = useState<string | null>(null);
 

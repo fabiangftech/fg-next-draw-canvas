@@ -88,17 +88,17 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         handleConnectionPointMouseDown,
         handleConnectionMouseMove,
         handleConnectionMouseUp
-    } = useConnectionDrag(
+    } = useConnectionDrag({
         nodes,
         setNodes,
         connections,
         setConnections,
         svgRef,
         emit,
-        CANVAS_EVENTS.CONNECTION_CREATED,
+        CONNECTION_CREATED_EVENT: CANVAS_EVENTS.CONNECTION_CREATED,
         zoomLevel,
         panOffset
-    );
+    });
 
     // Connection delete handler
     const { handleConnectionDelete } = useConnectionDelete(

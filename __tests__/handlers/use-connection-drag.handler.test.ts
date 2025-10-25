@@ -47,15 +47,15 @@ describe('useConnectionDrag', () => {
   it('should initiate preview on mouseDown from right point', () => {
     // Arrange
     const { result } = renderHook(() =>
-      useConnectionDrag(
-        mockNodes,
-        mockSetNodes,
-        mockConnections,
-        mockSetConnections,
-        mockSvgRef,
-        mockEmit,
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
         CONNECTION_CREATED_EVENT
-      )
+      })
     );
 
     const mockEvent = {
@@ -80,15 +80,15 @@ describe('useConnectionDrag', () => {
   it('should not initiate preview from left point', () => {
     // Arrange
     const { result } = renderHook(() =>
-      useConnectionDrag(
-        mockNodes,
-        mockSetNodes,
-        mockConnections,
-        mockSetConnections,
-        mockSvgRef,
-        mockEmit,
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
         CONNECTION_CREATED_EVENT
-      )
+      })
     );
 
     const mockEvent = {
@@ -109,15 +109,15 @@ describe('useConnectionDrag', () => {
   it('should update preview on mouseMove', () => {
     // Arrange
     const { result } = renderHook(() =>
-      useConnectionDrag(
-        mockNodes,
-        mockSetNodes,
-        mockConnections,
-        mockSetConnections,
-        mockSvgRef,
-        mockEmit,
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
         CONNECTION_CREATED_EVENT
-      )
+      })
     );
 
     // First, initiate preview
@@ -151,15 +151,15 @@ describe('useConnectionDrag', () => {
   it('should create connection on valid mouseUp', () => {
     // Arrange
     const { result } = renderHook(() =>
-      useConnectionDrag(
-        mockNodes,
-        mockSetNodes,
-        mockConnections,
-        mockSetConnections,
-        mockSvgRef,
-        mockEmit,
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
         CONNECTION_CREATED_EVENT
-      )
+      })
     );
 
     // First, initiate preview
@@ -200,15 +200,15 @@ describe('useConnectionDrag', () => {
     ];
 
     const { result } = renderHook(() =>
-      useConnectionDrag(
-        mockNodes,
-        mockSetNodes,
-        existingConnections,
-        mockSetConnections,
-        mockSvgRef,
-        mockEmit,
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: existingConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
         CONNECTION_CREATED_EVENT
-      )
+      })
     );
 
     // First, initiate preview
@@ -245,15 +245,15 @@ describe('useConnectionDrag', () => {
   it('should reset preview state on mouseUp', () => {
     // Arrange
     const { result } = renderHook(() =>
-      useConnectionDrag(
-        mockNodes,
-        mockSetNodes,
-        mockConnections,
-        mockSetConnections,
-        mockSvgRef,
-        mockEmit,
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
         CONNECTION_CREATED_EVENT
-      )
+      })
     );
 
     // First, initiate preview

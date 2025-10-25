@@ -81,11 +81,14 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
     : { visibleActions: [], dropdownActions: [], hasDropdown: false };
 
   // Get status style
-  const statusStyle = node.status && statusStrategy 
-    ? statusStrategy.getStyle(node.status) 
-    : node.status 
-      ? defaultStatusStrategy.getStyle(node.status)
-      : null;
+  const getNodeStatusStyle = (status: string | undefined) => {
+    if (!status) return null;
+    return statusStrategy 
+      ? statusStrategy.getStyle(status) 
+      : defaultStatusStrategy.getStyle(status);
+  };
+  
+  const statusStyle = getNodeStatusStyle(node.status);
 
   return (
     <g
@@ -210,8 +213,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
           height="60"
         >
           <div 
-            className="node-actions fgn-node-actions-wrapper" 
-            onMouseDown={(e) => e.stopPropagation()}
+            className="node-actions fgn-node-actions-wrapper"
           >
             {/* Visible actions */}
             {actionsGroup.visibleActions.map((action) => (

@@ -2,7 +2,6 @@ import React from 'react';
 import './fgn-toolbar.component.css';
 import { FgnToolbarProps, FgnToolbarItem } from './model/fgn-toolbar-item.model';
 import { defaultToolbarItems } from '../../factory';
-import { IconStrategy } from '../../strategy/icon.strategy';
 import {defaultIconStrategy} from "../../strategy/impl/default-icon.strategy";
 
 const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({ 
@@ -56,7 +55,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     // Clean up the drag preview after a short delay
     setTimeout(() => {
       if (document.body.contains(dragPreview)) {
-        document.body.removeChild(dragPreview);
+        dragPreview.remove();
       }
     }, 0);
 
@@ -102,7 +101,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     const tooltipText = item.tooltip ?? item.label;
     
     return (
-      <div
+      <button
         key={item.id}
         draggable
         onDragStart={(e) => handleDragStart(e, item)}
@@ -110,8 +109,6 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
         onKeyDown={(e) => handleKeyDown(e, item)}
         className={itemClassName}
         style={itemStyle}
-        role="button"
-        tabIndex={0}
         aria-label={tooltipText}
       >
         {iconToRender && (
@@ -125,7 +122,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
             {tooltipText}
           </div>
         )}
-      </div>
+      </button>
     );
   };
 

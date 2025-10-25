@@ -10,7 +10,7 @@ export const useNodeDrag = (
   svgRef: React.RefObject<SVGSVGElement | null>,
   emit: <T>(eventName: string, data: T) => void,
   eventName: string,
-  zoomLevel: number = 1.0,
+  zoomLevel: number = 1,
   panOffset: { x: number, y: number } = DEFAULT_PAN_OFFSET
 ) => {
   const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
