@@ -218,7 +218,9 @@ describe('useConnectionDrag', () => {
       clientX: 250,
       clientY: 87.5
     } as unknown as React.MouseEvent;
-    result.current.handleConnectionPointMouseDown(mouseDownEvent, 'node-1', 'right');
+    act(() => {
+      result.current.handleConnectionPointMouseDown(mouseDownEvent, 'node-1', 'right');
+    });
 
     // Then release on left point
     const mouseUpEvent = {
@@ -232,7 +234,9 @@ describe('useConnectionDrag', () => {
     } as unknown as React.MouseEvent;
 
     // Act
-    result.current.handleConnectionMouseUp(mouseUpEvent);
+    act(() => {
+      result.current.handleConnectionMouseUp(mouseUpEvent);
+    });
 
     // Assert
     expect(mockSetConnections).not.toHaveBeenCalled();

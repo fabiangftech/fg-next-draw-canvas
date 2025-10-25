@@ -74,4 +74,32 @@ describe('defaultNodeActions', () => {
     // Assert
     expect(isDisabled).toBe(true);
   });
+
+  it('should execute Delete action onClick', () => {
+    // Arrange
+    const deleteAction = defaultNodeActions[1];
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
+
+    // Act
+    deleteAction.onClick('test-node-delete');
+
+    // Assert
+    expect(alertSpy).toHaveBeenCalledWith("'Delete node:', test-node-delete");
+    
+    alertSpy.mockRestore();
+  });
+
+  it('should execute Settings action onClick', () => {
+    // Arrange
+    const settingsAction = defaultNodeActions[2];
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
+
+    // Act
+    settingsAction.onClick('test-node-settings');
+
+    // Assert
+    expect(alertSpy).toHaveBeenCalledWith("'Settings node:', test-node-settings");
+    
+    alertSpy.mockRestore();
+  });
 });
