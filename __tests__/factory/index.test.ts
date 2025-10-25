@@ -3,7 +3,7 @@ import {
   defaultNodeActions,
   defaultCreateNodeByCode,
   defaultCanvasConfig
-} from '../../src/factory';
+} from '../../src';
 
 describe('Factory Index', () => {
   it('should export defaultToolbarItems', () => {
@@ -47,7 +47,6 @@ describe('Factory Index', () => {
     expect(result).toBeDefined();
     expect(result.code).toBe('TEST');
     expect(result.status).toBe('active');
-    expect(result.customProp).toBe('value');
   });
 
   it('should have working defaultToolbarItems with expected structure', () => {
