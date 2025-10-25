@@ -65,8 +65,8 @@ export const useConnectionDrag = (
 
       // Check if released on a left connection point
       const target = e.target as SVGElement;
-      const targetNodeId = target.getAttribute('data-node-id');
-      const targetPointType = target.getAttribute('data-connection-type');
+      const targetNodeId = target.dataset.nodeId;
+      const targetPointType = target.dataset.connectionType;
 
       if (targetNodeId && targetPointType === 'left' && targetNodeId !== draggingFromNode) {
         // Check if connection already exists
