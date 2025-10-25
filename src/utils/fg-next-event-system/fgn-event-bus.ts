@@ -5,7 +5,7 @@ import { FgnEventListener, FgnEventSubscription, IFgnEventBus } from './fgn-even
  * Allows components to communicate without direct dependencies
  */
 export class FgnEventBus implements IFgnEventBus {
-  private listeners: Map<string, Set<FgnEventListener>>;
+  private readonly listeners: Map<string, Set<FgnEventListener>>;
 
   constructor() {
     this.listeners = new Map();

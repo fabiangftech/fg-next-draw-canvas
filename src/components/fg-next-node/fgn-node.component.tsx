@@ -102,7 +102,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
             <div
               className="fgn-node-icon-wrapper"
               style={{
-                color: node.color || '#000000'
+                color: node.color ?? '#000000'
               }}
             >
               {iconToRender}
@@ -196,7 +196,7 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
             {actionsGroup.visibleActions.map((action) => (
               <button
                 key={action.id}
-                className={`node-action-button ${action.className || ''}`}
+                className={`node-action-button ${action.className ?? ''}`}
                 onClick={(e) => handleActionClick(e, action.onClick)}
                 onMouseDown={(e) => e.stopPropagation()}
                 disabled={isActionDisabled(action)}

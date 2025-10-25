@@ -25,7 +25,7 @@ interface GetNodeByIdResponse {
  */
 export const getNodeById = (id: string): Promise<FgnNodeModel | null> => {
   return new Promise((resolve, reject) => {
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const requestId = `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     
     // Set up timeout to avoid hanging promises
     const timeout = setTimeout(() => {

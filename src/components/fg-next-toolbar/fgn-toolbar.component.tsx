@@ -36,7 +36,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     dragPreview.style.cursor = 'grabbing';
     
     // Create icon element (only icon, no text)
-    const iconToShow = iconStrategy ? iconStrategy.getIcon(item.code || item.id) : null;
+    const iconToShow = iconStrategy ? iconStrategy.getIcon(item.code ?? item.id) : null;
     if (iconToShow) {
       const iconElement = document.createElement('div');
       iconElement.style.width = '32px';
@@ -44,7 +44,7 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
       iconElement.style.display = 'flex';
       iconElement.style.alignItems = 'center';
       iconElement.style.justifyContent = 'center';
-      iconElement.style.color = backgroundColor || '#4A90E2';
+      iconElement.style.color = backgroundColor ?? '#4A90E2';
       dragPreview.appendChild(iconElement);
     }
     
@@ -82,17 +82,17 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
   };
 
   const renderDefaultItem = (item: FgnToolbarItem) => {
-    const itemClassName = `fgn-toolbar-item ${item.className || ''}`.trim();
+    const itemClassName = `fgn-toolbar-item ${item.className ?? ''}`.trim();
     
     // Get icon from iconStrategy
-    const iconToRender = iconStrategy ? iconStrategy.getIcon(item.code || item.id) : null;
+    const iconToRender = iconStrategy ? iconStrategy.getIcon(item.code ?? item.id) : null;
     
     // Use color directly from item
     const backgroundColor = item.color;
     const itemStyle = backgroundColor ? { backgroundColor, color: 'white' } : {};
     
     // Use tooltip from item
-    const tooltipText = item.tooltip || item.label;
+    const tooltipText = item.tooltip ?? item.label;
     
     return (
       <div
