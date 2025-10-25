@@ -2,6 +2,26 @@ import { FgnNodeModel } from '../../fg-next-node/model/fgn-node.model';
 import { FgnConnectionModel } from '../model/fgn-connection.model';
 import React, { useCallback } from 'react';
 
+const updateNodeAfterConnectionDelete = (
+  node: FgnNodeModel,
+  sourceNodeId: string,
+  targetNodeId: string
+): FgnNodeModel => {
+  if (node.id === sourceNodeId) {
+    return {
+      ...node,
+      connectedTo: node.connectedTo.filter(id => id !== targetNodeId)
+    };
+  }
+  if (node.id === targetNodeId) {
+    return {
+      ...node,
+      connectedFrom: node.connectedFrom.filter(id => id !== sourceNodeId)
+    };
+  }
+  return node;
+};
+
 export const useConnectionDelete = (
   connections: FgnConnectionModel[],
   setConnections: React.Dispatch<React.SetStateAction<FgnConnectionModel[]>>,
@@ -14,29 +34,13 @@ export const useConnectionDelete = (
     
     if (!connection) return;
 
-    // Update nodes to remove connection references
     setNodes(prevNodes =>
-      prevNodes.map(node => {
-        if (node.id === connection.sourceNodeId) {
-          return {
-            ...node,
-            connectedTo: node.connectedTo.filter(id => id !== connection.targetNodeId)
-          };
-        }
-        if (node.id === connection.targetNodeId) {
-          return {
-            ...node,
-            connectedFrom: node.connectedFrom.filter(id => id !== connection.sourceNodeId)
-          };
-        }
-        return node;
-      })
+      prevNodes.map(node => 
+        updateNodeAfterConnectionDelete(node, connection.sourceNodeId, connection.targetNodeId)
+      )
     );
 
-    // Remove connection
     setConnections(prev => prev.filter(conn => conn.id !== connectionId));
-    
-    // Emit event
     emit<FgnConnectionModel>(CONNECTION_DELETED_EVENT, connection);
   }, [connections, setConnections, setNodes, emit, CONNECTION_DELETED_EVENT]);
 

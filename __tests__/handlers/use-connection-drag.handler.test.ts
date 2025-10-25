@@ -175,11 +175,10 @@ describe('useConnectionDrag', () => {
     // Then release on left point
     const mouseUpEvent = {
       target: {
-        getAttribute: jest.fn((attr: string) => {
-          if (attr === 'data-node-id') return 'node-2';
-          if (attr === 'data-connection-type') return 'left';
-          return null;
-        })
+        dataset: {
+          nodeId: 'node-2',
+          connectionType: 'left'
+        }
       }
     } as unknown as React.MouseEvent;
 
@@ -225,11 +224,10 @@ describe('useConnectionDrag', () => {
     // Then release on left point
     const mouseUpEvent = {
       target: {
-        getAttribute: jest.fn((attr: string) => {
-          if (attr === 'data-node-id') return 'node-2';
-          if (attr === 'data-connection-type') return 'left';
-          return null;
-        })
+        dataset: {
+          nodeId: 'node-2',
+          connectionType: 'left'
+        }
       }
     } as unknown as React.MouseEvent;
 
@@ -271,7 +269,7 @@ describe('useConnectionDrag', () => {
     // Then release
     const mouseUpEvent = {
       target: {
-        getAttribute: jest.fn(() => null)
+        dataset: {}
       }
     } as unknown as React.MouseEvent;
 
