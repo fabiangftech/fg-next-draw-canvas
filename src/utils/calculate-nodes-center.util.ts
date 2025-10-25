@@ -11,12 +11,12 @@ export const calculateNodesCenter = (nodes: FgnNodeModel[]) => {
   let maxX = -Infinity;
   let maxY = -Infinity;
 
-  nodes.forEach(node => {
+  for (const node of nodes) {
     minX = Math.min(minX, node.x);
     minY = Math.min(minY, node.y);
     maxX = Math.max(maxX, node.x + node.width);
     maxY = Math.max(maxY, node.y + node.height);
-  });
+  }
 
   // Calculate center point
   const centerX = (minX + maxX) / 2;

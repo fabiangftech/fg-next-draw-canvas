@@ -57,16 +57,16 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
 }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [connections, setConnections] = useState<FgnConnectionModel[]>([]);
-    const [zoomLevel, setZoomLevel] = useState(1.0);
+    const [zoomLevel, setZoomLevel] = useState(1);
     const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
     const [isPanning, setIsPanning] = useState(false);
     const [panStart, setPanStart] = useState({ x: 0, y: 0 });
 
     // Zoom configuration state (received from FgnZoomComponent via events)
     const [minZoom, setMinZoom] = useState(0.1);
-    const [maxZoom, setMaxZoom] = useState(2.0);
+    const [maxZoom, setMaxZoom] = useState(2);
     const [zoomStep, setZoomStep] = useState(0.1);
-    const [initialZoom, setInitialZoom] = useState(1.0);
+    const [initialZoom, setInitialZoom] = useState(1);
 
     const svgRef = useRef<SVGSVGElement | null>(null);
     const { emit } = useFgnEventBus();
@@ -116,11 +116,13 @@ const FgnDrawCanvasComponent: React.FC<FgnDrawCanvasProps> = ({
         svgRef,
         emit,
         CANVAS_EVENTS.NODE_ADDED,
-        nodeSize,
-        getNodeDefaults,
-        statusStrategy.defaultStatus,
-        zoomLevel,
-        panOffset
+        {
+            defaultNodeSize: nodeSize,
+            getNodeDefaults,
+            defaultStatus: statusStrategy.defaultStatus,
+            zoomLevel,
+            panOffset
+        }
     );
 
     // Pan handlers

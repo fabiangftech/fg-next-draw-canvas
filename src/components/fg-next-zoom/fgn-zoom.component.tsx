@@ -17,9 +17,9 @@ const FgnZoomComponent: React.FC<FgnZoomComponentProps> = ({
   className = '', 
   style,
   minZoom = 0.1,
-  maxZoom = 5.0,
+  maxZoom = 5,
   zoomStep = 3.5,
-  initialZoom = 1.0,
+  initialZoom = 1,
   alignment = 'right'
 }) => {
   const ZOOM_BUTTON_STEP = 0.25;

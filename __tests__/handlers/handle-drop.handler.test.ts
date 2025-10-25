@@ -46,11 +46,13 @@ describe('createHandleDrop', () => {
       mockSvgRef,
       mockEmit,
       NODE_ADDED_EVENT,
-      defaultNodeSize,
-      mockFactoryFunction,
-      'default',
-      1.0,
-      { x: 0, y: 0 }
+      {
+        defaultNodeSize,
+        getNodeDefaults: mockFactoryFunction,
+        defaultStatus: 'default',
+        zoomLevel: 1,
+        panOffset: { x: 0, y: 0 }
+      }
     );
 
     const mockEvent = {
@@ -85,11 +87,13 @@ describe('createHandleDrop', () => {
       mockSvgRef,
       mockEmit,
       NODE_ADDED_EVENT,
-      defaultNodeSize,
-      mockFactoryFunction,
-      'default',
-      2.0, // zoomLevel
-      { x: 10, y: 20 } // panOffset
+      {
+        defaultNodeSize,
+        getNodeDefaults: mockFactoryFunction,
+        defaultStatus: 'default',
+        zoomLevel: 2, // zoomLevel
+        panOffset: { x: 10, y: 20 } // panOffset
+      }
     );
 
     const mockEvent = {
@@ -128,11 +132,13 @@ describe('createHandleDrop', () => {
       mockSvgRef,
       mockEmit,
       NODE_ADDED_EVENT,
-      defaultNodeSize,
-      mockFactoryFunction,
-      'default',
-      1.0,
-      { x: 0, y: 0 }
+      {
+        defaultNodeSize,
+        getNodeDefaults: mockFactoryFunction,
+        defaultStatus: 'default',
+        zoomLevel: 1,
+        panOffset: { x: 0, y: 0 }
+      }
     );
 
     const mockEvent = {
@@ -169,11 +175,13 @@ describe('createHandleDrop', () => {
       mockSvgRef,
       mockEmit,
       NODE_ADDED_EVENT,
-      defaultNodeSize,
-      mockFactoryFunction,
-      'default',
-      1.0,
-      { x: 0, y: 0 }
+      {
+        defaultNodeSize,
+        getNodeDefaults: mockFactoryFunction,
+        defaultStatus: 'default',
+        zoomLevel: 1,
+        panOffset: { x: 0, y: 0 }
+      }
     );
 
     const itemData = { customProperty: 'test' };
@@ -213,11 +221,13 @@ describe('createHandleDrop', () => {
       mockSvgRef,
       mockEmit,
       NODE_ADDED_EVENT,
-      defaultNodeSize,
-      mockFactoryFunction,
-      'default',
-      1.0,
-      { x: 0, y: 0 }
+      {
+        defaultNodeSize,
+        getNodeDefaults: mockFactoryFunction,
+        defaultStatus: 'default',
+        zoomLevel: 1,
+        panOffset: { x: 0, y: 0 }
+      }
     );
 
     const mockEvent = {

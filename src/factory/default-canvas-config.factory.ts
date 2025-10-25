@@ -6,9 +6,9 @@ export const defaultCanvasConfig = {
   maxVisibleActions: 2,
   zoom: {
     minZoom: 0.5,
-    maxZoom: 3.0,
-    zoomStep:2.0,
-    initialZoom: 1.0
+    maxZoom: 3,
+    zoomStep: 2,
+    initialZoom: 1
   }
 };
 

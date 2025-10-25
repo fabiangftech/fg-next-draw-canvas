@@ -54,13 +54,15 @@ export class FgnEventBus implements IFgnEventBus {
   emit<T>(eventName: string, data: T): void {
     const eventListeners = this.listeners.get(eventName);
     if (eventListeners) {
-      eventListeners.forEach((listener) => {
+      // Use for...of instead of forEach as per linter
+      const listenersArray = Array.from(eventListeners);
+      for (const listener of listenersArray) {
         try {
           listener(data);
         } catch (error) {
           console.error(`Error in event listener for "${eventName}":`, error);
         }
-      });
+      }
     }
   }
 

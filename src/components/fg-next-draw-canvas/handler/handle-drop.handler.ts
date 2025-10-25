@@ -8,18 +8,30 @@ import React from "react";
 const DEFAULT_NODE_SIZE = { width: 150, height: 75 };
 const DEFAULT_PAN_OFFSET = { x: 0, y: 0 };
 
+export interface HandleDropConfig {
+  defaultNodeSize?: { width: number; height: number };
+  getNodeDefaults: NodeFactoryFunction;
+  defaultStatus: string;
+  zoomLevel?: number;
+  panOffset?: { x: number, y: number };
+}
+
 export const createHandleDrop = (
   nodes: FgnNodeModel[],
   setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>,
   svgRef: React.RefObject<SVGSVGElement | null>,
   emit: <T>(eventName: string, data: T) => void,
   NODE_ADDED_EVENT: string,
-  defaultNodeSize: { width: number; height: number } = DEFAULT_NODE_SIZE,
-  getNodeDefaults: NodeFactoryFunction,
-  defaultStatus: string,
-  zoomLevel: number = 1.0,
-  panOffset: { x: number, y: number } = DEFAULT_PAN_OFFSET
+  config: HandleDropConfig
 ) => {
+  const {
+    defaultNodeSize = DEFAULT_NODE_SIZE,
+    getNodeDefaults,
+    defaultStatus,
+    zoomLevel = 1,
+    panOffset = DEFAULT_PAN_OFFSET
+  } = config;
+
   return (e: React.DragEvent) => {
     e.preventDefault();
     const nodeLabel = e.dataTransfer.getData('nodeLabel');
