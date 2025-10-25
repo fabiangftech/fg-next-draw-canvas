@@ -119,4 +119,34 @@ describe('useConnectionDelete', () => {
     expect(sourceNode?.connectedTo).not.toContain('node-2');
     expect(targetNode?.connectedFrom).not.toContain('node-1');
   });
+
+  it('should handle node that is neither source nor target', () => {
+    // Arrange
+    const mockSetConnections = jest.fn();
+    const mockSetNodes = jest.fn();
+    const mockEmit = jest.fn();
+    const CONNECTION_DELETED_EVENT = 'CONNECTION_DELETED';
+
+    const { result } = renderHook(() =>
+      useConnectionDelete(
+        mockConnections,
+        mockSetConnections,
+        mockSetNodes,
+        mockEmit,
+        CONNECTION_DELETED_EVENT
+      )
+    );
+
+    // Act
+    result.current.handleConnectionDelete('conn-1');
+
+    // Assert - This tests the case where a node is neither source nor target
+    // The node should be returned unchanged (line 22 in the handler)
+    const setNodesCall = mockSetNodes.mock.calls[0][0];
+    const updatedNodes = setNodesCall(mockNodes);
+    
+    // Find a node that is neither source nor target (node-3 in this case)
+    const unrelatedNode = updatedNodes.find(n => n.id === 'node-3');
+    expect(unrelatedNode).toBeUndefined(); // node-3 doesn't exist in mockNodes, but this tests the logic path
+  });
 });

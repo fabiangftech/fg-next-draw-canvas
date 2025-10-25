@@ -123,4 +123,25 @@ describe('FgnZoomComponent', () => {
       initialZoom: 1.0
     });
   });
+
+  it('should use default alignment when not specified', () => {
+    // Act
+    render(<FgnZoomComponent />);
+
+    // Assert
+    const zoomContainer = screen.getByText('100%').closest('.fgn-zoom');
+    expect(zoomContainer).toHaveClass('fgn-zoom-right'); // Default alignment
+  });
+
+  it('should handle zoom buttons at limits', () => {
+    // Act
+    render(<FgnZoomComponent minZoom={1.0} maxZoom={1.0} />);
+    
+    const zoomInButton = screen.getByTitle('Zoom In');
+    const zoomOutButton = screen.getByTitle('Zoom Out');
+
+    // Assert - both buttons should be disabled at limits
+    expect(zoomInButton).toBeDisabled();
+    expect(zoomOutButton).toBeDisabled();
+  });
 });

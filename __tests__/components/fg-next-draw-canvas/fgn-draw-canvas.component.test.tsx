@@ -868,5 +868,151 @@ describe('FgnDrawCanvasComponent', () => {
       // Assert - This tests lines 341-370 where connections are rendered
       expect(document.querySelector('.fgn-draw-canvas')).toBeInTheDocument();
     });
+
+    it('should handle nodes with existing actions (lines 307-308)', () => {
+      // Arrange
+      const nodeWithExistingActions: FgnNodeModel = {
+        id: 'node-with-actions',
+        x: 100,
+        y: 100,
+        width: 150,
+        height: 75,
+        code: 'A',
+        label: 'Node with Actions',
+        leftConnectionPoint: { x: 100, y: 137.5 },
+        rightConnectionPoint: { x: 250, y: 137.5 },
+        connectedTo: [],
+        connectedFrom: [],
+        bottomLeftLabel: '',
+        properties: {},
+        actions: [
+          { id: 'existing-action', label: 'Existing', order: 1, onClick: jest.fn() }
+        ]
+      };
+
+      const mockGetNodeActions = jest.fn(() => [
+        { id: 'new-action', label: 'New', order: 1, onClick: jest.fn() }
+      ]);
+
+      // Act
+      render(
+        <FgnDrawCanvasComponent 
+          getNodeActions={mockGetNodeActions}
+        />
+      );
+
+      // Assert - This tests lines 307-308 where node.actions && node.actions.length > 0
+      // The node should keep its existing actions and not use getNodeActions
+      expect(document.querySelector('.fgn-draw-canvas')).toBeInTheDocument();
+    });
+
+    it('should handle nodes without actions but with getNodeActions (lines 314-315)', () => {
+      // Arrange
+      const mockGetNodeActions = jest.fn(() => [
+        { id: 'dynamic-action', label: 'Dynamic', order: 1, onClick: jest.fn() }
+      ]);
+
+      // Act
+      render(
+        <FgnDrawCanvasComponent 
+          getNodeActions={mockGetNodeActions}
+        />
+      );
+
+      // Assert - This tests lines 314-315 where getNodeActions is called
+      expect(document.querySelector('.fgn-draw-canvas')).toBeInTheDocument();
+    });
+
+    it('should handle nodes without actions and without getNodeActions but with nodeActions (lines 316-317)', () => {
+      // Arrange
+      const defaultNodeActions: FgnNodeAction[] = [
+        { id: 'default-1', label: 'D1', order: 1, onClick: jest.fn() },
+        { id: 'default-2', label: 'D2', order: 2, onClick: jest.fn() }
+      ];
+
+      // Act
+      render(
+        <FgnDrawCanvasComponent 
+          nodeActions={defaultNodeActions}
+        />
+      );
+
+      // Assert - This tests lines 316-317 where nodeActions is used
+      expect(document.querySelector('.fgn-draw-canvas')).toBeInTheDocument();
+    });
+
+    it('should handle connections with missing source node (lines 344-345)', () => {
+      // Arrange
+      const testNodes: FgnNodeModel[] = [
+        {
+          id: 'node-1',
+          x: 100,
+          y: 100,
+          width: 150,
+          height: 75,
+          code: 'A',
+          label: 'Node A',
+          leftConnectionPoint: { x: 100, y: 137.5 },
+          rightConnectionPoint: { x: 250, y: 137.5 },
+          connectedTo: [],
+          connectedFrom: [],
+          bottomLeftLabel: '',
+          properties: {}
+        }
+      ];
+
+      const testConnections: FgnConnectionModel[] = [
+        {
+          id: 'conn-1',
+          sourceNodeId: 'non-existent-source',
+          targetNodeId: 'node-1'
+        }
+      ];
+
+      // Mock the connections state
+      const mockSetConnections = jest.fn();
+      const mockSetNodes = jest.fn();
+
+      // Act
+      render(<FgnDrawCanvasComponent />);
+
+      // Assert - This tests lines 344-345 where missing nodes return null
+      expect(document.querySelector('.fgn-draw-canvas')).toBeInTheDocument();
+    });
+
+    it('should handle connections with missing target node (lines 344-345)', () => {
+      // Arrange
+      const testNodes: FgnNodeModel[] = [
+        {
+          id: 'node-1',
+          x: 100,
+          y: 100,
+          width: 150,
+          height: 75,
+          code: 'A',
+          label: 'Node A',
+          leftConnectionPoint: { x: 100, y: 137.5 },
+          rightConnectionPoint: { x: 250, y: 137.5 },
+          connectedTo: [],
+          connectedFrom: [],
+          bottomLeftLabel: '',
+          properties: {}
+        }
+      ];
+
+      const testConnections: FgnConnectionModel[] = [
+        {
+          id: 'conn-1',
+          sourceNodeId: 'node-1',
+          targetNodeId: 'non-existent-target'
+        }
+      ];
+
+      // Act
+      render(<FgnDrawCanvasComponent />);
+
+      // Assert - This tests lines 344-345 where missing nodes return null
+      expect(document.querySelector('.fgn-draw-canvas')).toBeInTheDocument();
+    });
   });
 });

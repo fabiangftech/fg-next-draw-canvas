@@ -463,4 +463,289 @@ describe('FgnNodeComponent', () => {
     const iconWrapper = document.querySelector('.fgn-node-icon-wrapper');
     expect(iconWrapper).toHaveStyle('color: #FF0000');
   });
+
+  it('should handle keyboard events on connection points', () => {
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={mockNode}
+          onMouseDown={mockOnMouseDown}
+          onConnectionPointMouseDown={mockOnConnectionPointMouseDown}
+        />
+      </svg>
+    );
+
+    const leftPoint = screen.getByRole('button', { name: 'Connect to Test Node' });
+    const rightPoint = screen.getByRole('button', { name: 'Connect from Test Node' });
+
+    // Test Enter key on left connection point
+    fireEvent.keyDown(leftPoint, { key: 'Enter' });
+    expect(mockOnConnectionPointMouseDown).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stopPropagation: expect.any(Function),
+        clientX: 0,
+        clientY: 0
+      }),
+      'node-1',
+      'left'
+    );
+
+    // Test Space key on right connection point
+    fireEvent.keyDown(rightPoint, { key: ' ' });
+    expect(mockOnConnectionPointMouseDown).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stopPropagation: expect.any(Function),
+        clientX: 0,
+        clientY: 0
+      }),
+      'node-1',
+      'right'
+    );
+  });
+
+  it('should not handle keyboard events on connection points without handler', () => {
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={mockNode}
+          onMouseDown={mockOnMouseDown}
+        />
+      </svg>
+    );
+
+    const leftPoint = screen.getByRole('button', { name: 'Connect to Test Node' });
+    
+    // Test Enter key - should not throw
+    fireEvent.keyDown(leftPoint, { key: 'Enter' });
+    expect(leftPoint).toBeInTheDocument();
+  });
+
+  it('should not handle other keyboard events on connection points', () => {
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={mockNode}
+          onMouseDown={mockOnMouseDown}
+          onConnectionPointMouseDown={mockOnConnectionPointMouseDown}
+        />
+      </svg>
+    );
+
+    const leftPoint = screen.getByRole('button', { name: 'Connect to Test Node' });
+    
+    // Test other keys - should not call handler
+    fireEvent.keyDown(leftPoint, { key: 'Escape' });
+    fireEvent.keyDown(leftPoint, { key: 'Tab' });
+    fireEvent.keyDown(leftPoint, { key: 'ArrowDown' });
+    
+    // Only Enter and Space should trigger the handler
+    expect(mockOnConnectionPointMouseDown).not.toHaveBeenCalled();
+  });
+
+  it('should handle dropdown actions with disabled function', () => {
+    // Arrange
+    const actionsWithDisabledFunction: FgnNodeAction[] = [
+      { id: 'Action1', label: 'A1', order: 1, onClick: jest.fn() },
+      { id: 'Action2', label: 'A2', order: 2, onClick: jest.fn() },
+      { id: 'Action3', label: 'A3', order: 3, onClick: jest.fn(), isDisabled: (node) => node.id === 'node-1' },
+      { id: 'Action4', label: 'A4', order: 4, onClick: jest.fn() }
+    ];
+    const nodeWithManyActions = { ...mockNode, actions: actionsWithDisabledFunction };
+
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={nodeWithManyActions}
+          onMouseDown={mockOnMouseDown}
+          maxVisibleActions={2}
+        />
+      </svg>
+    );
+
+    const dropdownButton = screen.getByText('⋮');
+    fireEvent.click(dropdownButton);
+
+    // Assert
+    const action3Button = screen.getByText('A3 Action3');
+    expect(action3Button).toBeDisabled();
+  });
+
+  it('should handle dropdown actions with disabled boolean', () => {
+    // Arrange
+    const actionsWithDisabledBoolean: FgnNodeAction[] = [
+      { id: 'Action1', label: 'A1', order: 1, onClick: jest.fn() },
+      { id: 'Action2', label: 'A2', order: 2, onClick: jest.fn() },
+      { id: 'Action3', label: 'A3', order: 3, onClick: jest.fn(), disabled: true },
+      { id: 'Action4', label: 'A4', order: 4, onClick: jest.fn() }
+    ];
+    const nodeWithManyActions = { ...mockNode, actions: actionsWithDisabledBoolean };
+
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={nodeWithManyActions}
+          onMouseDown={mockOnMouseDown}
+          maxVisibleActions={2}
+        />
+      </svg>
+    );
+
+    const dropdownButton = screen.getByText('⋮');
+    fireEvent.click(dropdownButton);
+
+    // Assert
+    const action3Button = screen.getByText('A3 Action3');
+    expect(action3Button).toBeDisabled();
+  });
+
+  it('should render actions with custom styles', () => {
+    // Arrange
+    const actionsWithStyles: FgnNodeAction[] = [
+      {
+        id: 'Styled',
+        label: 'S',
+        order: 1,
+        onClick: jest.fn(),
+        borderColor: '#FF0000',
+        backgroundColor: '#00FF00',
+        iconColor: '#0000FF'
+      }
+    ];
+    const nodeWithStyledActions = { ...mockNode, actions: actionsWithStyles };
+
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={nodeWithStyledActions}
+          onMouseDown={mockOnMouseDown}
+        />
+      </svg>
+    );
+
+    // Assert
+    const styledButton = screen.getByText('S');
+    expect(styledButton).toHaveStyle({
+      borderColor: '#FF0000',
+      backgroundColor: '#00FF00',
+      color: '#0000FF'
+    });
+  });
+
+  it('should handle node without icon when iconStrategy returns null', () => {
+    // Arrange
+    const mockIconStrategyNull: IconStrategy = {
+      useLetters: false,
+      getIcon: () => null
+    };
+
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={mockNode}
+          onMouseDown={mockOnMouseDown}
+          iconStrategy={mockIconStrategyNull}
+        />
+      </svg>
+    );
+
+    // Assert
+    expect(screen.getByText('Test Node')).toBeInTheDocument();
+    expect(document.querySelector('.fgn-node-icon-wrapper')).not.toBeInTheDocument();
+  });
+
+  it('should handle node without iconStrategy', () => {
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={mockNode}
+          onMouseDown={mockOnMouseDown}
+        />
+      </svg>
+    );
+
+    // Assert
+    expect(screen.getByText('Test Node')).toBeInTheDocument();
+    expect(document.querySelector('.fgn-node-icon-wrapper')).not.toBeInTheDocument();
+  });
+
+  it('should handle status without statusStrategy', () => {
+    // Arrange
+    const nodeWithStatus = { ...mockNode, status: 'active' };
+
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={nodeWithStatus}
+          onMouseDown={mockOnMouseDown}
+        />
+      </svg>
+    );
+
+    // Assert
+    expect(screen.getByText('active')).toBeInTheDocument();
+  });
+
+  it('should handle status without statusStyle', () => {
+    // Arrange
+    const nodeWithStatus = { ...mockNode, status: 'active' };
+    const mockStatusStrategyNoStyle: StatusStrategy = {
+      defaultStatus: 'default',
+      getStyle: () => null
+    };
+
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={nodeWithStatus}
+          onMouseDown={mockOnMouseDown}
+          statusStrategy={mockStatusStrategyNoStyle}
+        />
+      </svg>
+    );
+
+    // Assert - status should not be rendered when getStyle returns null
+    expect(screen.queryByText('active')).not.toBeInTheDocument();
+  });
+
+  it('should handle status with borderColor fallback', () => {
+    // Arrange
+    const nodeWithStatus = { ...mockNode, status: 'active' };
+    const mockStatusStrategyWithBorderColor: StatusStrategy = {
+      defaultStatus: 'default',
+      getStyle: (status: string) => ({
+        backgroundColor: '#2196F3',
+        textColor: 'white',
+        borderColor: undefined // This should fallback to backgroundColor
+      })
+    };
+
+    // Act
+    render(
+      <svg>
+        <FgnNodeComponent
+          node={nodeWithStatus}
+          onMouseDown={mockOnMouseDown}
+          statusStrategy={mockStatusStrategyWithBorderColor}
+        />
+      </svg>
+    );
+
+    // Assert
+    const statusBadge = screen.getByText('active');
+    expect(statusBadge).toHaveStyle({
+      backgroundColor: '#2196F3',
+      borderColor: '#2196F3', // Should fallback to backgroundColor
+      color: 'white'
+    });
+  });
 });

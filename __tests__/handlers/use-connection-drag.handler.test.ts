@@ -281,4 +281,229 @@ describe('useConnectionDrag', () => {
     // Assert
     expect(result.current.connectionPreview).toBeNull();
   });
+
+  it('should create connection and update nodes with connectedTo and connectedFrom', () => {
+    // Arrange
+    const { result } = renderHook(() =>
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
+        CONNECTION_CREATED_EVENT
+      })
+    );
+
+    // First, initiate preview
+    const mouseDownEvent = {
+      stopPropagation: jest.fn(),
+      clientX: 250,
+      clientY: 87.5
+    } as unknown as React.MouseEvent;
+    act(() => {
+      result.current.handleConnectionPointMouseDown(mouseDownEvent, 'node-1', 'right');
+    });
+
+    // Then release on left point
+    const mouseUpEvent = {
+      target: {
+        dataset: {
+          nodeId: 'node-2',
+          connectionType: 'left'
+        }
+      }
+    } as unknown as React.MouseEvent;
+
+    // Act
+    act(() => {
+      result.current.handleConnectionMouseUp(mouseUpEvent);
+    });
+
+    // Assert
+    expect(mockSetConnections).toHaveBeenCalledWith(expect.any(Function));
+    expect(mockSetNodes).toHaveBeenCalledWith(expect.any(Function));
+    expect(mockEmit).toHaveBeenCalledWith(CONNECTION_CREATED_EVENT, expect.any(Object));
+  });
+
+  it('should not create connection when releasing on same node', () => {
+    // Arrange
+    const { result } = renderHook(() =>
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
+        CONNECTION_CREATED_EVENT
+      })
+    );
+
+    // First, initiate preview
+    const mouseDownEvent = {
+      stopPropagation: jest.fn(),
+      clientX: 250,
+      clientY: 87.5
+    } as unknown as React.MouseEvent;
+    act(() => {
+      result.current.handleConnectionPointMouseDown(mouseDownEvent, 'node-1', 'right');
+    });
+
+    // Then release on same node
+    const mouseUpEvent = {
+      target: {
+        dataset: {
+          nodeId: 'node-1', // Same node
+          connectionType: 'left'
+        }
+      }
+    } as unknown as React.MouseEvent;
+
+    // Act
+    act(() => {
+      result.current.handleConnectionMouseUp(mouseUpEvent);
+    });
+
+    // Assert
+    expect(mockSetConnections).not.toHaveBeenCalled();
+    expect(mockSetNodes).not.toHaveBeenCalled();
+    expect(mockEmit).not.toHaveBeenCalled();
+  });
+
+  it('should not create connection when releasing on right point', () => {
+    // Arrange
+    const { result } = renderHook(() =>
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
+        CONNECTION_CREATED_EVENT
+      })
+    );
+
+    // First, initiate preview
+    const mouseDownEvent = {
+      stopPropagation: jest.fn(),
+      clientX: 250,
+      clientY: 87.5
+    } as unknown as React.MouseEvent;
+    act(() => {
+      result.current.handleConnectionPointMouseDown(mouseDownEvent, 'node-1', 'right');
+    });
+
+    // Then release on right point (not left)
+    const mouseUpEvent = {
+      target: {
+        dataset: {
+          nodeId: 'node-2',
+          connectionType: 'right' // Wrong type
+        }
+      }
+    } as unknown as React.MouseEvent;
+
+    // Act
+    act(() => {
+      result.current.handleConnectionMouseUp(mouseUpEvent);
+    });
+
+    // Assert
+    expect(mockSetConnections).not.toHaveBeenCalled();
+    expect(mockSetNodes).not.toHaveBeenCalled();
+    expect(mockEmit).not.toHaveBeenCalled();
+  });
+
+  it('should not create connection when no target nodeId', () => {
+    // Arrange
+    const { result } = renderHook(() =>
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
+        CONNECTION_CREATED_EVENT
+      })
+    );
+
+    // First, initiate preview
+    const mouseDownEvent = {
+      stopPropagation: jest.fn(),
+      clientX: 250,
+      clientY: 87.5
+    } as unknown as React.MouseEvent;
+    act(() => {
+      result.current.handleConnectionPointMouseDown(mouseDownEvent, 'node-1', 'right');
+    });
+
+    // Then release without target nodeId
+    const mouseUpEvent = {
+      target: {
+        dataset: {
+          connectionType: 'left'
+          // No nodeId
+        }
+      }
+    } as unknown as React.MouseEvent;
+
+    // Act
+    act(() => {
+      result.current.handleConnectionMouseUp(mouseUpEvent);
+    });
+
+    // Assert
+    expect(mockSetConnections).not.toHaveBeenCalled();
+    expect(mockSetNodes).not.toHaveBeenCalled();
+    expect(mockEmit).not.toHaveBeenCalled();
+  });
+
+  it('should not create connection when no connectionType', () => {
+    // Arrange
+    const { result } = renderHook(() =>
+      useConnectionDrag({
+        nodes: mockNodes,
+        setNodes: mockSetNodes,
+        connections: mockConnections,
+        setConnections: mockSetConnections,
+        svgRef: mockSvgRef,
+        emit: mockEmit,
+        CONNECTION_CREATED_EVENT
+      })
+    );
+
+    // First, initiate preview
+    const mouseDownEvent = {
+      stopPropagation: jest.fn(),
+      clientX: 250,
+      clientY: 87.5
+    } as unknown as React.MouseEvent;
+    act(() => {
+      result.current.handleConnectionPointMouseDown(mouseDownEvent, 'node-1', 'right');
+    });
+
+    // Then release without connectionType
+    const mouseUpEvent = {
+      target: {
+        dataset: {
+          nodeId: 'node-2'
+          // No connectionType
+        }
+      }
+    } as unknown as React.MouseEvent;
+
+    // Act
+    act(() => {
+      result.current.handleConnectionMouseUp(mouseUpEvent);
+    });
+
+    // Assert
+    expect(mockSetConnections).not.toHaveBeenCalled();
+    expect(mockSetNodes).not.toHaveBeenCalled();
+    expect(mockEmit).not.toHaveBeenCalled();
+  });
 });

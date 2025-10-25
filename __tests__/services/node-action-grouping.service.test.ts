@@ -121,4 +121,22 @@ describe('NodeActionGroupingService', () => {
       expect(DEFAULT_ACTION_GROUPING_CONFIG.dropdownLabel).toBe('⋮');
     });
   });
+
+  it('should handle actions with undefined order property (lines 47-48)', () => {
+    // Arrange
+    const actions: FgnNodeAction[] = [
+      { id: 'action1', label: 'A1', order: 1, onClick: jest.fn() },
+      { id: 'action2', label: 'A2', order: undefined, onClick: jest.fn() }, // undefined order
+      { id: 'action3', label: 'A3', order: 2, onClick: jest.fn() }
+    ];
+
+    // Act
+    const result = NodeActionGroupingService.groupActions(actions);
+
+    // Assert
+    expect(result.visibleActions).toHaveLength(3);
+    expect(result.visibleActions[0].id).toBe('action1'); // order: 1
+    expect(result.visibleActions[1].id).toBe('action3'); // order: 2
+    expect(result.visibleActions[2].id).toBe('action2'); // undefined order (should be last)
+  });
 });

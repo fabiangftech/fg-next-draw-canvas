@@ -170,4 +170,23 @@ describe('useNodeDrag', () => {
     // Assert
     expect(mockSetNodes).not.toHaveBeenCalled();
   });
+
+  it('should handle mouseMove when no draggedNodeId (line 56)', () => {
+    // Arrange
+    const { result } = renderHook(() =>
+      useNodeDrag(mockNodes, mockSetNodes, mockSvgRef, mockEmit, eventName)
+    );
+
+    // Act - move without starting drag (no draggedNodeId)
+    const mouseMoveEvent = {
+      clientX: 200,
+      clientY: 150
+    } as unknown as React.MouseEvent;
+    act(() => {
+      result.current.handleMouseMove(mouseMoveEvent);
+    });
+
+    // Assert - should not call setNodes when no draggedNodeId
+    expect(mockSetNodes).not.toHaveBeenCalled();
+  });
 });

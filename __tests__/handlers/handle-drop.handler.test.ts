@@ -246,4 +246,53 @@ describe('createHandleDrop', () => {
     expect(mockSetNodes).not.toHaveBeenCalled();
     expect(mockEmit).not.toHaveBeenCalled();
   });
+
+  it('should handle drop with invalid itemData JSON', () => {
+    // Arrange
+    const handler = createHandleDrop(
+      mockNodes,
+      mockSetNodes,
+      mockSvgRef,
+      mockEmit,
+      NODE_ADDED_EVENT,
+      {
+        defaultNodeSize,
+        getNodeDefaults: mockFactoryFunction,
+        defaultStatus: 'default',
+        zoomLevel: 1,
+        panOffset: { x: 0, y: 0 }
+      }
+    );
+
+    // Mock console.error to verify it's called
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const mockEvent = {
+      preventDefault: jest.fn(),
+      dataTransfer: {
+        getData: jest.fn((key: string) => {
+          const data: Record<string, string> = {
+            'nodeLabel': 'Test Node',
+            'nodeIconCode': 'T',
+            'nodeColor': '#FF0000',
+            'itemData': 'invalid-json{' // Invalid JSON
+          };
+          return data[key] || '';
+        })
+      },
+      clientX: 100,
+      clientY: 50
+    } as unknown as React.DragEvent;
+
+    // Act
+    handler(mockEvent);
+
+    // Assert
+    expect(consoleSpy).toHaveBeenCalledWith('Error parsing itemData:', expect.any(Error));
+    expect(mockSetNodes).toHaveBeenCalledWith(expect.any(Array));
+    expect(mockEmit).toHaveBeenCalledWith(NODE_ADDED_EVENT, expect.any(Object));
+
+    // Cleanup
+    consoleSpy.mockRestore();
+  });
 });
