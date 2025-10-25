@@ -5,17 +5,20 @@ import { generateNodeId } from '../../../utils/generate-node-id.util';
 import { calculateConnectionPoints } from '../../../utils/calculate-connection-points.util';
 import React from "react";
 
+const DEFAULT_NODE_SIZE = { width: 150, height: 75 };
+const DEFAULT_PAN_OFFSET = { x: 0, y: 0 };
+
 export const createHandleDrop = (
   nodes: FgnNodeModel[],
   setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>,
   svgRef: React.RefObject<SVGSVGElement | null>,
   emit: <T>(eventName: string, data: T) => void,
   NODE_ADDED_EVENT: string,
-  defaultNodeSize: { width: number; height: number } = { width: 150, height: 75 },
+  defaultNodeSize: { width: number; height: number } = DEFAULT_NODE_SIZE,
   getNodeDefaults: NodeFactoryFunction,
   defaultStatus: string,
   zoomLevel: number = 1.0,
-  panOffset: { x: number, y: number } = { x: 0, y: 0 }
+  panOffset: { x: number, y: number } = DEFAULT_PAN_OFFSET
 ) => {
   return (e: React.DragEvent) => {
     e.preventDefault();

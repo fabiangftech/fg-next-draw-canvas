@@ -46,6 +46,19 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
     }
   };
 
+  const handleConnectionKeyDown = (e: React.KeyboardEvent, pointType: 'left' | 'right') => {
+    if (onConnectionPointMouseDown && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      e.stopPropagation();
+      const fakeEvent = {
+        stopPropagation: () => {},
+        clientX: 0,
+        clientY: 0
+      } as React.MouseEvent;
+      onConnectionPointMouseDown(fakeEvent, node.id, pointType);
+    }
+  };
+
   const handleActionClick = (e: React.MouseEvent, onClick: (nodeId: string) => void) => {
     e.stopPropagation();
     e.preventDefault();
@@ -125,7 +138,11 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         strokeWidth={2}
         data-node-id={node.id}
         data-connection-type="left"
+        role="button"
+        tabIndex={0}
+        aria-label={`Connect to ${node.label}`}
         onMouseDown={handleLeftConnectionMouseDown}
+        onKeyDown={(e) => handleConnectionKeyDown(e, 'left')}
       />
       
       {/* Right connection point (Output) */}
@@ -139,7 +156,11 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
         strokeWidth={2}
         data-node-id={node.id}
         data-connection-type="right"
+        role="button"
+        tabIndex={0}
+        aria-label={`Connect from ${node.label}`}
         onMouseDown={handleRightConnectionMouseDown}
+        onKeyDown={(e) => handleConnectionKeyDown(e, 'right')}
       />
 
       {/* Status badge */}

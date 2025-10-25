@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { FgnNodeModel } from '../../fg-next-node/model/fgn-node.model';
 import { calculateConnectionPoints } from '../../../utils/calculate-connection-points.util';
 
+const DEFAULT_PAN_OFFSET = { x: 0, y: 0 };
+
 export const useNodeDrag = (
   nodes: FgnNodeModel[],
   setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>,
@@ -9,7 +11,7 @@ export const useNodeDrag = (
   emit: <T>(eventName: string, data: T) => void,
   eventName: string,
   zoomLevel: number = 1.0,
-  panOffset: { x: number, y: number } = { x: 0, y: 0 }
+  panOffset: { x: number, y: number } = DEFAULT_PAN_OFFSET
 ) => {
   const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });

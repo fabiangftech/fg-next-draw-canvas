@@ -81,6 +81,13 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent, item: FgnToolbarItem) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick(item);
+    }
+  };
+
   const renderDefaultItem = (item: FgnToolbarItem) => {
     const itemClassName = `fgn-toolbar-item ${item.className ?? ''}`.trim();
     
@@ -100,8 +107,12 @@ const FgnToolbarComponent: React.FC<FgnToolbarProps> = ({
         draggable
         onDragStart={(e) => handleDragStart(e, item)}
         onClick={() => handleClick(item)}
+        onKeyDown={(e) => handleKeyDown(e, item)}
         className={itemClassName}
         style={itemStyle}
+        role="button"
+        tabIndex={0}
+        aria-label={tooltipText}
       >
         {iconToRender && (
           <div className="fgn-toolbar-item-icon">

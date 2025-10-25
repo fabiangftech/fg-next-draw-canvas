@@ -8,6 +8,8 @@ export interface ConnectionPreview {
   end: ConnectionPoint;
 }
 
+const DEFAULT_PAN_OFFSET = { x: 0, y: 0 };
+
 export const useConnectionDrag = (
   nodes: FgnNodeModel[],
   setNodes: React.Dispatch<React.SetStateAction<FgnNodeModel[]>>,
@@ -17,7 +19,7 @@ export const useConnectionDrag = (
   emit: <T>(eventName: string, data: T) => void,
   CONNECTION_CREATED_EVENT: string,
   zoomLevel: number = 1.0,
-  panOffset: { x: number, y: number } = { x: 0, y: 0 }
+  panOffset: { x: number, y: number } = DEFAULT_PAN_OFFSET
 ) => {
   const [connectionPreview, setConnectionPreview] = useState<ConnectionPreview | null>(null);
   const [draggingFromNode, setDraggingFromNode] = useState<string | null>(null);
