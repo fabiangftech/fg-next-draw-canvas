@@ -9,11 +9,11 @@ export const calculateConnectionPoints = (
   return {
     left: {
       x: x,
-      y: y + height / 2
+      y: y + height / 2 + 1
     },
     right: {
       x: x + width,
-      y: y + height / 2
+      y: y + height / 2 + 1
     }
   };
 };

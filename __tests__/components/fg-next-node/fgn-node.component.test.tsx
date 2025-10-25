@@ -83,8 +83,8 @@ describe('FgnNodeComponent', () => {
     );
 
     // Assert
-    const connectionPoints = document.querySelectorAll('.fgn-node-connection-point');
-    expect(connectionPoints).toHaveLength(2);
+    expect(screen.getByRole('button', { name: 'Connect to Test Node' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Connect from Test Node' })).toBeInTheDocument();
   });
 
   it('should render actions when available', () => {
@@ -171,8 +171,8 @@ describe('FgnNodeComponent', () => {
       </svg>
     );
 
-    const leftPoint = document.querySelector('[data-connection-type="left"]');
-    fireEvent.mouseDown(leftPoint!);
+    const leftPoint = screen.getByRole('button', { name: 'Connect to Test Node' });
+    fireEvent.click(leftPoint);
 
     // Assert
     expect(mockOnConnectionPointMouseDown).toHaveBeenCalledWith(
@@ -316,8 +316,8 @@ describe('FgnNodeComponent', () => {
       </svg>
     );
 
-    const leftPoint = document.querySelector('[data-connection-type="left"]');
-    fireEvent.mouseDown(leftPoint!);
+    const leftPoint = screen.getByRole('button', { name: 'Connect to Test Node' });
+    fireEvent.mouseDown(leftPoint);
 
     // Assert - should not throw
     expect(leftPoint).toBeInTheDocument();
@@ -334,8 +334,8 @@ describe('FgnNodeComponent', () => {
       </svg>
     );
 
-    const rightPoint = document.querySelector('[data-connection-type="right"]');
-    fireEvent.mouseDown(rightPoint!);
+    const rightPoint = screen.getByRole('button', { name: 'Connect from Test Node' });
+    fireEvent.mouseDown(rightPoint);
 
     // Assert - should not throw
     expect(rightPoint).toBeInTheDocument();

@@ -33,15 +33,15 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
   const iconToRender = iconStrategy ? iconStrategy.getIcon(node.code) : null;
   
   const handleLeftConnectionMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (onConnectionPointMouseDown) {
-      e.stopPropagation();
       onConnectionPointMouseDown(e, node.id, 'left');
     }
   };
   
   const handleRightConnectionMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (onConnectionPointMouseDown) {
-      e.stopPropagation();
       onConnectionPointMouseDown(e, node.id, 'right');
     }
   };
@@ -131,40 +131,40 @@ const FgnNodeComponent: React.FC<NodeProps> = ({ node, onMouseDown, onConnection
       </foreignObject>
       
       {/* Left connection point (Input) */}
-      <circle
-        className="fgn-node-connection-point"
-        cx={node.leftConnectionPoint.x}
-        cy={node.leftConnectionPoint.y}
-        r={connectionRadius}
-        fill="#4CAF50"
-        stroke="white"
-        strokeWidth={2}
-        data-node-id={node.id}
-        data-connection-type="left"
-        role="button"
-        tabIndex={0}
-        aria-label={`Connect to ${node.label}`}
-        onMouseDown={handleLeftConnectionMouseDown}
-        onKeyDown={(e) => handleConnectionKeyDown(e, 'left')}
-      />
+      <foreignObject
+        x={node.leftConnectionPoint.x - connectionRadius}
+        y={node.leftConnectionPoint.y - connectionRadius}
+        width={connectionRadius * 2}
+        height={connectionRadius * 2}
+        className="fgn-node-connection-foreign-object"
+      >
+        <button
+          className="fgn-node-connection-button fgn-node-connection-button-left"
+          data-node-id={node.id}
+          data-connection-type="left"
+          aria-label={`Connect to ${node.label}`}
+          onClick={handleLeftConnectionMouseDown}
+          onKeyDown={(e) => handleConnectionKeyDown(e, 'left')}
+        />
+      </foreignObject>
       
       {/* Right connection point (Output) */}
-      <circle
-        className="fgn-node-connection-point"
-        cx={node.rightConnectionPoint.x}
-        cy={node.rightConnectionPoint.y}
-        r={connectionRadius}
-        fill="#FF5722"
-        stroke="white"
-        strokeWidth={2}
-        data-node-id={node.id}
-        data-connection-type="right"
-        role="button"
-        tabIndex={0}
-        aria-label={`Connect from ${node.label}`}
-        onMouseDown={handleRightConnectionMouseDown}
-        onKeyDown={(e) => handleConnectionKeyDown(e, 'right')}
-      />
+      <foreignObject
+        x={node.rightConnectionPoint.x - connectionRadius}
+        y={node.rightConnectionPoint.y - connectionRadius}
+        width={connectionRadius * 2}
+        height={connectionRadius * 2}
+        className="fgn-node-connection-foreign-object"
+      >
+        <button
+          className="fgn-node-connection-button fgn-node-connection-button-right"
+          data-node-id={node.id}
+          data-connection-type="right"
+          aria-label={`Connect from ${node.label}`}
+          onClick={handleRightConnectionMouseDown}
+          onKeyDown={(e) => handleConnectionKeyDown(e, 'right')}
+        />
+      </foreignObject>
 
       {/* Status badge */}
       {node.status && statusStyle && (

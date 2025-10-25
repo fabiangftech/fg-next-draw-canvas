@@ -15,11 +15,11 @@ describe('calculateConnectionPoints', () => {
     // Assert
     const expectedLeft: ConnectionPoint = {
       x: 100,
-      y: 100 // y + height/2 = 50 + 100/2 = 100
+      y: 101 // y + height/2 + 1 = 50 + 100/2 + 1 = 101
     };
     const expectedRight: ConnectionPoint = {
       x: 300, // x + width = 100 + 200 = 300
-      y: 100  // y + height/2 = 50 + 100/2 = 100
+      y: 101  // y + height/2 + 1 = 50 + 100/2 + 1 = 101
     };
 
     expect(result.left).toEqual(expectedLeft);
@@ -37,8 +37,8 @@ describe('calculateConnectionPoints', () => {
     const result = calculateConnectionPoints(x, y, width, height);
 
     // Assert
-    expect(result.left).toEqual({ x: 0, y: 25 });
-    expect(result.right).toEqual({ x: 50, y: 25 });
+    expect(result.left).toEqual({ x: 0, y: 26 }); // y + height/2 + 1 = 0 + 50/2 + 1 = 26
+    expect(result.right).toEqual({ x: 50, y: 26 }); // y + height/2 + 1 = 0 + 50/2 + 1 = 26
   });
 
   it('should handle zero dimensions', () => {
@@ -52,8 +52,8 @@ describe('calculateConnectionPoints', () => {
     const result = calculateConnectionPoints(x, y, width, height);
 
     // Assert
-    expect(result.left).toEqual({ x: 10, y: 20 });
-    expect(result.right).toEqual({ x: 10, y: 20 });
+    expect(result.left).toEqual({ x: 10, y: 21 }); // y + height/2 + 1 = 20 + 0/2 + 1 = 21
+    expect(result.right).toEqual({ x: 10, y: 21 }); // y + height/2 + 1 = 20 + 0/2 + 1 = 21
   });
 
   it('should handle negative coordinates', () => {
@@ -67,8 +67,8 @@ describe('calculateConnectionPoints', () => {
     const result = calculateConnectionPoints(x, y, width, height);
 
     // Assert
-    expect(result.left).toEqual({ x: -50, y: 0 }); // -30 + 60/2 = 0
-    expect(result.right).toEqual({ x: 50, y: 0 });  // -50 + 100 = 50
+    expect(result.left).toEqual({ x: -50, y: 1 }); // -30 + 60/2 + 1 = 1
+    expect(result.right).toEqual({ x: 50, y: 1 });  // -30 + 60/2 + 1 = 1
   });
 
   it('should handle very small dimensions', () => {
@@ -82,8 +82,8 @@ describe('calculateConnectionPoints', () => {
     const result = calculateConnectionPoints(x, y, width, height);
 
     // Assert
-    expect(result.left).toEqual({ x: 0.5, y: 0.7 }); // 0.3 + 0.8/2 = 0.7
-    expect(result.right).toEqual({ x: 1.5, y: 0.7 }); // 0.5 + 1.0 = 1.5
+    expect(result.left).toEqual({ x: 0.5, y: 1.7 }); // 0.3 + 0.8/2 + 1 = 1.7
+    expect(result.right).toEqual({ x: 1.5, y: 1.7 }); // 0.3 + 0.8/2 + 1 = 1.7
   });
 
   it('should handle large dimensions', () => {
@@ -97,8 +97,8 @@ describe('calculateConnectionPoints', () => {
     const result = calculateConnectionPoints(x, y, width, height);
 
     // Assert
-    expect(result.left).toEqual({ x: 1000, y: 3500 }); // 2000 + 3000/2 = 3500
-    expect(result.right).toEqual({ x: 6000, y: 3500 }); // 1000 + 5000 = 6000
+    expect(result.left).toEqual({ x: 1000, y: 3501 }); // 2000 + 3000/2 + 1 = 3501
+    expect(result.right).toEqual({ x: 6000, y: 3501 }); // 2000 + 3000/2 + 1 = 3501
   });
 
   it('should return consistent results for same input', () => {
@@ -144,6 +144,6 @@ describe('calculateConnectionPoints', () => {
 
     // Assert
     expect(result.left.y).toBe(result.right.y);
-    expect(result.left.y).toBe(y + height / 2);
+    expect(result.left.y).toBe(y + height / 2 + 1);
   });
 });
