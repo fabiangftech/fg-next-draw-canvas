@@ -4,6 +4,9 @@
  * @packageDocumentation
  */
 
+// Import CSS variables (automatically injected by postcss)
+import './styles/variables.css';
+
 // Main Components
 export { default as FgnDrawCanvasComponent } from './components/fg-next-draw-canvas/fgn-draw-canvas.component';
 export { default as FgnNodeComponent } from './components/fg-next-node/fgn-node.component';

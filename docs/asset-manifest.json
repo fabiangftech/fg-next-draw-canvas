@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.css": "/fg-next-draw-canvas/static/css/main.31d6cfe0.css",
-    "main.js": "/fg-next-draw-canvas/static/js/main.b77a1efa.js",
+    "main.css": "/fg-next-draw-canvas/static/css/main.ca9e6102.css",
+    "main.js": "/fg-next-draw-canvas/static/js/main.c9e70006.js",
     "static/js/453.63c42d52.chunk.js": "/fg-next-draw-canvas/static/js/453.63c42d52.chunk.js",
     "index.html": "/fg-next-draw-canvas/index.html",
-    "main.b77a1efa.js.map": "/fg-next-draw-canvas/static/js/main.b77a1efa.js.map",
+    "main.ca9e6102.css.map": "/fg-next-draw-canvas/static/css/main.ca9e6102.css.map",
+    "main.c9e70006.js.map": "/fg-next-draw-canvas/static/js/main.c9e70006.js.map",
     "453.63c42d52.chunk.js.map": "/fg-next-draw-canvas/static/js/453.63c42d52.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.31d6cfe0.css",
-    "static/js/main.b77a1efa.js"
+    "static/css/main.ca9e6102.css",
+    "static/js/main.c9e70006.js"
   ]
 }
