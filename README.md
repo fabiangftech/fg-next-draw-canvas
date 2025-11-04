@@ -37,6 +37,9 @@ import {
     FgnZoomComponent,
 } from 'fg-next-draw-canvas';
 
+// Import CSS variables (required for proper styling)
+import 'fg-next-draw-canvas/dist/variables.css';
+
 function App() {
     return (
         <div>
@@ -49,6 +52,8 @@ function App() {
 
 export default App;
 ```
+
+**Important:** You must import the CSS variables file to ensure proper styling of all components. The variables define colors, spacing, typography, and other design tokens used throughout the library.
 
 ## Component API
 

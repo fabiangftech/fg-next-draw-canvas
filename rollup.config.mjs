@@ -4,6 +4,8 @@ import typescript from '@rollup/plugin-typescript';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import { terser } from 'rollup-plugin-terser';
+import { copyFileSync } from 'fs';
+import { join } from 'path';
 
 export default {
   input: 'src/index.ts',
@@ -58,7 +60,18 @@ export default {
     }),
     
     // Minify the output
-    terser()
+    terser(),
+    
+    // Copy variables.css to dist directory
+    {
+      name: 'copy-variables-css',
+      writeBundle() {
+        copyFileSync(
+          join(process.cwd(), 'src/styles/variables.css'),
+          join(process.cwd(), 'dist/variables.css')
+        );
+      }
+    }
   ],
   
   // Suppress warnings for some common issues

@@ -1,10 +1,14 @@
 import React from 'react';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import Home from "./templates/home/Home";
 
 function App() {
     return (
-        <div className="App">
-            <h1>docs/fg-next-draw-canvas</h1>
-        </div>
+        <BrowserRouter basename="/fg-next-draw-canvas">
+            <Routes>
+                <Route path="/" element={<Home />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
