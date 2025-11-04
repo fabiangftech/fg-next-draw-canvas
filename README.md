@@ -1,7 +1,7 @@
 [![npm version](https://img.shields.io/npm/v/fg-next-draw-canvas.svg)](https://www.npmjs.com/package/fg-next-draw-canvas)
 [![npm license](https://img.shields.io/npm/l/fg-next-draw-canvas.svg)](https://github.com/fabiangftech/fg-next-draw-canvas/blob/main/LICENSE)
 [![npm downloads](https://img.shields.io/npm/dw/fg-next-draw-canvas.svg)](https://www.npmjs.com/package/fg-next-draw-canvas)
-[![Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://fabiangftech.github.io/fg-next-draw-canvas/)
+[![Docs & Demo](https://img.shields.io/badge/docs%20%26%20demo-live-blue)](https://fabiangftech.github.io/fg-next-draw-canvas/)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fabiangftech_fg-next-draw-canvas&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fabiangftech_fg-next-draw-canvas)
