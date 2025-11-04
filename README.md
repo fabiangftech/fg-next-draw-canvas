@@ -407,6 +407,61 @@ useFgnEventListener(CANVAS_EVENTS.NODE_REPLACED, (node) => {
 });
 ```
 
+### Getting a Node by ID
+
+The `getNodeById` utility function allows you to retrieve a node from the canvas by its ID using the event system. This is useful when you need to access node information from outside the canvas component or when working with asynchronous operations.
+
+**How it works:**
+- The function emits a `GET_NODE_BY_ID_REQUEST` event with the node ID
+- The canvas component listens to this event and responds with `GET_NODE_BY_ID_RESPONSE`
+- Returns a Promise that resolves to the node if found, or `null` if not found
+- Includes a 5-second timeout to prevent hanging promises
+
+**Usage:**
+
+```tsx
+import { getNodeById } from 'fg-next-draw-canvas';
+
+// In an async function or component
+const handleGetNode = async (nodeId: string) => {
+    try {
+        const node = await getNodeById(nodeId);
+        if (node) {
+            console.log('Node found:', node);
+            console.log('Node label:', node.label);
+            console.log('Node position:', node.x, node.y);
+            // Use the node data as needed
+        } else {
+            console.log('Node not found');
+        }
+    } catch (error) {
+        console.error('Error getting node:', error);
+        // Timeout or other error occurred
+    }
+};
+
+// Example: Get node information when a button is clicked
+function MyComponent() {
+    const handleButtonClick = async () => {
+        const node = await getNodeById('some-node-id');
+        if (node) {
+            // Update node or perform operations
+            console.log('Retrieved node:', node);
+        }
+    };
+
+    return <button onClick={handleButtonClick}>Get Node</button>;
+}
+```
+
+**Use cases:**
+- Retrieving node properties when you only have the node ID
+- Validating node existence before performing operations
+- Accessing node data from external components or utilities
+- Synchronizing node data with external state or APIs
+
+**Note:** This function requires the canvas component to be mounted and listening for `GET_NODE_BY_ID_REQUEST` events. The canvas component automatically handles this internally.
+
 ### Complete Example
 
 ```tsx

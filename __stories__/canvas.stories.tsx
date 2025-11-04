@@ -5,7 +5,7 @@ import {
     FgnToolbarComponent, FgnToolbarItem,
     FgnZoomComponent,
     useFgnEventListener,
-    CANVAS_EVENTS, FgnNodeAction,
+    CANVAS_EVENTS, FgnNodeAction, getNodeById,
 } from '../src';
 import type {IconStrategy, StatusStrategy} from '../src';
 import {SiApacheflink, SiApachekafka} from "react-icons/si";
@@ -32,8 +32,9 @@ const customNodeActions: FgnNodeAction[] = [
     {
         id: 'Delete',
         label: React.createElement(TbTrash as any),
-        onClick(nodeId: string) {
-            // do nothing
+        async onClick(nodeId: string) {
+            const node = await getNodeById(nodeId)
+            console.log(node)
         },
         order: 1,
         borderColor: 'red',
