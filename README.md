@@ -18,6 +18,8 @@
 
 A React library for creating interactive node-based diagrams with drag-and-drop functionality, custom icons, status management, and a comprehensive event system.
 
+![Example of fg-next-draw-canvas](img/example.png)
+
 ## Installation
 
 ```bash
