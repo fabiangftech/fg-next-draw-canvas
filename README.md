@@ -16,6 +16,8 @@
 
 # fg-next-draw-canvas
 
+A React library for creating interactive node-based diagrams with drag-and-drop functionality, custom icons, status management, and a comprehensive event system.
+
 ## Installation
 
 ```bash
@@ -45,71 +47,50 @@ function App() {
 export default App;
 ```
 
-## Customization
+## Component API
 
-### Custom Toolbar Items
+### FgnDrawCanvasComponent
 
-You can create custom toolbar items by defining an array of `FgnToolbarItem` objects:
+Main canvas component for rendering and interacting with nodes.
 
-```tsx
-import { FgnToolbarItem } from 'fg-next-draw-canvas';
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `iconStrategy` | `IconStrategy` | `defaultIconStrategy` | Strategy for rendering icons in nodes. See [Icon Strategy](#icon-strategy) |
+| `statusStrategy` | `StatusStrategy` | `defaultStatusStrategy` | Strategy for managing node status styles. See [Status Strategy](#status-strategy) |
+| `nodeActions` | `FgnNodeAction[]` | `defaultNodeActions` | Array of actions available for nodes. See [Node Actions](#node-actions) |
+| `maxVisibleActions` | `number` | `3` | Maximum number of actions visible in a node before grouping |
 
-const customItems: FgnToolbarItem[] = [
-    {
-        id: '1',
-        code: 's3-bucket', // Used by iconStrategy
-        label: 'S3 Bucket',
-        color: '#2196F3',
-        tooltip: 'Add S3 bucket'
-    },
-    {
-        id: '2',
-        code: 'msk-topic',
-        label: 'MSK Topic',
-        color: '#2196F3',
-        tooltip: 'Add MSK topic'
-    },
-];
+#### Icon Strategy
 
-// Use custom items in toolbar
-<FgnToolbarComponent items={customItems} />
-```
-
-### Custom Icon Strategy
-
-Create custom icon strategies to use icons from libraries like react-icons:
+The `iconStrategy` prop allows you to customize how icons are rendered in nodes. You can use icons from libraries like `react-icons`:
 
 ```tsx
-import React from 'react';
 import { IconStrategy } from 'fg-next-draw-canvas';
 import { BsBucket } from 'react-icons/bs';
 import { SiApachekafka } from 'react-icons/si';
+import { SiApacheflink } from 'react-icons/si';
 
 const customIconStrategy: IconStrategy = {
-    useLetters: false, // Use custom icons instead of letters
     getIcon: (code?: string) => {
         switch (code) {
             case 's3-bucket':
                 return React.createElement(BsBucket as any);
             case 'msk-topic':
                 return React.createElement(SiApachekafka as any);
+            case 'flink-sql':
+                return React.createElement(SiApacheflink as any);
             default:
                 return undefined;
         }
     }
 };
 
-// Apply to toolbar and canvas
-<FgnToolbarComponent 
-    items={customItems} 
-    iconStrategy={customIconStrategy} 
-/>
 <FgnDrawCanvasComponent iconStrategy={customIconStrategy} />
 ```
 
-### Custom Status Strategy
+#### Status Strategy
 
-Define custom status styles for your nodes:
+The `statusStrategy` prop defines custom status styles for your nodes:
 
 ```tsx
 import { StatusStrategy } from 'fg-next-draw-canvas';
@@ -120,82 +101,482 @@ const customStatusStrategy: StatusStrategy = {
         switch (status) {
             case 'draft':
                 return {
-                    backgroundColor: '#E0E0E0', 
-                    textColor: '#666', 
+                    backgroundColor: '#E0E0E0',
+                    textColor: '#666',
                     borderColor: '#BDBDBD'
                 };
             case 'ready':
                 return {
-                    backgroundColor: '#2196F3', 
-                    textColor: 'white', 
+                    backgroundColor: '#2196F3',
+                    textColor: 'white',
                     borderColor: '#1976D2'
                 };
             case 'deploying':
                 return {
-                    backgroundColor: '#FF9800', 
-                    textColor: 'white', 
+                    backgroundColor: '#FF9800',
+                    textColor: 'white',
                     borderColor: '#F57C00'
                 };
             case 'running':
                 return {
-                    backgroundColor: '#4CAF50', 
-                    textColor: 'white', 
+                    backgroundColor: '#4CAF50',
+                    textColor: 'white',
                     borderColor: '#388E3C'
                 };
             case 'failed':
                 return {
-                    backgroundColor: '#F44336', 
-                    textColor: 'white', 
+                    backgroundColor: '#F44336',
+                    textColor: 'white',
                     borderColor: '#D32F2F'
                 };
             default:
                 return {
-                    backgroundColor: '#E0E0E0', 
-                    textColor: '#666', 
+                    backgroundColor: '#E0E0E0',
+                    textColor: '#666',
                     borderColor: '#BDBDBD'
                 };
         }
     }
 };
 
-// Apply to canvas
 <FgnDrawCanvasComponent statusStrategy={customStatusStrategy} />
 ```
 
-## Component API
+#### Node Actions
 
-### FgnDrawCanvasComponent
+The `nodeActions` prop allows you to define custom actions that appear on nodes:
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `shouldShowNodeActions` | `(node: FgnNodeModel) => boolean` | - | Función que determina si mostrar las acciones de un nodo específico |
-| `getNodeDefaults` | `NodeFactoryFunction` | `defaultCreateNodeByCode` | Función para crear nodos por defecto basada en el código |
-| `nodeActions` | `FgnNodeAction[]` | `defaultNodeActions` | Array de acciones disponibles para los nodos |
-| `getNodeActions` | `(node: FgnNodeModel) => FgnNodeAction[]` | - | Función que retorna las acciones específicas para un nodo |
-| `statusStrategy` | `StatusStrategy` | `defaultStatusStrategy` | Estrategia para manejar los estilos de estado de los nodos |
-| `iconStrategy` | `IconStrategy` | `defaultIconStrategy` | Estrategia para renderizar iconos en los nodos |
-| `nodeSize` | `{ width: number; height: number }` | `{ width: 150, height: 75 }` | Tamaño por defecto de los nodos |
-| `maxVisibleActions` | `number` | `3` | Número máximo de acciones visibles en un nodo |
-| `canvasWidth` | `number` | `5000` | Ancho del canvas SVG |
-| `canvasHeight` | `number` | `5000` | Alto del canvas SVG |
+```tsx
+import { FgnNodeAction } from 'fg-next-draw-canvas';
+import { TbEdit, TbTrash } from 'react-icons/tb';
+import { IoRocketSharp } from 'react-icons/io5';
+import { FaPlay } from 'react-icons/fa';
+
+const customNodeActions: FgnNodeAction[] = [
+    {
+        id: 'Delete',
+        label: React.createElement(TbTrash as any),
+        onClick: (nodeId: string) => {
+            console.log('Delete node:', nodeId);
+        },
+        order: 1,
+        borderColor: 'red',
+        iconColor: 'red',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Edit',
+        label: React.createElement(TbEdit as any),
+        onClick: (nodeId: string) => {
+            console.log('Edit node:', nodeId);
+        },
+        order: 2,
+        borderColor: 'blue',
+        iconColor: 'blue',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Deploy',
+        label: React.createElement(IoRocketSharp as any),
+        onClick: (nodeId: string) => {
+            console.log('Deploy node:', nodeId);
+        },
+        order: 3,
+        borderColor: 'black',
+        iconColor: 'black',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Start',
+        label: React.createElement(FaPlay as any),
+        onClick: (nodeId: string) => {
+            console.log('Start node:', nodeId);
+        },
+        order: 4,
+        borderColor: 'green',
+        iconColor: 'green',
+        backgroundColor: '#ffffff'
+    }
+];
+
+<FgnDrawCanvasComponent 
+    nodeActions={customNodeActions}
+    maxVisibleActions={2}
+/>
+```
+
+**FgnNodeAction Properties:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | `string` | Unique identifier for the action |
+| `label` | `string \| React.ReactElement` | The label or icon to display |
+| `onClick` | `(nodeId: string) => void` | Callback function when action is clicked |
+| `order` | `number` | Order in which actions are displayed |
+| `borderColor` | `string` | Border color of the action button |
+| `iconColor` | `string` | Color of the icon/label |
+| `backgroundColor` | `string` | Background color of the action button |
+| `className` | `string` | Optional CSS class |
+| `disabled` | `boolean` | Whether the action is disabled |
+| `isDisabled` | `(node: FgnNodeModel) => boolean` | Function to determine if action is disabled based on node |
 
 ### FgnToolbarComponent
 
+Toolbar component for dragging nodes onto the canvas.
+
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `items` | `FgnToolbarItem[]` | `defaultToolbarItems` | Array de elementos del toolbar |
-| `className` | `string` | `''` | Clase CSS adicional para el contenedor del toolbar |
-| `style` | `React.CSSProperties` | - | Estilos CSS inline para el contenedor del toolbar |
-| `iconStrategy` | `IconStrategy` | `defaultIconStrategy` | Estrategia para renderizar iconos en los elementos del toolbar |
-| `renderCustomItem` | `(item: FgnToolbarItem, defaultRenderer: (item: FgnToolbarItem) => React.ReactNode) => React.ReactNode` | - | Función personalizada para renderizar elementos del toolbar |
+| `items` | `FgnToolbarItem[]` | `defaultToolbarItems` | Array of toolbar items |
+| `iconStrategy` | `IconStrategy` | `defaultIconStrategy` | Strategy for rendering icons in toolbar items |
+
+#### Toolbar Items
+
+```tsx
+import { FgnToolbarItem } from 'fg-next-draw-canvas';
+
+const items: FgnToolbarItem[] = [
+    {
+        id: '1',
+        code: 's3-bucket',
+        color: '#15ad0b',
+        label: 'S3 Bucket',
+        tooltip: 'Add S3 bucket'
+    },
+    {
+        id: '2',
+        code: 'msk-topic',
+        color: '#830bc9',
+        label: 'MSK Topic',
+        tooltip: 'Add MSK topic'
+    },
+    {
+        id: '3',
+        code: 'flink-sql',
+        color: '#2344f5',
+        label: 'Flink SQL',
+        tooltip: 'Add Flink SQL job'
+    }
+];
+
+<FgnToolbarComponent 
+    items={items} 
+    iconStrategy={customIconStrategy}
+/>
+```
+
+**FgnToolbarItem Properties:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | `string` | Unique identifier for the toolbar item |
+| `code` | `string` | Code used by iconStrategy to determine which icon to render |
+| `label` | `string` | Display label for the item |
+| `color` | `string` | Background color of the toolbar item |
+| `tooltip` | `string` | Tooltip text shown on hover |
+| `component` | `React.ComponentType<FgnToolbarItemProps>` | Optional custom component to render the item |
+| `onDragStart` | `(e: React.DragEvent, item: FgnToolbarItem) => void` | Optional callback when drag starts |
+| `onClick` | `(item: FgnToolbarItem) => void` | Optional callback when item is clicked |
+| `className` | `string` | Optional CSS class |
 
 ### FgnZoomComponent
 
+Zoom control component for the canvas.
+
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `className` | `string` | `''` | Clase CSS adicional para el contenedor del zoom |
-| `style` | `React.CSSProperties` | - | Estilos CSS inline para el contenedor del zoom |
-| `minZoom` | `number` | `0.1` | Nivel mínimo de zoom (10%) |
-| `maxZoom` | `number` | `5.0` | Nivel máximo de zoom (500%) |
-| `zoomStep` | `number` | `3.5` | Incremento/decremento del zoom para eventos de rueda |
-| `initialZoom` | `number` | `1.0` | Nivel inicial de zoom (100%) |
+| `alignment` | `'left' \| 'center' \| 'right'` | `'right'` | Horizontal alignment of the zoom controls |
+
+```tsx
+<FgnZoomComponent alignment="center" />
+```
+
+## Event System
+
+The library provides a comprehensive event system using the `useFgnEventListener` hook and `CANVAS_EVENTS` constants. This allows you to listen to canvas operations and react to changes.
+
+### Basic Usage
+
+```tsx
+import { useFgnEventListener, CANVAS_EVENTS } from 'fg-next-draw-canvas';
+
+function MyComponent() {
+    useFgnEventListener(CANVAS_EVENTS.NODE_ADDED, (data) => {
+        console.log('Node added:', data);
+    });
+
+    return <div>...</div>;
+}
+```
+
+### Available Events
+
+#### NODE_ADDED
+
+Emitted when a new node is added to the canvas.
+
+**Event Data:** `FgnNodeModel`
+
+```tsx
+useFgnEventListener(CANVAS_EVENTS.NODE_ADDED, (node) => {
+    console.log('Node added:', node);
+    // node.id, node.label, node.x, node.y, etc.
+});
+```
+
+**FgnNodeModel Structure:**
+- `id`: string - Unique node identifier
+- `x`: number - X position on canvas
+- `y`: number - Y position on canvas
+- `width`: number - Node width
+- `height`: number - Node height
+- `label`: string - Node label
+- `code`: string - Icon code for iconStrategy
+- `color`: string - Node background color
+- `status`: string - Node status
+- `leftConnectionPoint`: ConnectionPoint - Left connection point coordinates
+- `rightConnectionPoint`: ConnectionPoint - Right connection point coordinates
+- `connectedTo`: string[] - Array of node IDs this node connects to
+- `connectedFrom`: string[] - Array of node IDs that connect to this node
+- `properties`: Record<string, any> - Custom properties
+
+#### NODE_UPDATED
+
+Emitted when a node's position or properties are updated (e.g., after dragging).
+
+**Event Data:** `FgnNodeModel`
+
+```tsx
+useFgnEventListener(CANVAS_EVENTS.NODE_UPDATED, (node) => {
+    console.log('Node updated:', node);
+    // Update your state or sync with backend
+});
+```
+
+#### CONNECTION_CREATED
+
+Emitted when a connection is created between two nodes.
+
+**Event Data:** `FgnConnectionModel`
+
+```tsx
+useFgnEventListener(CANVAS_EVENTS.CONNECTION_CREATED, (connection) => {
+    console.log('Connection created:', connection);
+    // connection.id, connection.sourceNodeId, connection.targetNodeId
+});
+```
+
+**FgnConnectionModel Structure:**
+- `id`: string - Unique connection identifier
+- `sourceNodeId`: string - ID of the source node (where connection starts)
+- `targetNodeId`: string - ID of the target node (where connection ends)
+
+#### CONNECTION_DELETED
+
+Emitted when a connection is deleted from the canvas.
+
+**Event Data:** `FgnConnectionModel`
+
+```tsx
+useFgnEventListener(CANVAS_EVENTS.CONNECTION_DELETED, (connection) => {
+    console.log('Connection deleted:', connection);
+});
+```
+
+#### NODES_REPLACED
+
+Emitted when all nodes on the canvas are replaced with a new set.
+
+**Event Data:** `FgnNodeModel[]`
+
+```tsx
+useFgnEventListener(CANVAS_EVENTS.NODES_REPLACED, (nodes) => {
+    console.log('All nodes replaced:', nodes);
+    // Array of all nodes on the canvas
+});
+```
+
+#### NODE_REPLACED
+
+Emitted when a single node is replaced with a new version.
+
+**Event Data:** `FgnNodeModel`
+
+```tsx
+useFgnEventListener(CANVAS_EVENTS.NODE_REPLACED, (node) => {
+    console.log('Node replaced:', node);
+});
+```
+
+### Complete Example
+
+```tsx
+import React from 'react';
+import {
+    FgnDrawCanvasComponent,
+    FgnToolbarComponent,
+    FgnZoomComponent,
+    useFgnEventListener,
+    CANVAS_EVENTS,
+    FgnToolbarItem,
+    FgnNodeAction,
+} from 'fg-next-draw-canvas';
+import type { IconStrategy, StatusStrategy } from 'fg-next-draw-canvas';
+import { SiApacheflink, SiApachekafka } from 'react-icons/si';
+import { BsBucket } from 'react-icons/bs';
+import { TbEdit, TbTrash } from 'react-icons/tb';
+import { IoRocketSharp } from 'react-icons/io5';
+import { FaPlay } from 'react-icons/fa';
+
+// Custom icon strategy
+const customIconStrategy: IconStrategy = {
+    getIcon: (code?: string) => {
+        switch (code) {
+            case 's3-bucket':
+                return React.createElement(BsBucket as any);
+            case 'msk-topic':
+                return React.createElement(SiApachekafka as any);
+            case 'flink-sql':
+                return React.createElement(SiApacheflink as any);
+            default:
+                return undefined;
+        }
+    }
+};
+
+// Custom status strategy
+const customStatusStrategy: StatusStrategy = {
+    defaultStatus: 'draft',
+    getStyle: (status: string) => {
+        switch (status) {
+            case 'draft':
+                return { backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD' };
+            case 'ready':
+                return { backgroundColor: '#2196F3', textColor: 'white', borderColor: '#1976D2' };
+            case 'deploying':
+                return { backgroundColor: '#FF9800', textColor: 'white', borderColor: '#F57C00' };
+            case 'running':
+                return { backgroundColor: '#4CAF50', textColor: 'white', borderColor: '#388E3C' };
+            case 'failed':
+                return { backgroundColor: '#F44336', textColor: 'white', borderColor: '#D32F2F' };
+            default:
+                return { backgroundColor: '#E0E0E0', textColor: '#666', borderColor: '#BDBDBD' };
+        }
+    }
+};
+
+// Custom node actions
+const customNodeActions: FgnNodeAction[] = [
+    {
+        id: 'Delete',
+        label: React.createElement(TbTrash as any),
+        onClick: (nodeId: string) => {
+            console.log('Delete node:', nodeId);
+        },
+        order: 1,
+        borderColor: 'red',
+        iconColor: 'red',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Edit',
+        label: React.createElement(TbEdit as any),
+        onClick: (nodeId: string) => {
+            console.log('Edit node:', nodeId);
+        },
+        order: 2,
+        borderColor: 'blue',
+        iconColor: 'blue',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Deploy',
+        label: React.createElement(IoRocketSharp as any),
+        onClick: (nodeId: string) => {
+            console.log('Deploy node:', nodeId);
+        },
+        order: 3,
+        borderColor: 'black',
+        iconColor: 'black',
+        backgroundColor: '#ffffff'
+    },
+    {
+        id: 'Start',
+        label: React.createElement(FaPlay as any),
+        onClick: (nodeId: string) => {
+            console.log('Start node:', nodeId);
+        },
+        order: 4,
+        borderColor: 'green',
+        iconColor: 'green',
+        backgroundColor: '#ffffff'
+    }
+];
+
+// Toolbar items
+const items: FgnToolbarItem[] = [
+    {
+        id: '1',
+        code: 's3-bucket',
+        color: '#15ad0b',
+        label: 'S3 Bucket'
+    },
+    {
+        id: '2',
+        code: 'msk-topic',
+        color: '#830bc9',
+        label: 'MSK Topic'
+    },
+    {
+        id: '3',
+        code: 'flink-sql',
+        color: '#2344f5',
+        label: 'Flink SQL'
+    }
+];
+
+// Component with event listeners
+const CanvasWithListeners: React.FC = () => {
+    // Listen to all canvas events
+    useFgnEventListener(CANVAS_EVENTS.NODE_ADDED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODE_ADDED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.NODE_UPDATED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODE_UPDATED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.CONNECTION_CREATED, (data) => {
+        console.log(`[${new Date().toISOString()}] CONNECTION_CREATED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.CONNECTION_DELETED, (data) => {
+        console.log(`[${new Date().toISOString()}] CONNECTION_DELETED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.NODES_REPLACED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODES_REPLACED:`, data);
+    });
+
+    useFgnEventListener(CANVAS_EVENTS.NODE_REPLACED, (data) => {
+        console.log(`[${new Date().toISOString()}] NODE_REPLACED:`, data);
+    });
+
+    return (
+        <div>
+            <FgnToolbarComponent 
+                items={items} 
+                iconStrategy={customIconStrategy}
+            />
+            <FgnDrawCanvasComponent 
+                iconStrategy={customIconStrategy}
+                statusStrategy={customStatusStrategy}
+                nodeActions={customNodeActions}
+                maxVisibleActions={2}
+            />
+            <FgnZoomComponent alignment="center" />
+        </div>
+    );
+};
+
+export default CanvasWithListeners;
+```

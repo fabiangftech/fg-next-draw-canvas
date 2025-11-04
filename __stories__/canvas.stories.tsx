@@ -79,7 +79,6 @@ type Story = StoryObj<typeof meta>;
 
 // Custom icon strategy using react-icons
 const customIconStrategy: IconStrategy = {
-    useLetters: false,
     getIcon: (code?: string) => {
         switch (code) {
             case 's3-bucket':
@@ -142,7 +141,7 @@ const items: FgnToolbarItem[] = [
 ]
 
 // Component wrapper with event listeners
-const CanvasWithListeners: React.FC = () => {
+const CanvasWithListeners: React.FC<{ maxVisibleActions: number }> = (props: { maxVisibleActions: number }) => {
     // Listen to all canvas events and log them
     useFgnEventListener(CANVAS_EVENTS.NODE_ADDED, (data) => {
         console.log(`[${new Date().toISOString()}] NODE_ADDED:`, data);
@@ -174,13 +173,15 @@ const CanvasWithListeners: React.FC = () => {
             <FgnDrawCanvasComponent iconStrategy={customIconStrategy}
                                     statusStrategy={customStatusStrategy}
                                     nodeActions={customNodeActions}
-                                    maxVisibleActions={4}/>
+                                    maxVisibleActions={props.maxVisibleActions}/>
             <FgnZoomComponent alignment={"center"}/>
         </div>
     );
 };
 
 export const Default: Story = {
-    render: (args) => <CanvasWithListeners/>,
-    args: {},
+    render: (args) => <CanvasWithListeners maxVisibleActions={args.maxVisibleActions}/>,
+    args: {
+        maxVisibleActions: 2
+    },
 };
