@@ -25,7 +25,23 @@ export default {
     // Automatically externalize peerDependencies
     peerDepsExternal(),
     
-    // Resolve node modules
+    // Compile TypeScript FIRST - must be before resolve and commonjs
+    typescript({
+      tsconfig: './tsconfig.json',
+      declaration: true,
+      declarationDir: 'dist',
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      exclude: [
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.stories.tsx',
+        'src/App.tsx',
+        'src/setupTests.ts',
+        'src/reportWebVitals.ts'
+      ]
+    }),
+    
+    // Resolve node modules (after TypeScript compilation)
     resolve({
       extensions: ['.js', '.jsx', '.ts', '.tsx']
     }),
@@ -39,21 +55,6 @@ export default {
       inject: true,
       extract: false,
       minimize: true
-    }),
-    
-    // Compile TypeScript
-    typescript({
-      tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationDir: 'dist',
-      exclude: [
-        '**/*.test.ts',
-        '**/*.test.tsx',
-        '**/*.stories.tsx',
-        'src/App.tsx',
-        'src/setupTests.ts',
-        'src/reportWebVitals.ts'
-      ]
     }),
     
     // Minify the output
