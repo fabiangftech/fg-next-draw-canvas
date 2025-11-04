@@ -1,0 +1,16 @@
+.fg-title {
+    position: fixed;
+    z-index: 2;
+    top: 1rem;
+    left: 1rem;
+}
+
+.fg-title h1 {
+    padding: 0;
+    margin: 0;
+}
+
+.fg-title h2 {
+    padding: 0;
+    margin: 0;
+}
