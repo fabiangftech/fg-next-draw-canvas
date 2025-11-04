@@ -68,6 +68,7 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "build:docs": "cd __examples__/docs-fg-next-draw-canvas && npm run build",
     "prepublishOnly": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
