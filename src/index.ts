@@ -34,6 +34,7 @@ export { CANVAS_EVENTS } from './components/fg-next-draw-canvas/model/canvas-eve
 // Event System
 export { useFgnEventBus, useFgnEventListener } from './utils/fg-next-event-system/fgn-use-event-bus.hook';
 export type { FgnEventListener, FgnEventSubscription, IFgnEventBus } from './utils/fg-next-event-system/fgn-event-bus.types';
+export { FgnEventBus, fgnGlobalEventBus } from './utils/fg-next-event-system/fgn-event-bus';
 
 // Utilities
 export { generateNodeId } from './utils/generate-node-id.util';
