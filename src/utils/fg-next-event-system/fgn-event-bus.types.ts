@@ -19,4 +19,7 @@ export interface IFgnEventBus {
   off<T>(eventName: string, listener: FgnEventListener<T>): void;
   emit<T>(eventName: string, data: T): void;
   clear(eventName?: string): void;
+  enableBuffering(eventName: string, maxBufferSize?: number): void;
+  disableBuffering(eventName: string): void;
+  clearBuffer(eventName?: string): void;
 }
