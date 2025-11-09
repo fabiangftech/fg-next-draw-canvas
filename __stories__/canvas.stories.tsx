@@ -34,7 +34,8 @@ const customNodeActions: FgnNodeAction[] = [
         label: React.createElement(TbTrash as any),
         async onClick(nodeId: string) {
             const node = await getNodeById(nodeId)
-            console.log(node)
+            console.log('delete node', node)
+            alert('delete node ' + nodeId)
         },
         order: 1,
         borderColor: 'red',
