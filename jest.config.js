@@ -20,6 +20,12 @@ module.exports = {
       functions: 0,
       lines: 0,
       statements: 0
+    },
+    './src': {
+      branches: 80,
+      functions: 85,
+      lines: 90,
+      statements: 90
     }
   },
   moduleNameMapper: {

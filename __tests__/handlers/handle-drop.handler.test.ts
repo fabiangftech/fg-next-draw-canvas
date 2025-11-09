@@ -247,6 +247,47 @@ describe('createHandleDrop', () => {
     expect(mockEmit).not.toHaveBeenCalled();
   });
 
+  it('should not create node when svgRef is not available', () => {
+    // Arrange
+    const handler = createHandleDrop(
+      mockNodes,
+      mockSetNodes,
+      { current: null },
+      mockEmit,
+      NODE_ADDED_EVENT,
+      {
+        defaultNodeSize,
+        getNodeDefaults: mockFactoryFunction,
+        defaultStatus: 'default',
+        zoomLevel: 1,
+        panOffset: { x: 0, y: 0 }
+      }
+    );
+
+    const mockEvent = {
+      preventDefault: jest.fn(),
+      dataTransfer: {
+        getData: jest.fn((key: string) => {
+          const data: Record<string, string> = {
+            'nodeLabel': 'Test Node',
+            'nodeIconCode': 'T',
+            'nodeColor': '#FF0000'
+          };
+          return data[key] || '';
+        })
+      },
+      clientX: 100,
+      clientY: 50
+    } as unknown as React.DragEvent;
+
+    // Act
+    handler(mockEvent);
+
+    // Assert
+    expect(mockSetNodes).not.toHaveBeenCalled();
+    expect(mockEmit).not.toHaveBeenCalled();
+  });
+
   it('should handle drop with invalid itemData JSON', () => {
     // Arrange
     const handler = createHandleDrop(

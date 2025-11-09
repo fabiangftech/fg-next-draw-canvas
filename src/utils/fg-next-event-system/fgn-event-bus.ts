@@ -89,7 +89,7 @@ export class FgnEventBus implements IFgnEventBus {
     } else {
       // No listeners, check if buffering is enabled
       const config = this.bufferingConfig.get(eventName);
-      if (config && config.enabled) {
+      if (config?.enabled) {
         this.bufferEvent(eventName, data, config.maxSize);
       }
     }

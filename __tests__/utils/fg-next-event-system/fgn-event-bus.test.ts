@@ -53,6 +53,20 @@ describe('FgnEventBus', () => {
   });
 
   describe('off', () => {
+    it('should unsubscribe using returned subscription', () => {
+      // Arrange
+      const eventName = 'test-event';
+      const listener = jest.fn();
+
+      // Act
+      const subscription = eventBus.on(eventName, listener);
+      subscription.unsubscribe();
+      eventBus.emit(eventName, {});
+
+      // Assert
+      expect(listener).not.toHaveBeenCalled();
+    });
+
     it('should remove specific listener', () => {
       // Arrange
       const eventName = 'test-event';
@@ -160,6 +174,130 @@ describe('FgnEventBus', () => {
       expect(normalListener).toHaveBeenCalled();
       
       consoleSpy.mockRestore();
+    });
+  });
+
+  describe('buffering', () => {
+    it('should replay buffered events when first listener subscribes', () => {
+      // Arrange
+      const listener = jest.fn();
+      const eventName = 'buffered-event';
+      eventBus.enableBuffering(eventName, 3);
+
+      // Act
+      eventBus.emit(eventName, 'first');
+      eventBus.emit(eventName, 'second');
+      eventBus.emit(eventName, 'third');
+      eventBus.on(eventName, listener);
+
+      // Assert
+      expect(listener).toHaveBeenNthCalledWith(1, 'first');
+      expect(listener).toHaveBeenNthCalledWith(2, 'second');
+      expect(listener).toHaveBeenNthCalledWith(3, 'third');
+    });
+
+    it('should handle errors while replaying buffered events', () => {
+      // Arrange
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const eventName = 'buffered-error';
+      const errorListener = jest.fn(() => {
+        throw new Error('Replay error');
+      });
+
+      eventBus.enableBuffering(eventName, 2);
+      eventBus.emit(eventName, 'payload');
+
+      // Act
+      eventBus.on(eventName, errorListener);
+
+      // Assert
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Error replaying buffered event for "buffered-error":',
+        expect.any(Error)
+      );
+      consoleSpy.mockRestore();
+    });
+
+    it('should only keep latest event when max buffer size is one', () => {
+      // Arrange
+      const listener = jest.fn();
+      const eventName = 'single-buffer';
+      eventBus.enableBuffering(eventName, 1);
+
+      // Act
+      eventBus.emit(eventName, 'old');
+      eventBus.emit(eventName, 'new');
+      eventBus.on(eventName, listener);
+
+      // Assert
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenCalledWith('new');
+    });
+
+    it('should trim oldest buffered events when exceeding max size', () => {
+      // Arrange
+      const listener = jest.fn();
+      const eventName = 'trim-buffer';
+      eventBus.enableBuffering(eventName, 2);
+
+      // Act
+      eventBus.emit(eventName, 'first');
+      eventBus.emit(eventName, 'second');
+      eventBus.emit(eventName, 'third');
+      eventBus.on(eventName, listener);
+
+      // Assert
+      expect(listener).toHaveBeenNthCalledWith(1, 'second');
+      expect(listener).toHaveBeenNthCalledWith(2, 'third');
+      expect(listener).toHaveBeenCalledTimes(2);
+    });
+
+    it('should respect disableBuffering and clear buffered events', () => {
+      // Arrange
+      const listener = jest.fn();
+      const eventName = 'disabled-buffer';
+      eventBus.enableBuffering(eventName, 2);
+      eventBus.emit(eventName, 'before-disable');
+
+      // Act
+      eventBus.disableBuffering(eventName);
+      eventBus.emit(eventName, 'after-disable');
+      eventBus.on(eventName, listener);
+
+      // Assert
+      expect(listener).not.toHaveBeenCalled();
+    });
+
+    it('should clear buffer without affecting listeners', () => {
+      // Arrange
+      const listener = jest.fn();
+      const eventName = 'clear-buffer';
+      eventBus.enableBuffering(eventName, 2);
+      eventBus.emit(eventName, 'stale');
+      eventBus.clearBuffer(eventName);
+
+      // Act
+      eventBus.on(eventName, listener);
+      eventBus.emit(eventName, 'fresh');
+
+      // Assert
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenCalledWith('fresh');
+    });
+
+    it('should clear all buffers when no event is specified', () => {
+      // Arrange
+      const listener = jest.fn();
+      const eventName = 'clear-all';
+      eventBus.enableBuffering(eventName, 2);
+      eventBus.emit(eventName, 'stale');
+
+      // Act
+      eventBus.clearBuffer();
+      eventBus.on(eventName, listener);
+
+      // Assert
+      expect(listener).not.toHaveBeenCalled();
     });
   });
 });
