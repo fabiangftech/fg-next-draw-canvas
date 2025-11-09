@@ -123,7 +123,7 @@ When submitting a PR, please follow these guidelines:
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the project’s **MIT License** (or whichever license the project uses).
+By contributing, you agree that your contributions will be licensed under the project’s **GNU GENERAL PUBLIC LICENSE, Version 3 OR LATER** (or whichever license the project uses).
 See the `LICENSE` file for details.
 
 ---
